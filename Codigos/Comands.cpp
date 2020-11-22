@@ -2,7 +2,7 @@
 #include <sstream>
 
 using namespace std;
-
+// VER CMDLINE. TIENE UNA IMPLEMENTACION DE PUNTEROS A FUNCION
 Array <string> parseCmdArg(string str, size_t N)//funcion para verificar la correcta escritura de los argumentos, 
                                       // devuelve un array dinamico con los argumentos.
                                      //  Le paso N para saber cuantos argumentos debo mirar para que sea correcto
