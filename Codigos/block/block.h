@@ -1,15 +1,19 @@
+#ifndef _BLOCK_H_
+#define _BLOCK_H_
 #include <iostream>
 #include <string.h>
 #include <cstring>
-#include "Array.h"
-#include "math.h"
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
 #include <bitset>
 #include <ctype.h>
-#include "tools.h"
+#include <iomanip>
 
+#include "math.h"
+#include "tools.h"
+#include "Array.h"
+#include "sha256.h"
 
 // o Se usaran strings para representar los hash
 //
@@ -115,7 +119,7 @@ outpt::outpt(string & str) //Creador mediante una string
 
 	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
 	{
-		this->value=stoi(str_value);
+		this->value=stod(str_value);
 		this->addr=str_addr;
 	}
 	else
@@ -131,9 +135,16 @@ double outpt::getValue(){return value;}
 string outpt::getOutputAsString()
 {
 	string aux;
+	string str_exact_precision;
 	string result;
-	aux=to_string(this->getValue());
-	result.append(aux);
+	ostringstream str_os;
+
+	size_t i;
+	aux=to_string(this->value);	
+	for(i=aux.length()-1; aux[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
+	str_exact_precision=aux.substr(0,i+1); //Se copia la sub cadena desdeada
+
+	result.append(str_exact_precision);
 	result.append(" ");
 	result.append((this->getAddr()));
 	return result;
@@ -240,8 +251,11 @@ Array<outpt>& txn::getOutPuts(){return tx_out;}
 
 string txn::getTxnAsString()
 {
+	
 	string result, aux;
 	aux = to_string(n_tx_in);
+	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
+		return result.append("0");
 	result.append(aux);
 	result.append("\n");
 	for(size_t i = 0; i < n_tx_in; i++)
@@ -255,7 +269,7 @@ string txn::getTxnAsString()
 	for(size_t i = 0; i < n_tx_out; i++)
 	{
 		result.append(tx_out[i].getOutputAsString());
-		result.append("\n");
+		result.append("\n"); //Es necesario para separar las transacciones al enviarlas al flujo de salida
 	}
 	return result;
 }
@@ -357,15 +371,19 @@ string bdy::setTxns(istream *iss)
 
 string bdy::getBodyAsString()
 {
-	string result, str;
+	string result, str,aux;
 	str = to_string(txn_count);
 	result.append(str);
 	result.append("\n");
+
+	if((txn_count==1) && (!txns[0].getTxnAsString().compare("0")))
+		return "0\n";
 
 	for (size_t i = 0; i < txn_count; i++)
 	{
 		result.append(txns[i].getTxnAsString());
 	}
+	
 	return result;
 }
 
@@ -581,3 +599,4 @@ string block::getBlockAsString()
 	result.append(body.getBodyAsString());
 	return result;
 }
+#endif //_BLOCK_H_

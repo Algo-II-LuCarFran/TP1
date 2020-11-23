@@ -1,27 +1,24 @@
-#ifndef  ARRAY_INCLUDED
-#define ARRAY_INCLUDED
+#ifndef  _ARRAY_INCLUDED_
+#define _ARRAY_INCLUDED_
 #include <iostream>
+#define INIT_SIZE_ARRAY 10 
 using namespace std;
 
 template<class T>
 class Array
 {
 	public:
-		Array(); //Creador base
+		Array(); //Constructor base
 		Array( const Array<T> & ); //Creador-Copiador
 		Array(size_t); //Creador mediante tamaño del array
 		~Array( ); //Destructor
 		void ArrayRedim(size_t); //Redimensionador de arrays.
-		size_t getSize( ) ; //Método: determina el tamaño del array
+		size_t getSize( )const; //Método: determina el tamaño del array
 		Array<T> &operator=( const Array<T> & ); //Operador asignación para una array: A=B, donde A y B son arrays. Recibe como parámetro un array por referencia constante, para no modificar lo que tiene dentro
 		bool operator==( const Array<T> & ) ; //Operador lógico para comprobar si son iguales 2 arrays. Recibe como parámetri un array por referencia constante, para no modificar lo que tiene dentro
 		T & operator[](size_t); //Operador indexación: Retorna un elemento del vector (se puede cambiar, pues se retorna por referencia)
 		template <class TT>
 		friend std::ostream &operator<<(std::ostream&, Array <TT> &); //Operador de impresion de salida
-		// void mergeSort(); //Implementacion de metodo de ordenamiento MERGE SORT
-		// void printBackwards_recursive(); //Impresion del arreglo del ultimo al primero
-		// void printForwards_recursive(); //Impresion del arreglo del primero al ultimo
-		// double sumOfElements_recursive(); //Calcula la suma de los elementos del vector
 		bool empty(); // Verifica si un arreglo esta vacio.
 
 
@@ -29,21 +26,15 @@ class Array
 		size_t rsize; //Atributo que indica el tamaño del array 
 		size_t vsize;
 		T *ptr; //Atributo que indica la dirección donde inicia el puntero
-
-		// void _mergeSort(int, int);
-		// void _merge(int,int,int);
-		// void _printBackwards(int);
-		// void _printForwards(int);
-		// double _sumOfElements(int);
 };
 
 
 template <class T>
 Array<T>::Array()
 {
-	ptr = new T[10];
-	rsize = 10;
-	vsize = 10;
+	ptr = new T[INIT_SIZE_ARRAY];
+	rsize = INIT_SIZE_ARRAY;
+	vsize = INIT_SIZE_ARRAY;
 }
 
 template <class T>
@@ -77,7 +68,7 @@ Array<T>::~Array() //Implementación del destructor de Array
 
 
 template <class T>
-size_t Array<T>::getSize()  { return vsize; } //Implementación del getter del tamaño del Array.
+size_t Array<T>::getSize()const { return vsize; } //Implementación del getter del tamaño del Array.
 
 
 template <class T>

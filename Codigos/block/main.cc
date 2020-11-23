@@ -1,8 +1,8 @@
 #include <fstream>
-#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <iomanip>
 
 #include "cmdline.h"
 #include "sha256.h"
@@ -11,8 +11,7 @@
 
 using namespace std;
 
-int
-main(int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
 	string str = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 	cmdline cmdl(options);	// Objeto con parametro tipo option_t (struct) declarado globalmente. Ver línea 51 main.cc
@@ -33,5 +32,5 @@ main(int argc, char * const argv[])
 		     << endl;
 		exit(1);
 	}
-	*oss << str << endl;
+	*oss << str;
 }

@@ -7,6 +7,7 @@
 #include "block/Array.h"
 #include "block/tools.h"
 #include "block/block.h"
+#include "block/sha256.h"
 
 #define INIT_STR "init"
 #define TRANSFER_STR "transfer"
@@ -21,14 +22,16 @@
 
 using namespace std;
 
-string cmdInit(Array <string> args);
-string cmdTranfer(Array <string> args);
-string cmdMine(Array <string> args);
-string cmdBalance(Array <string> args);
-string cmdBlock(Array <string> args);
-string cmdTxn(Array <string> args);
-string cmdLaod(Array <string> args);
-string cmdSave(Array <string> args);
+typedef void (* p_func)(Array <string>);
+
+void cmdInit(Array <string> args);
+void cmdTransfer(Array <string> args);
+void cmdMine(Array <string> args);
+void cmdBalance(Array <string> args);
+void cmdBlock(Array <string> args);
+void cmdTxn(Array <string> args);
+void cmdLoad(Array <string> args);
+void cmdSave(Array <string> args);
 
 static const string cmds[]={
 	INIT_STR,
@@ -41,7 +44,7 @@ static const string cmds[]={
 	SAVE_STR
 };
 
-static const string (*func_cmd[])(string) = {
+static void (*func_cmd[])(Array <string>) = {
 	cmdInit,
 	cmdTransfer,
 	cmdMine,
@@ -52,7 +55,7 @@ static const string (*func_cmd[])(string) = {
 	cmdSave
 };
 
-int dictCmds(const string cmd)
+p_func dictCmds(const string cmd)
 {
 	string aux;
 	int i = 0;
@@ -63,7 +66,7 @@ int dictCmds(const string cmd)
 }
 
 
-string cmdInit(Array <string> args)
+void cmdInit(Array <string> args)
 {
 	string user;
 	string txn_string;
@@ -94,37 +97,37 @@ string cmdInit(Array <string> args)
 	bits = stoi(args[2]);
 }
 
-string cmdTranfer(Array <string> args)
+void cmdTransfer(Array <string> args)
 {
 
 }
 
-string cmdMine(Array <string> args)
+void cmdMine(Array <string> args)
 {
 
 }
 
-string cmdBalance(Array <string> args)
+void cmdBalance(Array <string> args)
 {
 
 }
 
-string cmdBlock(Array <string> args)
+void cmdBlock(Array <string> args)
 {
 
 }
 
-string cmdTxn(Array <string> args)
+void cmdTxn(Array <string> args)
 {
 
 }
 
-string cmdLoad(Array <string> args)
+void cmdLoad(Array <string> args)
 {
 
 }
 
-string cmdSave(Array <string> args)
+void cmdSave(Array <string> args)
 {
 
 }
