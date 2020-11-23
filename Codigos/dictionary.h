@@ -66,14 +66,14 @@ int dictCmds(const string cmd)
 string cmdInit(Array <string> args)
 {
 	string user;
-	istringstream iss;
+	string txn_string;
 	double value;
 	int bits;
 
 	if(isHash(args[0]) == false)
 	{
 		cerr << "El user no es valido" << endl;
-		exit(1);block gen_block(user, value, bits);
+		exit(1);
 	}
 	user = args[0];
 
@@ -92,8 +92,6 @@ string cmdInit(Array <string> args)
 	}
 
 	bits = stoi(args[2]);
-
-
 }
 
 string cmdTranfer(Array <string> args)
@@ -166,17 +164,6 @@ Array <string> parseCmdArgs(string str, size_t N)//funcion para verificar la cor
         cout<< "Le pifiaste a la cantidad de parametros"<< endl;// poner error
     }
     return args;
-}
-
-
-int main()
-{
-    string str="hola como  estas";
-
-    Array <string> prt = parseCmdArg(str, 0);
-
-    cout << prt;
-
 }
 
 #endif //_DICTIONARY_H_
