@@ -66,13 +66,14 @@ int dictCmds(const string cmd)
 string cmdInit(Array <string> args)
 {
 	string user;
+	istringstream iss;
 	double value;
 	int bits;
 
 	if(isHash(args[0]) == false)
 	{
 		cerr << "El user no es valido" << endl;
-		exit(1);
+		exit(1);block gen_block(user, value, bits);
 	}
 	user = args[0];
 
@@ -92,9 +93,7 @@ string cmdInit(Array <string> args)
 
 	bits = stoi(args[2]);
 
-	block gen_block(user, value, bits);
 
-	block.setOutput();
 }
 
 string cmdTranfer(Array <string> args)
@@ -133,7 +132,7 @@ string cmdSave(Array <string> args)
 }
 
 
-Array <string> parseCmdArg(string str, size_t N)//funcion para verificar la correcta escritura de los argumentos, 
+Array <string> parseCmdArgs(string str, size_t N)//funcion para verificar la correcta escritura de los argumentos, 
                                       // devuelve un array dinamico con los argumentos.
                                      //  Le paso N para saber cuantos argumentos debo mirar para que sea correcto
                                     //   Si es N=0 entonces es argumentos variables impares minimo 3
