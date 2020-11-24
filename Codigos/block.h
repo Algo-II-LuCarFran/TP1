@@ -14,6 +14,7 @@
 #include "tools.h"
 #include "Array.h"
 #include "sha256.h"
+#define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
 
 // o Se usaran strings para representar los hash
 //
@@ -163,6 +164,8 @@ class txn
 
 	public:
 	txn(); //Creador base
+	txn(Array<string>&); //Creador en base a un array de cadenas. El array debe contener todos los campos necesarios
+						// para crear la transaccion.
 	~txn( ); //Destructor
 
 	void setNTxIn(const size_t) ;
@@ -186,6 +189,10 @@ txn::txn()
 	n_tx_out=0;
 	tx_in.ArrayRedim(0);
 	tx_out.ArrayRedim(0);
+}
+txn::txn(Array<string>& txn_str_arr)
+{
+	
 }
 
 txn::~txn()
@@ -579,6 +586,16 @@ void block::setBody(istream *iss)
 	   cerr<<str<<endl;
 	   exit(1);
 	};
+}
+block::block()
+{
+	this->header->prev_block=NULL_HASH;
+	this->header->txns_hash=NULL_HASH;
+	this->bits=0;
+	this->nonce=0;
+
+	this->body->txn_count=0;
+	//El campo txn tiene su propio inicializador base. No hace falta ponerlo
 }
 
 block::block(const string str,const  size_t diffic, istream *iss)

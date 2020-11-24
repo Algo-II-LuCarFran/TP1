@@ -1,8 +1,9 @@
 #ifndef  _ARRAY_INCLUDED_
 #define _ARRAY_INCLUDED_
 #include <iostream>
-#define INIT_SIZE_ARRAY 10 
 using namespace std;
+
+#define INIT_SIZE_ARRAY 10 
 
 template<class T>
 class Array

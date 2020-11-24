@@ -21,6 +21,9 @@
 #define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
 #define MAXCMD 8
 
+#define MSG_FAIL "FAIL"
+
+#define CHOP_SIZE 5
 using namespace std;
 
 typedef string (* p_func)(Array <string>);
@@ -76,7 +79,7 @@ string cmdInit(Array <string> args)
 	double value;
 	size_t bits;
 
-	user = sha256(sha256(args[0]));
+	user =sha256(args[0]);
 
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
@@ -116,6 +119,51 @@ string cmdInit(Array <string> args)
 
 string cmdTransfer(Array <string> args)
 {
+	//Se debe buscar la ultima aparicion de ese usuario primero en la MEMPOOL y si no se encuentra nada, en la 
+	//ALGOCHAIN; conseguir su value y verificar que dicho valor (su dinero disponible) no sea menor a la suma de
+	//las cantidades a transferir.
+
+	//Otra alternativa es ir realizando las transacciones y si se queda sin dinero el usuario source, cancelar las
+	// transacciones y arrojar un error.
+
+	istringstream iss((sha256(args[0])); //El primer elemento se condice con el usuario de origen.
+	string src,src_value,aux
+	Array<string> dst(1); //Inicializacion por defecto en uno
+	Array<string> dst_value(1); //Inicializacion por defecto en uno
+	double scr_value=100; //Se inicializa en 100 para pruebas. Debe obtenerse de la mempool o algochain segun corresp.
+	Array <double> dst_value(1);
+	size_t i=0;
+
+	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux.
+	//Se verifica en la mempool y/o algochain si las transacciones son validas (mediante variables aux). Si lo son,
+	// se cargan. Si no ,se anulan.
+
+	if( !(getline(iss, src, ' ').good()) || !(iss.eof()))
+		return MSG_FAIL;
+
+	//HAY QUE OBTENER scr_value PARA SEGUIR A PARTIR DE ESTE PUNTO
+	//src_value= ;
+	while(getline(iss, aux, ' ').good() || iss.eof())
+	{
+		//Se consiguen los hash de los usuarios destino y los valores a transferir
+		if(dst.getSize()==(i+1))
+		{
+			dst.ArrayRedim( (i+1)+CHOP_SIZE);
+			dst_value.ArrayRedim( (i+1)+CHOP_SIZE);
+		}
+		if( !(getline(iss, dst[i], ' ').good()) || !(iss.eof()))
+			return MSG_FAIL;
+		if( !(getline(iss, dst_value[i], ' ').good()) || !(iss.eof()))
+			return MSG_FAIL;
+		if(dst_value[i]<0)
+			return MSG_FAIL;
+		dst_value[i]=stod(dst_value[i]);
+		scr_value-=dst_value[i];
+		i++;
+	}
+	if(src_value<0)
+		return MSG_FAIL;
+	
 	return "hola";
 }
 
@@ -181,7 +229,7 @@ Array <string> parseCmdArgs(string str, size_t N)//funcion para verificar la cor
 	}
 	if(N!=(i+1) && N!=0)
 	{
-		cerr << "Numero incorrecto de argumentos"<< endl;// poner error
+		cerr << "Numero incorrecto de argumentos"<< endl;
 		exit(1);
 	}
 	return args;
