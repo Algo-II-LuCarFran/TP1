@@ -135,7 +135,7 @@ string cmdTransfer( Array <string> &args)
 	//Se verifica en la mempool y/o algochain si las transacciones son validas (mediante variables aux). Si lo son,
 	//se cargan. Si no ,se anulan.
 
-	txn txn_aux; //Me quede en generar las transacciones. Constructor en base a string creado.
+	txn txn_aux; //Me quede en generar las transacciones. Constructor de txn en base a string creado.
 
 
 	//HAY QUE OBTENER scr_value PARA SEGUIR A PARTIR DE ESTE PUNTO
