@@ -171,7 +171,9 @@ class txn
 	void setNTxIn(const size_t) ;
 	void setNTxOut(const size_t);
 	bool setTxIn(const size_t n, istream *iss); // Seteador que valida los datos y devuelve un booleano para el error
+	bool setTxIn(const size_t, Array<string>&);
 	bool setTxOut(const size_t n, istream *iss);
+	bool setTxOut(const size_t, Array<string>&);
 
 	size_t getNTxIn();
 	size_t getNTxOut();
@@ -192,7 +194,19 @@ txn::txn()
 }
 txn::txn(Array<string>& txn_str_arr)
 {
-	
+	size_t i;
+	this->setNTxIn(stoi(txn_str_arr[0]));
+	for(i=1;i<(this->getNTxIn())+1;i++)
+	{
+		inpt in(txn_str_arr[i]);
+		tx_in[i] = in;
+	}
+	this->setNTxOut(stoi(txn_str_arr[i]));
+	for( ;i<(this->getNTxOut())+1;i++)
+	{
+		outpt out(txn_str_arr[i]);
+		tx_out[i] = out;
+	}
 }
 
 txn::~txn()
@@ -232,6 +246,20 @@ bool txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del se
 	}
 	return true;
 }
+bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
+{
+	//Se modifica el retorno del setter por defecto (void) por
+	// necesidad. Verifica si el setteo pudo realizarse correctamente. 
+	string aux_s;
+	for (size_t i = 0; i < n; i++)
+	{
+		inpt in(tx_in_str_arr[i]);
+		if(isError(in.getAddr())==false)
+			return false;
+		tx_in[i] = in;
+	}
+	return true;
+}
 
 
 bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
@@ -242,6 +270,18 @@ bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del se
 	{
 		getline(*iss, aux_s, '\n');
 		outpt out(aux_s);
+		if(isError(out.getAddr())==false)
+			return false;
+		tx_out[i] = out;
+	}
+	return true;
+}
+bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica el retorno del setter por defecto (void) por
+												// necesidad. Verifica si el setteo pudo realizarse correctamente.
+{
+	for (size_t i = 0; i < n; i++)
+	{
+		outpt out(tx_in_str_arr[i]);
 		if(isError(out.getAddr())==false)
 			return false;
 		tx_out[i] = out;
@@ -284,6 +324,7 @@ string txn::getTxnAsString()
 
 class bdy
 {
+	friend class block;
 	size_t txn_count;
 	Array <txn> txns;
 	public:
@@ -405,6 +446,7 @@ void bdy::txnsArrRedim(const size_t n ){txns.ArrayRedim(n);}
 
 class hdr
 {
+	friend class block;
 	string prev_block;//El hash del bloque completo que antecede al bloque actual en la Algochain.
 	string txns_hash;//El hash de todas las transacciones incluidas en el bloque.
 	size_t bits;    // Valor entero positivo que indica la dificultad con la que fue minada este bloque.
@@ -589,12 +631,12 @@ void block::setBody(istream *iss)
 }
 block::block()
 {
-	this->header->prev_block=NULL_HASH;
-	this->header->txns_hash=NULL_HASH;
-	this->bits=0;
-	this->nonce=0;
+	header.prev_block=NULL_HASH;
+	header.txns_hash=NULL_HASH;
+	header.bits=0;
+	header.nonce=0;
 
-	this->body->txn_count=0;
+	body.txn_count=0;
 	//El campo txn tiene su propio inicializador base. No hace falta ponerlo
 }
 
