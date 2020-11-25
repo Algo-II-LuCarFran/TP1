@@ -1,15 +1,20 @@
+#ifndef _BLOCK_H_
+#define _BLOCK_H_
 #include <iostream>
 #include <string.h>
 #include <cstring>
-#include "Array.h"
-#include "math.h"
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
 #include <bitset>
 #include <ctype.h>
-#include "tools.h"
+#include <iomanip>
 
+#include "math.h"
+#include "tools.h"
+#include "Array.h"
+#include "sha256.h"
+#define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
 
 // o Se usaran strings para representar los hash
 //
@@ -115,7 +120,7 @@ outpt::outpt(string & str) //Creador mediante una string
 
 	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
 	{
-		this->value=stoi(str_value);
+		this->value=stod(str_value);
 		this->addr=str_addr;
 	}
 	else
@@ -131,9 +136,16 @@ double outpt::getValue(){return value;}
 string outpt::getOutputAsString()
 {
 	string aux;
+	string str_exact_precision;
 	string result;
-	aux=to_string(this->getValue());
-	result.append(aux);
+	ostringstream str_os;
+
+	size_t i;
+	aux=to_string(this->value);	
+	for(i=aux.length()-1; aux[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
+	str_exact_precision=aux.substr(0,i+1); //Se copia la sub cadena desdeada
+
+	result.append(str_exact_precision);
 	result.append(" ");
 	result.append((this->getAddr()));
 	return result;
@@ -152,12 +164,16 @@ class txn
 
 	public:
 	txn(); //Creador base
+	txn(Array<string>&); //Creador en base a un array de cadenas. El array debe contener todos los campos necesarios
+						// para crear la transaccion.
 	~txn( ); //Destructor
 
 	void setNTxIn(const size_t) ;
 	void setNTxOut(const size_t);
 	bool setTxIn(const size_t n, istream *iss); // Seteador que valida los datos y devuelve un booleano para el error
+	bool setTxIn(const size_t, Array<string>&);
 	bool setTxOut(const size_t n, istream *iss);
+	bool setTxOut(const size_t, Array<string>&);
 
 	size_t getNTxIn();
 	size_t getNTxOut();
@@ -175,6 +191,22 @@ txn::txn()
 	n_tx_out=0;
 	tx_in.ArrayRedim(0);
 	tx_out.ArrayRedim(0);
+}
+txn::txn(Array<string>& txn_str_arr)
+{
+	size_t i;
+	this->setNTxIn(stoi(txn_str_arr[0]));
+	for(i=1;i<(this->getNTxIn())+1;i++)
+	{
+		inpt in(txn_str_arr[i]);
+		tx_in[i] = in;
+	}
+	this->setNTxOut(stoi(txn_str_arr[i]));
+	for( ;i<(this->getNTxOut())+1;i++)
+	{
+		outpt out(txn_str_arr[i]);
+		tx_out[i] = out;
+	}
 }
 
 txn::~txn()
@@ -214,6 +246,20 @@ bool txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del se
 	}
 	return true;
 }
+bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
+{
+	//Se modifica el retorno del setter por defecto (void) por
+	// necesidad. Verifica si el setteo pudo realizarse correctamente. 
+	string aux_s;
+	for (size_t i = 0; i < n; i++)
+	{
+		inpt in(tx_in_str_arr[i]);
+		if(isError(in.getAddr())==false)
+			return false;
+		tx_in[i] = in;
+	}
+	return true;
+}
 
 
 bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
@@ -230,6 +276,18 @@ bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del se
 	}
 	return true;
 }
+bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica el retorno del setter por defecto (void) por
+												// necesidad. Verifica si el setteo pudo realizarse correctamente.
+{
+	for (size_t i = 0; i < n; i++)
+	{
+		outpt out(tx_in_str_arr[i]);
+		if(isError(out.getAddr())==false)
+			return false;
+		tx_out[i] = out;
+	}
+	return true;
+}
 
 size_t txn::getNTxIn(){return n_tx_in;}
 
@@ -240,8 +298,11 @@ Array<outpt>& txn::getOutPuts(){return tx_out;}
 
 string txn::getTxnAsString()
 {
+	
 	string result, aux;
 	aux = to_string(n_tx_in);
+	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
+		return result.append("0");
 	result.append(aux);
 	result.append("\n");
 	for(size_t i = 0; i < n_tx_in; i++)
@@ -255,7 +316,7 @@ string txn::getTxnAsString()
 	for(size_t i = 0; i < n_tx_out; i++)
 	{
 		result.append(tx_out[i].getOutputAsString());
-		result.append("\n");
+		result.append("\n"); //Es necesario para separar las transacciones al enviarlas al flujo de salida
 	}
 	return result;
 }
@@ -263,6 +324,7 @@ string txn::getTxnAsString()
 
 class bdy
 {
+	friend class block;
 	size_t txn_count;
 	Array <txn> txns;
 	public:
@@ -357,15 +419,19 @@ string bdy::setTxns(istream *iss)
 
 string bdy::getBodyAsString()
 {
-	string result, str;
+	string result, str,aux;
 	str = to_string(txn_count);
 	result.append(str);
 	result.append("\n");
+
+	if((txn_count==1) && (!txns[0].getTxnAsString().compare("0")))
+		return "0\n";
 
 	for (size_t i = 0; i < txn_count; i++)
 	{
 		result.append(txns[i].getTxnAsString());
 	}
+	
 	return result;
 }
 
@@ -380,6 +446,7 @@ void bdy::txnsArrRedim(const size_t n ){txns.ArrayRedim(n);}
 
 class hdr
 {
+	friend class block;
 	string prev_block;//El hash del bloque completo que antecede al bloque actual en la Algochain.
 	string txns_hash;//El hash de todas las transacciones incluidas en el bloque.
 	size_t bits;    // Valor entero positivo que indica la dificultad con la que fue minada este bloque.
@@ -562,6 +629,16 @@ void block::setBody(istream *iss)
 	   exit(1);
 	};
 }
+block::block()
+{
+	header.prev_block=NULL_HASH;
+	header.txns_hash=NULL_HASH;
+	header.bits=0;
+	header.nonce=0;
+
+	body.txn_count=0;
+	//El campo txn tiene su propio inicializador base. No hace falta ponerlo
+}
 
 block::block(const string str,const  size_t diffic, istream *iss)
 {
@@ -581,3 +658,4 @@ string block::getBlockAsString()
 	result.append(body.getBodyAsString());
 	return result;
 }
+#endif //_BLOCK_H_

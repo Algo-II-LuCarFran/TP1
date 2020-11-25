@@ -121,9 +121,8 @@ opt_factor(string const &arg)
 	// números enteros, vamos a verificar que EOF llegue justo
 	// después de la lectura exitosa del escalar.
 	//
-	if (!(iss >> difficulty)
-	    || !iss.eof()) {
-		cerr << "non-integer factor: "
+	if (!(iss >> difficulty) || !iss.eof() || difficulty<0) {
+		cerr << "Valor invalido de  dificultad: "
 		     << arg
 		     << "."
 		     << endl;
@@ -131,7 +130,7 @@ opt_factor(string const &arg)
 	}
 
 	if (iss.bad()) {
-		cerr << "cannot read integer factor."
+		cerr << "No se pudo leer la dificultad."
 		     << endl;
 		exit(1);
 	}
