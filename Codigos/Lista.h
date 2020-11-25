@@ -200,7 +200,6 @@ void list<T>::insert(const T& t)
     {
         aux->next=NULL;
         aux->prev=NULL;
-        aux->data=t;
         this->last=aux;
         this->first=aux;
     }
@@ -208,6 +207,7 @@ void list<T>::insert(const T& t)
     {
         aux->prev=NULL;
         aux->next=this->first;
+        this->first->prev=aux;
         this->first=aux;
     }
     this->max_size=this->max_size+1;
