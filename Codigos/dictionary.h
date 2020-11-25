@@ -8,6 +8,7 @@
 #include "tools.h"
 #include "block.h"
 #include "sha256.h"
+#include "global.h"
 
 #define STR_INIT "init"
 #define STR_TRANSFER "transfer"
@@ -26,7 +27,10 @@
 #define CHOP_SIZE 5
 using namespace std;
 
+block mempool;
+
 typedef string (* p_func)(Array <string>);
+
 
 string cmdInit(Array <string> args);
 string cmdTransfer( Array <string> args);
@@ -114,28 +118,30 @@ string cmdInit(Array <string> args)
 	istringstream iss(STR_TXNing);
 
 	block genesis_block(NULL_HASH, bits, &iss);
+	
+	mempool = genesis_block;
 	return sha256(genesis_block.getBlockAsString());
 }
 
-string cmdTransfer( Array <string> &args)
+string cmdTransfer( Array <string> args)
 {
 	//Se debe buscar la ultima aparicion de ese usuario primero en la MEMPOOL y si no se encuentra nada, en la 
 	//ALGOCHAIN; conseguir su value y verificar que dicho valor (su dinero disponible) no sea menor a la suma de
 	//las cantidades a transferir.
 
-	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
-	string src_value,aux;
-	Array<string> dst(1); //Inicializacion por defecto en uno
-	Array<string> dst_value_str(1); //Inicializacion por defecto en uno
-	double scr_value=100; //Se inicializa en 100 para pruebas. Debe obtenerse de la mempool o algochain segun corresp.
-	Array <double> dst_value(1);
-	size_t i=0;
+	// string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
+	// string src_value,aux;
+	// Array<string> dst(1); //Inicializacion por defecto en uno
+	// Array<string> dst_value_str(1); //Inicializacion por defecto en uno
+	// double scr_value=100; //Se inicializa en 100 para pruebas. Debe obtenerse de la mempool o algochain segun corresp.
+	// Array <double> dst_value(1);
+	// size_t i=0;
 
 	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux.
 	//Se verifica en la mempool y/o algochain si las transacciones son validas (mediante variables aux). Si lo son,
 	//se cargan. Si no ,se anulan.
 
-	txn txn_aux; //Me quede en generar las transacciones. Constructor de txn en base a string creado.
+	// txn txn_aux; //Me quede en generar las transacciones. Constructor de txn en base a string creado.
 
 
 	//HAY QUE OBTENER scr_value PARA SEGUIR A PARTIR DE ESTE PUNTO

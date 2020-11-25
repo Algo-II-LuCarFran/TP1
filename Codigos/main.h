@@ -9,7 +9,6 @@
 #include "cmdline.h"
 
 using namespace std;
-
 /**************** Elementos globales ******************/
 static void opt_input(string const &);
 static void opt_output(string const &);
