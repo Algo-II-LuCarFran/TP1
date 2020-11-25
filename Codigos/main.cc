@@ -46,9 +46,6 @@ int main(int argc, char * const argv[])
 	cmd = dictCmds(aux1);
 	getline(*iss, aux2, '\n');
 	arr = parseCmdArgs(aux2, 3);
-	*oss << mempool.getBlockAsString() << endl;
 	aux = cmd(arr);
-	*oss << mempool.getBlockAsString() << endl;
 	*oss << aux << endl;
-
 }
