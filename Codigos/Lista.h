@@ -71,7 +71,8 @@ class list
         }
         return os;
     }
-
+    T getLastNode();
+    T getFirstNode();
 };
 
 template<typename T>
@@ -318,6 +319,22 @@ bool list<T>::removeElement(const T& t)
     return false; //Si no lo encontro en el for es porque no esta en la lista
 }
 
+
+
+template<typename T>
+T list<T>::getFirstNode()
+{
+    node *aux = L.first;
+    T aux2 = aux->getData();
+    return aux2;
+}
+template<typename T>
+T list<T>::getLastNode()
+{
+    node *aux = L.last;
+    T aux2 = aux->getData();
+    return aux2;
+}
 
 // list const &operator=(const list<T>& other_list)
 // {

@@ -166,9 +166,31 @@ string cmdTransfer( Array <string> args)
 }
 
 string cmdMine(Array <string> args)
+		//Ensambla y agrega a la Algochain un nuevo bloque a partir de todas las transacciones en la mempool. 
+		//La dificultad del minado viene dada por args
 {
-	return "hola";
+	/*Valor de retorno.
+	 	Hash del bloque en caso de exito;  FAIL en caso de falla por invalidez.
+	*/
+	size_t bits = stoi(args[0]);
+	if(bits<0)
+	{
+		cerr << "ERROR: dificultad invalida"<< endl;
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	hdr header_aux = aux.getHeader();
+	string prev_block = header_aux.getTxnHash(); //de donde saco el prevbloc? de lalista de bloques
+	mempool.setHeader(prev_block,bits);
+	aux = mempool; //lo guargo para despues imprimirlo
+	//guardar la mempool en la parte de la lista correspondientes
+	algochain.append(mempool);
+	//limpiar mempool
+	block empty_block;
+	mempool = empty_block;
+	return mempool.getBlockAsString();
 }
+
 
 string cmdBalance(Array <string> args)
 {
