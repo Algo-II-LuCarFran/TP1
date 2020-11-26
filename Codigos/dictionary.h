@@ -26,6 +26,8 @@
 #define CHOP_SIZE 5
 using namespace std;
 
+block mempool;
+
 typedef string (* p_func)(Array <string>);
 
 string cmdInit(Array <string> args);
