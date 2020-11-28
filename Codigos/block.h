@@ -40,6 +40,7 @@ class inpt
 	string getAddr();
 	outpnt getOutPoint();
 	string getInputAsString();
+	
 };
 inpt::inpt(){}//Creador base
 
