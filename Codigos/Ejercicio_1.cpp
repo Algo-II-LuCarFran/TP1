@@ -4,11 +4,15 @@ using namespace std;
 
 int main()
 {
-    cout<<"Comienzo de la prueba"<<endl;
     list <int> L;
-    cout<<"Se pudo crear una lista"<<endl;
-    L.insert(1);
-    cout<<"Se pudo insertar al final?"<<endl;
-
+    L.append(1);
+    L.append(2);
+    L.append(3);
+    cout << L;    
+    list <string> L2;
+    L2.append("HOla");
+    L2.append("Carla");
+    L2.append("Chau");
+    cout << L2;
     return 0;
 }
