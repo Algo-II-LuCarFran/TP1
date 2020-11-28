@@ -10,6 +10,7 @@
 #define _LIST_H_
 #include <iostream>
 #include <math.h> //Necesaria para el uso de floor().
+#include "finders.h" //Necesaria para el uso de find().
 using namespace std;
 
 template<class T>
@@ -50,7 +51,9 @@ class list
     T  find(const T& t); //Encuentra el ultimo nodo que contiene el dato T. Si  no lo encuentra, debe devolver NULL.
                               //DEBERIA devolver un puntero a un dato dentro de un nodo de la lista,DEBE devolver un puntero a un dato constante.
     string find(const string& ref,const string& d ); //Encuentra el dato "d" de  tipo "ref" en su última aparición en la lista.
-                                                    // Si  no lo encuentra, devuelve una cadena vacia.                          
+                                                    //Ejemplo: ref=value d=Carla. Devuelve una string con el el ultimo output de Carla
+                                                   // Ejemplo: ref= id   d=<valor del hash>. Devuelve el bloque como string.
+                                                  // Si  no lo encuentra, devuelve una cadena vacia.                          
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
@@ -64,8 +67,6 @@ class list
         }
         return os;
     }
-    T const* getLastNode();
-    T const* getFirstNode();
 };
 
 
@@ -319,7 +320,9 @@ T list<T>::find(const T& t)
 template<typename T>
 string list<T>::find(const string& ref,const string& d )
 {
-    return "Hola";
+    finder aux_finder;
+    aux_finder=finderParse(ref);
+    return aux_finder(d);
 }
 
 
@@ -350,32 +353,7 @@ bool list<T>::removeElement(const T& t)
     }
     return false; //Si no lo encontro en el for es porque no esta en la lista
 }
-// template<typename T>
-// T const* list<T>::getFirstNode()
-// {
-//     node *aux = L.first;
-//     T aux2 = aux->getData();
-//     return aux2;
-// }
-// template<typename T>
-// T const* list<T>::getLastNode()
-// {
-//     node *aux = L.last;
-//     T aux2 = aux->getData();
-//     return aux2;
-// }
 
-
-// list const &operator=(const list<T>& other_list)
-// {
-
-// }
 
 
 #endif // _LIST_H_
-
-// template<typename T>
-// bool list<T>::swap(const size_t& n1=1,const size_t& n2=2)
-// {
-    //Serviría para el ejercicio 4 de listas circulares. 
-// }
