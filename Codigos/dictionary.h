@@ -46,20 +46,21 @@ struct cmd_option_t
 {
 	string name;
 	p_func comand;
+	int num_param;
 };
 
 static cmd_option_t dictionary_cmd[] = {
-	{STR_INIT, cmdInit},
-	{STR_TRANSFER, cmdTransfer},
-	{STR_MINE, cmdMine},
-	{STR_BALANCE, cmdBalance},
-	{STR_BLOCK, cmdBlock},
-	{STR_TXN, cmdTxn},
-	{STR_LOAD, cmdLoad},
-	{STR_SAVE, cmdSave},
+	{STR_INIT, cmdInit, 3},
+	{STR_TRANSFER, cmdTransfer, 0},
+	{STR_MINE, cmdMine, 1},
+	{STR_BALANCE, cmdBalance, 1},
+	{STR_BLOCK, cmdBlock, 1},
+	{STR_TXN, cmdTxn, 1},
+	{STR_LOAD, cmdLoad, 1},
+	{STR_SAVE, cmdSave, 1},
 };
 
-p_func dictCmds( string cmd)
+p_func dictCmds( string cmd, int &num_param)
 {
 	string aux;
 	int i = 0;
@@ -71,6 +72,7 @@ p_func dictCmds( string cmd)
 		cerr << "El comando no es valido" << endl;
 		exit(1);
 	}
+	num_param = dictionary_cmd[i].num_param;
 	return dictionary_cmd[i].comand;
 }
 

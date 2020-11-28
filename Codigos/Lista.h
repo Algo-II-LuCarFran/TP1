@@ -61,13 +61,13 @@ class list
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
-
 	void show(ostream& o);
 	friend ostream& operator<<(ostream& oss, list& l) 
 	{
 		l.show(oss);
 		return oss;
 	}
+
 };
 
 template<typename T>
@@ -315,7 +315,6 @@ bool list<T>::removeElement(const T& t)
 }
 
 
-
 template <typename T>
 void list<T>::show(ostream& oss) {
 	if(first == NULL){
@@ -328,5 +327,4 @@ void list<T>::show(ostream& oss) {
 	}
 	oss << now->data << endl;
 }
-
 #endif // _LIST_H_
