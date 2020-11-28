@@ -57,7 +57,7 @@ class list
     bool placeElement(const T& t, size_t n=1);//Agregar nodo en la posicion n de la list. Si no lo pudo agregar
                                              //devuelve false. Por defecto lo agrega al principio.
     bool empty(); //Verifica si la list está vacia.
-    T* find(const T& t); //Encuentra el nodo que contiene el dato T. Si  no lo encuentra, devuelve NULL.
+    T* find(const T& t); //Encuentra el ultimo nodo que contiene el dato T. Si  no lo encuentra, devuelve NULL.
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
@@ -259,33 +259,24 @@ template<typename T>
 T* list<T>::find(const T& t)
 {
     node* prev_;
-    node* next_;
-    node* iter;
-
-    size_t i;
+    node* aux;
 
     if(this->empty())
         return NULL;
     else
     {
-        next_=this->first;
         prev_=this->last;
-        for(size_t i=1; i<=floor(this->max_size)/2;i++)
+        for(size_t i=this->max_size; i==1;i--)
         {    
-            if(next_->data==t)
-                return next_;
             if(prev_->data==t)
                 return prev_;
 
-            iter=next_;
-            next_=iter->next;
-            next_->prev=iter;
-
-            iter=prev_;
-            prev_=iter->prev;
-            prev_->next=iter;
+            aux=prev_;
+            cout<<"Nodo "<<i<<" de la lista"<<endl;
+            cout<<"Dato del nodo"<<prev_->data<<endl;
+            prev_->next=aux;
         }
-        return NULL;
+        return NULL; 
     }
 }
 
