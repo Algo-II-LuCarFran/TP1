@@ -61,7 +61,7 @@ class list
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
-	void show(ostream& o);
+	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, list& l) 
 	{
 		l.show(oss);
