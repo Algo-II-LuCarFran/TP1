@@ -175,43 +175,66 @@ string cmdMine(Array <string> args)
 	 	Hash del bloque en caso de exito;  FAIL en caso de falla por invalidez.
 	*/
 	size_t bits = stoi(args[0]);
+	block aux_save;
 	if(bits<0)
 	{
-		cerr << "ERROR: dificultad invalida"<< endl;
+		cerr << "ERROR: dificultad invalida"<< endl; // que otra falla?
 		exit(1);
 	}
 	block aux = algochain.getLastNode();
-	hdr header_aux = aux.getHeader();
-	string prev_block = header_aux.getTxnHash(); //de donde saco el prevbloc? de lalista de bloques
+	string prev_block = sha256(sha256(aux.getBlockAsString()));
+	// hdr header_aux = aux.getHeader();
+	// string prev_block = header_aux.getTxnHash(); //de donde saco el prevbloc? de lalista de bloques
 	mempool.setHeader(prev_block,bits);
-	aux = mempool; //lo guargo para despues imprimirlo
+	aux_save = mempool; //lo guargo para despues imprimirlo
 	//guardar la mempool en la parte de la lista correspondientes
 	algochain.append(mempool);
 	//limpiar mempool
 	block empty_block;
 	mempool = empty_block;
-	return mempool.getBlockAsString();
+	return aux_save.getBlockAsString();
 }
 
 
 string cmdBalance(Array <string> args)
 {
-	return "hola";
+	string balance = find(args[0]);//funcion que estaban haciendo, como va a funcionar?
+	//double aux = id_balance.balance;// paso solo el user a find y no find hasheado
+	return balance;
+	//verificar el error de finduser
 }
 
 string cmdBlock(Array <string> args)
 {
-	return "hola";
+	//funcion find, le tiro el id y me devuelve blocl
+	return find(args[0]);
 }
 
 string cmdTxn(Array <string> args)
 {
+	
 	return "hola";
 }
 
 string cmdLoad(Array <string> args)
 {
-	return "hola";
+	ifs.open(args[0].c_str(), ios::in);
+	iss = &ifs;
+	if (!iss->good()) {
+	cerr << "cannot open "
+			<< args[0]
+			<< "."
+			<< endl;
+	exit(1);
+	}
+	if(setAlgochainFromFile(iss)==false)
+	{
+		cerr << "ERROR: no se pudo cargar el archivo "
+		<< endl;
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	return sha256(sha256(aux.getBlockAsString()));
 }
 
 string cmdSave(Array <string> args)

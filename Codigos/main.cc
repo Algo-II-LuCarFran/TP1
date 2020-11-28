@@ -27,7 +27,7 @@ int main(int argc, char * const argv[])
 		exit(1);
 	}
 
-	// block block0(str, difficulty, iss);
+	block block0(str, difficulty, iss);
 
 	// str = block0.getBlockAsString();
 	

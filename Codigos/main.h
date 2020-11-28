@@ -144,4 +144,13 @@ opt_help(string const &arg)
 	exit(0);
 }
 
+//--------------------------STRUCK BALANCE----------------------------------------------------------------------------------------
+
+struct blnc
+{
+	double balance; //La  cantidad de Algocoins que tiene en su balance
+	string addr; //La direccion del usuario	
+};
+
+
 #endif //MAIN_H

@@ -14,6 +14,7 @@
 #include "tools.h"
 #include "Array.h"
 #include "sha256.h"
+#include "Lista.h"
 #define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
 
 // o Se usaran strings para representar los hash
@@ -170,15 +171,16 @@ class txn
 
 	void setNTxIn(const size_t) ;
 	void setNTxOut(const size_t);
-	bool setTxIn(const size_t n, istream *iss); // Seteador que valida los datos y devuelve un booleano para el error
+	string setTxIn(const size_t n, istream *iss); // Seteador que valida los datos y devuelve un booleano para el error
 	bool setTxIn(const size_t, Array<string>&);
-	bool setTxOut(const size_t n, istream *iss);
+	string setTxOut(const size_t n, istream *iss);
 	bool setTxOut(const size_t, Array<string>&);
+	string txn::setTxOutFile(const size_t n, istream *iss);
 
 	size_t getNTxIn();
 	size_t getNTxOut();
 	Array<inpt>& getInputs();
-	Array<outpt>& getOutPuts();
+	Array<outpt>& getOutputs();
 
 	string getTxnAsString();
 	string validateTxn();
@@ -233,19 +235,25 @@ void txn::setNTxOut(const size_t n)
 }
 
 
-bool txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del setter por defecto (void) por
+
+string txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del setter por defecto (void) por
 {												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 	string aux_s;
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
+		// if(isHash(aux_s)==true)
+		// {
+		// 	return aux_s;
+		// }
 		inpt in(aux_s);
 		if(isError(in.getAddr())==false)
-			return false;
+			return "ERROR: addres invalida";
 		tx_in[i] = in;
 	}
-	return true;
+	return "\0";
 }
+
 bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 {
 	//Se modifica el retorno del setter por defecto (void) por
@@ -262,20 +270,67 @@ bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 }
 
 
-bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
+// bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
+// 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
+// {
+// 	string aux_s;
+// 	for (size_t i = 0; i < n; i++)
+// 	{
+// 		getline(*iss, aux_s, '\n');
+// 		outpt out(aux_s);
+// 		if(isError(out.getAddr())==false)
+// 			return false;
+// 		tx_out[i] = out;
+// 	}
+// 	return true;
+// }
+
+string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 {
 	string aux_s;
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
+		if(isHash(aux_s)==true)
+		{
+			return aux_s;
+		}
 		outpt out(aux_s);
 		if(isError(out.getAddr())==false)
-			return false;
+			return "ERROR: addres invalida";
 		tx_out[i] = out;
 	}
-	return true;
+	return "\0";
 }
+
+// string txn::setTxOutFile(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
+// 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
+// {
+// 	string aux_s;
+// 	for (size_t i = 0; i < n; i++)
+// 	{
+// 		if(iss.eof()!=1)
+// 		{
+// 			return "\n";
+// 		}
+// 		getline(*iss, aux_s, '\n');
+// 		if (isHash(aux_s)==true)
+// 		{
+// 			return aux_s;
+// 		}
+		
+// 		outpt out(aux_s);
+// 		if(isError(out.getAddr())==false)
+// 		{
+// 			cerr << "ERROR: Carga invalida"<< endl;
+// 			exit(1);
+// 		}
+// 		tx_out[i] = out;
+// 	}
+// 	return "\0";
+// }
+
 bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 {
@@ -289,12 +344,13 @@ bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica e
 	return true;
 }
 
+
 size_t txn::getNTxIn(){return n_tx_in;}
 
 size_t txn::getNTxOut(){return n_tx_out;}
 
 Array<inpt>& txn::getInputs(){return tx_in;}
-Array<outpt>& txn::getOutPuts(){return tx_out;}
+Array<outpt>& txn::getOutputs(){return tx_out;}
 
 string txn::getTxnAsString()
 {
@@ -335,6 +391,7 @@ class bdy
 	size_t getTxnCount();
 	Array<txn> getTxns();
 	string getTxnAsString();
+	void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
 	void txnsArrRedim(const size_t );
@@ -354,6 +411,11 @@ void bdy::setTxnCount(const size_t n)
 	}
 }
 
+void bdy::setTxns(Array <txn> n)
+{
+	txns = n;
+}
+
 string bdy::setTxns(istream *iss)
 {
 	string str,error_string;
@@ -362,6 +424,10 @@ string bdy::setTxns(istream *iss)
 
 	while(getline(*iss, str, '\n'))
 	{
+		if(isHash(str)==true || str == "")
+		{
+			return str;
+		}
 		if(i >=txns.getSize())
 		{
 			txns.ArrayRedim(txns.getSize()*2); // Dependiendo de cuantos datos haya que analizar se puede modificar
@@ -378,7 +444,8 @@ string bdy::setTxns(istream *iss)
 		txns[i].setNTxIn(aux);
 
 		// Se verifican las entradas
-		if(txns[i].setTxIn(aux, iss)==false)
+
+		if(txns[i].setTxIn(aux, iss)!="\0")
 		{
 			err=true;
 			break;
@@ -396,12 +463,22 @@ string bdy::setTxns(istream *iss)
 		txns[i].setNTxOut(aux);
 
 		// Se verifican las salidas
-		if(txns[i].setTxOut(aux, iss)==false)
+		str=txns[i].setTxOut(aux, iss);
+		if(isHash(str)==true)
+		{
+			return str;
+		}
+		else if(str=="\0")
+		{
+			return str;
+		}
+		else 
 		{
 			err=true;
 			break;
 		}
 		i++;
+		
 	}
 	if(err==true)
 	{
@@ -414,6 +491,10 @@ string bdy::setTxns(istream *iss)
 		return error_string;
 	}
 	txn_count = i;
+	if(str == "")
+	{
+		return str;
+	}
 	return "\0";
 }
 
@@ -460,6 +541,7 @@ class hdr
 	void setTxnsHash(const string&);
 	void setBits(const size_t n);
 	void setNonce(const string prev_block,const  string txns ,const  size_t bits);
+	void setNonce(const  size_t nonce);
 	string getPrevBlock();
 	string getTxnHash();
 	size_t getBits();
@@ -495,6 +577,8 @@ void hdr::setTxnsHash(const string & str){txns_hash = sha256(sha256(str));}
 
 
 void hdr::setBits(const size_t n){bits = n;}
+
+void hdr::setNonce(const size_t n){nonce = n;}
 
 
 string hdr::getPrevBlock(){return prev_block;}
@@ -602,7 +686,10 @@ class block
 											   // transacciones.
 	~block( ); //Destructor
 	void setHeader(const string&,const size_t);
-	void setBody(istream *iss);
+	string setBody(istream *iss);
+	void setHeader(hdr header);
+	void setBody(bdy body);
+	void setBlockFromFile(istream *iss);
 	hdr getHeader();
 	bdy getBody();
 	string getBlockAsString();
@@ -616,6 +703,10 @@ bdy block::getBody()
 {
 	return body;
 }
+
+
+void block::setHeader(hdr h){header = h;}
+
 void block::setHeader(const string& prev_block_str,const size_t diffic)
 {
 	string aux;
@@ -626,18 +717,32 @@ void block::setHeader(const string& prev_block_str,const size_t diffic)
 	header.setNonce(header.getPrevBlock(),header.getTxnHash(),header.getBits());
 }
 
-void block::setBody(istream *iss)
+string block::setBody(istream *iss)
 {
 	string str;
-	body.setTxnCount(0);
-	body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
+	getline(*iss, str, '\n');
+	size_t txn_count = stoi(str);
+	//validar que sea numero
+	body.setTxnCount(txn_count);
+	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
-	if((str=body.setTxns(iss))!="\0")
+	str=body.setTxns(iss);
+	if (isHash(str)==true)
+	{
+		return str;
+	}
+	else if (str=="")
+	{
+		return str;
+	}
+	
+	if(str!="\0")
 	{
 	   cerr<<str<<endl;
 	   exit(1);
 	};
 }
+
 block::block()
 {
 	header.prev_block=NULL_HASH;
@@ -659,7 +764,7 @@ block::~block()
 {
 }
 
-string block::getBlockAsString()
+string block::getBlockAsString() 
 {
 	string result, str;
 	result.append(header.getHeaderAsString());
@@ -668,3 +773,5 @@ string block::getBlockAsString()
 	return result;
 }
 #endif //_BLOCK_H_
+
+
