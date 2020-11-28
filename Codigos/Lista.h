@@ -17,21 +17,13 @@ class list
 {
     class node  
     {
-        // Debido al fuerte acople entre iteradores y la estructura a
-		// la cual iteran (es decir, el iterador necesita conocer los
-		// detalles de implementación del TDA para poder abstraer el
-		// recorrido), permitimos que la clase iterador tenga acceso
-		// directo a los detalles internos del TDA.
-
         // La list puede tener  acceso a los atributos privados del nodo para poder 
         //modificarlos, dado que la clase nodo es inherente a la clase list.
 
         T data;
         node* next;
         node* prev;
-
         friend class list;       
-        //friend class iterador;
 
         public:
         node(T const &data_){data=data_ ; next= NULL; prev=NULL;}; //Constructor a partir de dato. 
@@ -44,10 +36,8 @@ class list
 
     node* first;
     node* last;
-    // node* iterator;
     size_t max_size; //Tamaño de la lista.Si la lista no esta vacia max_size>=1
                     // Si la lista esta vacia max_size=0
-
     public:
     list(); //Constructor basico
     list(const list& L); //Constructor en base a otra list.
@@ -57,7 +47,10 @@ class list
     bool placeElement(const T& t, size_t n=1);//Agregar nodo en la posicion n de la list. Si no lo pudo agregar
                                              //devuelve false. Por defecto lo agrega al principio.
     bool empty(); //Verifica si la list está vacia.
-    T* find(const T& t); //Encuentra el ultimo nodo que contiene el dato T. Si  no lo encuentra, devuelve NULL.
+    T  find(const T& t); //Encuentra el ultimo nodo que contiene el dato T. Si  no lo encuentra, debe devolver NULL.
+                              //DEBERIA devolver un puntero a un dato dentro de un nodo de la lista,DEBE devolver un puntero a un dato constante.
+    string find(const string& ref,const string& d ); //Encuentra el dato "d" de  tipo "ref" en su última aparición en la lista.
+                                                    // Si  no lo encuentra, devuelve una cadena vacia.                          
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
@@ -71,8 +64,10 @@ class list
         }
         return os;
     }
-
+    T const* getLastNode();
+    T const* getFirstNode();
 };
+
 
 template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
@@ -256,28 +251,75 @@ bool list<T>::placeElement(const T& t, size_t n)
 
 
 template<typename T>
-T* list<T>::find(const T& t)
+T list<T>::find(const T& t)
 {
     node* prev_;
     node* aux;
 
+
     if(this->empty())
+    {    
+        // cout<<"La lista esta vacia"<<endl;
         return NULL;
+    }
     else
     {
-        prev_=this->last;
-        for(size_t i=this->max_size; i==1;i--)
-        {    
-            if(prev_->data==t)
-                return prev_;
+        aux=this->last;
+        aux->next=this->last->next;
+        aux->prev=this->last->prev;
 
-            aux=prev_;
-            cout<<"Nodo "<<i<<" de la lista"<<endl;
-            cout<<"Dato del nodo"<<prev_->data<<endl;
-            prev_->next=aux;
+        if(aux->data==t) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
+        {   
+            // cout<<"Encontre el dato, es "<<aux->data<<endl;
+            // *data_pointer=aux->data; 
+            // cout<<"El valor del contenido del puntero que se devuelve es: "<<*data_pointer<<endl;
+            // cout<<"El valor del puntero es "<< data_pointer<<endl;
+            return aux->data;
         }
-        return NULL; 
+
+        for(size_t i=this->max_size; i>=1;i--)
+        {   
+            // cout<<"Llego a la "<<this->max_size-i+1<<"esima iteracion del for"<<endl;
+            //Se fija el nodo anterior correctamente
+            prev_=aux->prev;
+            //Se comprueba que no se haya llegado al ppio de la lista
+            if(!prev_)
+            {   
+                // cout<<"Llegue al principio de la lista. No encontre el dato. Devuelvo NULL"<<endl; 
+                return NULL;
+            }
+
+            prev_->next=aux;
+            prev_->prev=aux->prev->prev; 
+
+            // cout<<"El valor del dato actual es "<<aux->data<<endl;
+            // cout<<"El valor del dato actual de prev_ es "<<prev_->data<<endl;
+
+            // cout<<"El valor del dato previo es "<<aux->prev->data<<endl;
+            // cout<<"El valor del dato previo de prev_ es "<<prev_->prev->data<<endl;
+            //Se comprueba si el dato buscado está en nodo anterior
+            if(prev_->data==t)
+            {
+                // cout<<"Encontre el dato, es "<<prev_->data<<endl;
+                // cout<<"Data_pointer tiene cargado: "<<data_pointer<<endl;
+                // cout<<"Data_pointer tiene adentro: "<<*data_pointer<<endl;
+                // (*data_pointer)=prev_->data; 
+                // cout<<"Pude asignarle algo a data_pointer: "<< *data_pointer <<endl;
+                return prev_->data;
+            }
+            //Se retrocede en la lista
+            aux=prev_;
+            aux->next=prev_->next;
+            aux->prev=prev_->prev;
+        } 
     }
+    // cout<<"No lo encontre, devuelvo NULL"<<endl;
+    return NULL; //Si se hubo algun error se devuelve NULL.
+}
+template<typename T>
+string list<T>::find(const string& ref,const string& d )
+{
+    return "Hola";
 }
 
 
@@ -308,6 +350,20 @@ bool list<T>::removeElement(const T& t)
     }
     return false; //Si no lo encontro en el for es porque no esta en la lista
 }
+// template<typename T>
+// T const* list<T>::getFirstNode()
+// {
+//     node *aux = L.first;
+//     T aux2 = aux->getData();
+//     return aux2;
+// }
+// template<typename T>
+// T const* list<T>::getLastNode()
+// {
+//     node *aux = L.last;
+//     T aux2 = aux->getData();
+//     return aux2;
+// }
 
 
 // list const &operator=(const list<T>& other_list)
