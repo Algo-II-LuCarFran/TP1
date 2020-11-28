@@ -37,15 +37,17 @@ int main(int argc, char * const argv[])
 	// 	exit(1);
 	// }
 	// *oss << str;
+	
 	string aux, aux1, aux2;
 	Array <string> arr;
 	p_func cmd;
+	int num_param=0;
 
 	cout << "Empieza el codigo" << endl;
 	getline(*iss, aux1, ' ');
-	cmd = dictCmds(aux1);
+	cmd = dictCmds(aux1, num_param);
 	getline(*iss, aux2, '\n');
-	arr = parseCmdArgs(aux2, 3);
+	arr = parseCmdArgs(aux2, num_param);
 
 	aux = cmd(arr);
 	*oss << aux << endl;

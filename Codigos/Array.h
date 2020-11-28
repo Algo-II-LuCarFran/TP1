@@ -15,6 +15,7 @@ class Array
 		~Array( ); //Destructor
 		void ArrayRedim(size_t); //Redimensionador de arrays.
 		size_t getSize( )const; //Método: determina el tamaño del array
+		Array<T> getSubArray(const size_t n1,const size_t n2, const Array<T>&  )const; //Obtiene un subarreglo del pasado por parametros.
 		Array<T> &operator=( const Array<T> & ); //Operador asignación para una array: A=B, donde A y B son arrays. Recibe como parámetro un array por referencia constante, para no modificar lo que tiene dentro
 		bool operator==( const Array<T> & ) ; //Operador lógico para comprobar si son iguales 2 arrays. Recibe como parámetri un array por referencia constante, para no modificar lo que tiene dentro
 		T & operator[](size_t); //Operador indexación: Retorna un elemento del vector (se puede cambiar, pues se retorna por referencia)

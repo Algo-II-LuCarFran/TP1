@@ -12,10 +12,10 @@
 #include <math.h> //Necesaria para el uso de floor().
 using namespace std;
 
-template<typename T>
+template<class T>
 class list
 {
-    class node
+    class node  
     {
         // Debido al fuerte acople entre iteradores y la estructura a
 		// la cual iteran (es decir, el iterador necesita conocer los
@@ -36,6 +36,9 @@ class list
         public:
         node(T const &data_){data=data_ ; next= NULL; prev=NULL;}; //Constructor a partir de dato. 
         //Se asume que siempre que se quiera crear un nodo se tendrá la informacion que va a contener.
+        node* getNext(){return this->next;}
+        node* getPrev(){return this->prev;}
+        T getData(){return this->data;}
         ~node(){}; //Destructor.
     };
 
@@ -57,10 +60,18 @@ class list
     T* find(const T& t); //Encuentra el nodo que contiene el dato T. Si  no lo encuentra, devuelve NULL.
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
-
-    template<typename TT>
-    friend std::ostream &operator<<(std::ostream&, list<TT> &); //Operador de impresion de salida
     // list const &operator=(const list& other_list);
+    template <class TT>  friend ostream & operator<<(ostream & os,  list<TT> &L)//Operador de impresion de salida
+    {
+        node *aux = L.first;
+        while (aux)
+        {
+            os << aux->getData()<<endl;
+            aux = aux->getNext();
+        }
+        return os;
+    }
+
 };
 
 template<typename T>
@@ -173,6 +184,7 @@ void list<T>::append(const T& t)
     {
         aux->next=NULL;
         aux->prev=this->last;
+        this->last->next=aux;
         this->last=aux;
     }
     this->max_size=this->max_size+1;
@@ -195,6 +207,7 @@ void list<T>::insert(const T& t)
     {
         aux->prev=NULL;
         aux->next=this->first;
+        this->first->prev=aux;
         this->first=aux;
     }
     this->max_size=this->max_size+1;
@@ -311,26 +324,6 @@ bool list<T>::removeElement(const T& t)
 
 // }
 
-
-// template<typename TT>
-// ostream& list<TT>::operator<<(ostream& os, list<TT>& L); 
-// {
-//     //El orden de impresion es desde el primero hasta el utlimo
-//     if(L->empty())
-//         return os;
-//     node* iter;
-//     node* next_;
-
-//     next_=L->first
-//     for(size_t i=1;i<=L->max_size;i++)
-//     {
-//         iter=next_;
-//         os<< next_->data;
-//         next_=iter->next;
-//         next_->prev=iter;
-//     }
-//     return os;
-// }
 
 #endif // _LIST_H_
 
