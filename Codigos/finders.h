@@ -34,7 +34,7 @@ string finderUser(string d)
     //Es necesario implementar los getters en Block.h
     //Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
     //y getAddr()
-    
+
     // string result;
 
     // string d_hash=sha256(d);
@@ -64,18 +64,18 @@ struct finder_option_t
 };
 
 static finder_option_t dictionary_finder[] = {
-	{STR_ISTR_VALUE, finderUser},
+	{STR_VALUE, finderUser},
 
 };
 
-p_func finderParse( string ref)
+finder finderParse( string ref)
 {
 	string aux;
 	int i = 0;
 
-	while(ref != dictionary_finder[i].reference && i < MAXCMD) i++;
+	while(ref != dictionary_finder[i].reference && i < MAXFINDER) i++;
 	
-	if(i == MAXCMD)
+	if(i == MAXFINDER)
 	{
 		cerr << "El finder no es valido" << endl;
 		exit(1);
