@@ -13,11 +13,19 @@ using namespace std;
 /**************** Elementos globales ******************/
 static void opt_input(string const &);
 static void opt_output(string const &);
-static void opt_factor(string const &);
 static void opt_help(string const &);
 
 block mempool;
 list <block> algochain;
+list <user> users;
+
+struct user
+{
+	string addr;
+	double balance;
+	list<txn> transactions; 
+};
+
 // Tabla de opciones de línea de comando. El formato de la tabla
 // consta de un elemento por cada opción a definir. A su vez, en
 // cada entrada de la tabla tendremos:
@@ -48,13 +56,11 @@ list <block> algochain;
 static option_t options[] = {
 	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
 	{1, "o", "output", "-", opt_output, OPT_DEFAULT},
-	{1, "d", "difficulty", NULL, opt_factor, OPT_MANDATORY},
 	{0, "h", "help", NULL, opt_help, OPT_DEFAULT},
 	{0, },
 };
 
 
-static int difficulty;
 static istream *iss = 0;	// Input Stream (clase para manejo de los flujos de entrada)
 static ostream *oss = 0;	// Output Stream (clase para manejo de los flujos de salida)
 static fstream ifs; 		// Input File Stream (derivada de la clase ifstream que deriva de istream para el manejo de archivos)
@@ -110,31 +116,6 @@ opt_output(string const &arg)
 		     << "."
 		     << endl;
 		exit(1);		// EXIT: Terminación del programa en su totalidad
-	}
-}
-
-static void
-opt_factor(string const &arg)
-{
-	istringstream iss(arg);
-
-	// Intentamos extraer el factor de la línea de comandos.
-	// Para detectar argumentos que únicamente consistan de
-	// números enteros, vamos a verificar que EOF llegue justo
-	// después de la lectura exitosa del escalar.
-	//
-	if (!(iss >> difficulty) || !iss.eof() || difficulty<0) {
-		cerr << "Valor invalido de  dificultad: "
-		     << arg
-		     << "."
-		     << endl;
-		exit(1);
-	}
-
-	if (iss.bad()) {
-		cerr << "No se pudo leer la dificultad."
-		     << endl;
-		exit(1);
 	}
 }
 

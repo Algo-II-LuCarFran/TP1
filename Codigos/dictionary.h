@@ -40,7 +40,6 @@
 //----------------------------------------------VARIABLES GLOBALES-----------------------------------------
 using namespace std;
 
-block mempool;
 
 //-----------------------------------------------PUNTEROS A FUNCION ---------------------------------------
 //Los punteros a funcion ejecutan el comando ingresado y devuelven lo especificado por el comando (como un 
