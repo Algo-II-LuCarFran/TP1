@@ -18,6 +18,8 @@ class Array
 		Array<T> getSubArray(const size_t n1,const size_t n2); //Obtiene un subarreglo que consta de los mismos datos que el arreglo original entre
 															  // las posiciones n1 y n2. Ejemplo: si n1=1 y n2=4, devuelve un subarray de 4 elementos:
 															 // los del arreglo original limitados por n1-1 (cero) y n2-1 (tres).
+															// Si n2 es mayor al tamaño del subarreglo original, se genera un subarreglo
+															// delimitado por n1 y el final del arreglo original.
 		Array<T> &operator=( const Array<T> & ); //Operador asignación para una array: A=B, donde A y B son arrays. Recibe como parámetro un array por referencia constante, para no modificar lo que tiene dentro
 		bool operator==( const Array<T> & ) ; //Operador lógico para comprobar si son iguales 2 arrays. Recibe como parámetri un array por referencia constante, para no modificar lo que tiene dentro
 		T & operator[](size_t); //Operador indexación: Retorna un elemento del vector (se puede cambiar, pues se retorna por referencia)
@@ -168,12 +170,23 @@ Array<T> Array<T>::getSubArray(const size_t n1,const size_t n2)
 {
 	Array<T> aux;
 	aux.vsize=0;
-	if(n1>this->getSize() || n2>this->getSize())
+	if(n1>this->getSize())
 		return aux;
 	else 
-		aux.ArrayRedim(n2-n1+1);
-	for(size_t i=n1-1; i<n2; i++)
-		aux[i-n1+1]=this->ptr[i];
+	{
+		if(n2<=this->getSize())
+		{
+			aux.ArrayRedim(n2-n1+1);
+			for(size_t i=n1-1; i<n2; i++)
+			aux[i-n1+1]=this->ptr[i];
+		}
+		if(n2>this->getSize())
+		{
+			aux.ArrayRedim(this->getSize()-n1+1);
+			for(size_t i=n1-1; i<this->getSize(); i++)
+			aux[i-n1+1]=this->ptr[i];
+		}
+	}
 	return aux;
 }
 

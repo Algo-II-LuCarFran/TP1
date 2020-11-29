@@ -127,43 +127,62 @@ string cmdTransfer( Array <string> args)
 	//ALGOCHAIN; conseguir su value y verificar que dicho valor (su dinero disponible) no sea menor a la suma de
 	//las cantidades a transferir.
 
-	// string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
-	// string src_value,aux;
-	// Array<string> dst(1); //Inicializacion por defecto en uno
-	// Array<string> dst_value_str(1); //Inicializacion por defecto en uno
-	// double scr_value=100; //Se inicializa en 100 para pruebas. Debe obtenerse de la mempool o algochain segun corresp.
-	// Array <double> dst_value(1);
-	// size_t i=0;
+	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
+	
+	string aux;
+	
+	//double scr_value=string2double(<variable global que representa los balances>.find(value,scr)); 
+	//Se encuentra el dinero disponible por el usuario que aporta el dinero en la transaccion.
+	//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 
-	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux.
-	//Se verifica en la mempool y/o algochain si las transacciones son validas (mediante variables aux). Si lo son,
+	//size_t dim_array_aux=(args.getSize()-1)/2;
+	//Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
+
+	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
+	// args.getSize()-1 es la cantidad de argumentos relacionados a los usuarios de destino. Como vienen de a pares
+	//(una vez validados) el resultado de (args.getSize()-1)/2 sera siempre entero, el valor del tamaño del arreglo.
+
+	// Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
+	// Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
+
+	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux(arreglos).
+	//Se verifica en la variable global de usuarios si las transacciones son validas (mediante variables aux). Si lo son,
 	//se cargan. Si no ,se anulan.
 
-	// txn txn_aux; //Me quede en generar las transacciones. Constructor de txn en base a string creado.
 
-
-	//HAY QUE OBTENER scr_value PARA SEGUIR A PARTIR DE ESTE PUNTO
-	//src_value= ;
-	// while(getline(iss, aux, ' ').good() || iss.eof())
+	// for(size_t i=2,size_t j=0; i <=args.getSize() ;i+=2,j++)
 	// {
 	// 	//Se consiguen los hash de los usuarios destino y los valores a transferir
-	// 	if(dst.getSize()==(i+1))
-	// 	{
-	// 		dst.ArrayRedim( (i+1)+CHOP_SIZE);
-	// 		dst_value.ArrayRedim( (i+1)+CHOP_SIZE);
-	// 	}
-	// 	if( !(getline(iss, dst[i], ' ').good()) || !(iss.eof()))
+	//	dst[j]=sha256(args[i-1]);
+	//  args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn.
+	//	dst_value_str[j]=args[i];
+	// 	dst_value[j]=string2double(dst_value_str[j]);
+
+	// 	if(dst_value[i]<0) //No se puede transferir una cantidad negativa
 	// 		return MSG_FAIL;
-	// 	if( !(getline(iss, dst_value[i], ' ').good()) || !(iss.eof()))
-	// 		return MSG_FAIL;
-	// 	if(dst_value[i]<0)
-	// 		return MSG_FAIL;
-	// 	dst_value[i]=stod(dst_value[i]);
-	// 	scr_value-=dst_value[i];
-	// 	i++;
-	// }
-	// if(src_value<0)
+	// 	scr_value-=dst_value[j];
+	// if(src_value<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
 	// 	return MSG_FAIL;
+	// }
+	//  //Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferrirles
+	//	//por lo que se crea un arreglo con la informacion de la transaccion 
+	
+	//Queda generar un arreglo de 3 cosas para el input
+	//Array <string> input_array(3); //Siempre se tendra un arreglo de 3 elementos, pues hay un solo input 
+									// y cada input requiere 3 campos a especificar: tx_id, idx, addr.
+	//1)Cargar el tx_id.
+	//2)Cargar el idx. 
+	//3)Cargar el addr.
+	//4)Implementar el operador + para el array, asi se pueden concatenar dos arrays.
+	//  Concatenar input_array con args.getSubArray(2,final). Debe quedar guardado en input_array.
+	//5)Se crea la transaccion:
+	//txn txn_aux(input_array); 
+	//6)En algun lado se deben actualizar los users de la lista global con los valores de las 
+	//  transferencias realizadas
+	//7)Añadir a la mempool(variable global) la transaccion actual txn_aux:
+	//	mempool.addTxn(txn_aux);
+
+	//return sha256(txn_aux.getTxnAsString());
 	 return "hola";
 }
 

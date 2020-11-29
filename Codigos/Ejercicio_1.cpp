@@ -85,7 +85,7 @@ void testGetSubArray()
     arr[5]=6;
     arr[6]=7;
 
-    Array <int> sub_arr= arr.getSubArray(1,4);
+    Array <int> sub_arr= arr.getSubArray(3,arr.getSize()+1);
     cout<<"El arreglo original es \n"<<arr<<endl;
     cout<<"El subarreglo queda \n"<<sub_arr<<endl;
 }
