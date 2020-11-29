@@ -63,6 +63,8 @@ class list
 		l.show(oss);
 		return oss;
 	}
+    T getFirstNode();
+    T getLastNode();
 };
 
 
@@ -158,7 +160,7 @@ list<T>::~list() //Verficar que elimine TODOS los nodos de la lista.
 }
 
 template<typename T>
-size_t list<T>::size(){return this->max_size;};
+size_t list<T>::size(){return this->max_size;}
 
 template<typename T>
 void list<T>::append(const T& t)
@@ -362,6 +364,19 @@ void list<T>::show(ostream& oss) {
 	}
 	oss << now->data << endl;
 }
-
+template<typename T>
+T list<T>::getFirstNode()
+{
+    node *aux = first;
+    T aux2 = aux->getData();
+    return aux2;
+}
+template<typename T>
+T list<T>::getLastNode()
+{
+    node *aux = last;
+    T aux2 = aux->getData();
+    return aux2;
+}
 
 #endif // _LIST_H_

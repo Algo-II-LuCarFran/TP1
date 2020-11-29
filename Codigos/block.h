@@ -198,11 +198,18 @@ string outpt::getOutputAsString()
 
 void outpt::show(ostream& oss)
 {
+	string aux;
+	string str_exact_precision;
+	aux=to_string(value);
+	size_t i;
+	for(i=aux.length()-1; aux[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
+	str_exact_precision=aux.substr(0,i+1); //Se copia la sub cadena desdeada
+
 	if(addr == "")
 	{
 		return ;
 	}
-	oss << value << " " << addr;
+	oss << str_exact_precision << " " << addr;
 }
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
@@ -451,6 +458,8 @@ string txn::getTxnAsString()
 
 void txn::show(ostream& oss)
 {
+	if(n_tx_in == 0)
+		return ;
 	oss << n_tx_in << endl;
 	for (size_t i = 0; i < tx_in.getSize(); i++)
 	{
@@ -491,7 +500,7 @@ class bdy
 	}
 };	
 bdy::bdy()
-{	
+{
 }
 
 bdy::~bdy(){}
@@ -526,10 +535,8 @@ string bdy::setTxns(istream *iss)
 	string str,error_string;
 	size_t aux, i = 0;
 	bool err;
-	cout << "Entro a la carga de transacciones" << endl; 
 	while(getline(*iss, str, '\n'))
 	{
-		cout << str << endl;
 		if(isHash(str)==true || str == "")
 		{
 			return str;
@@ -900,7 +907,8 @@ string block::setBody(istream *iss)
 	{
 	   cerr<<str<<endl;
 	   exit(1);
-	};
+	}
+	return "\0";
 }
 
 block::block()
