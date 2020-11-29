@@ -19,6 +19,8 @@
 // user) y la devuelven en una string
 typedef string (*finder)(string d); //Buscan en un bloque dado el value del usuario d
 
+
+//Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
 string finderUser(string d);
 
 

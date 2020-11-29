@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Lista.h"
+// #include "Lista.h"
 #include "Array.h"
 using namespace std;
 
@@ -69,13 +69,29 @@ using namespace std;
 //     cout<<"El valor "<< f <<" esta en la lista"<<endl;
 // }
 
-void testListFindwithin()
-{
+// void testListFindwithin()
+// {
     
+// }
+
+void testGetSubArray()
+{
+    Array <int> arr(7);
+    arr[0]=1;
+    arr[1]=2;
+    arr[2]=3;
+    arr[3]=4;
+    arr[4]=5;
+    arr[5]=6;
+    arr[6]=7;
+
+    Array <int> sub_arr= arr.getSubArray(1,4);
+    cout<<"El arreglo original es \n"<<arr<<endl;
+    cout<<"El subarreglo queda \n"<<sub_arr<<endl;
 }
 
 int main()
 {
-    testListFindwithin();   
+    testGetSubArray();
     return 0;
 }
