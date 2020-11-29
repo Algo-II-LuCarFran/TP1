@@ -1,6 +1,8 @@
 #ifndef _DICTIONARY_H_
 #define _DICTIONARY_H_
 
+// dictionary.h tiene elementos que traducen los comandos para la interfaz con la algochain 
+// ingresados por linea de comandos.  
 #include <iostream>
 #include <string.h>
 #include <cstring>
@@ -9,6 +11,8 @@
 #include "block.h"
 #include "sha256.h"
 
+//-----------------------------------------------------MACROS----------------------------------------------
+//Para definir las referencias de comandos
 #define STR_INIT "init"
 #define STR_TRANSFER "transfer"
 #define STR_MINE "mine"
@@ -18,15 +22,27 @@
 #define STR_LOAD "load"
 #define STR_SAVE "save"
 
+//Para definir hashes en un estado inicial
 #define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
+
+//Para contar la cantidad de punteros a funciones se tiene. Se utiliza para encontrar el que se necesita en 
+//cada situacion
 #define MAXCMD 8
 
+//Para ocurrencias de error
 #define MSG_FAIL "FAIL"
 
+//Para aumentar el tamaño de un arreglo dinamico
 #define CHOP_SIZE 5
+
+//----------------------------------------------VARIABLES GLOBALES-----------------------------------------
 using namespace std;
 
 block mempool;
+
+//-----------------------------------------------PUNTEROS A FUNCION ---------------------------------------
+//Los punteros a funcion ejecutan el comando ingresado y devuelven lo especificado por el comando (como un 
+// hash que represente cierto objeto o un mensaje de error)
 
 typedef string (* p_func)(Array <string>);
 
@@ -83,7 +99,7 @@ string cmdInit(Array <string> args)
 	double value;
 	size_t bits;
 
-	user =sha256(args[0]);
+	user = sha256(args[0]);
 
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
@@ -128,72 +144,157 @@ string cmdTransfer( Array <string> args)
 	//las cantidades a transferir.
 
 	// string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
-	// string src_value,aux;
-	// Array<string> dst(1); //Inicializacion por defecto en uno
-	// Array<string> dst_value_str(1); //Inicializacion por defecto en uno
-	// double scr_value=100; //Se inicializa en 100 para pruebas. Debe obtenerse de la mempool o algochain segun corresp.
-	// Array <double> dst_value(1);
-	// size_t i=0;
+	
+	// string aux;
+	
+	//double scr_value=string2double(<variable global que representa los balances>.find(value,scr)); 
+	//Se encuentra el dinero disponible por el usuario que aporta el dinero en la transaccion.
+	//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 
-	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux.
-	//Se verifica en la mempool y/o algochain si las transacciones son validas (mediante variables aux). Si lo son,
+	//size_t dim_array_aux=(args.getSize()-1)/2;
+	//Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
+
+	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
+	// args.getSize()-1 es la cantidad de argumentos relacionados a los usuarios de destino. Como vienen de a pares
+	//(una vez validados) el resultado de (args.getSize()-1)/2 sera siempre entero, el valor del tamaño del arreglo.
+
+	// Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
+	// Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
+
+	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux(arreglos).
+	//Se verifica en la variable global de usuarios si las transacciones son validas (mediante variables aux). Si lo son,
 	//se cargan. Si no ,se anulan.
 
-	// txn txn_aux; //Me quede en generar las transacciones. Constructor de txn en base a string creado.
 
-
-	//HAY QUE OBTENER scr_value PARA SEGUIR A PARTIR DE ESTE PUNTO
-	//src_value= ;
-	// while(getline(iss, aux, ' ').good() || iss.eof())
+	// for(size_t i=2,size_t j=0; i <=args.getSize() ;i+=2,j++)
 	// {
 	// 	//Se consiguen los hash de los usuarios destino y los valores a transferir
-	// 	if(dst.getSize()==(i+1))
-	// 	{
-	// 		dst.ArrayRedim( (i+1)+CHOP_SIZE);
-	// 		dst_value.ArrayRedim( (i+1)+CHOP_SIZE);
-	// 	}
-	// 	if( !(getline(iss, dst[i], ' ').good()) || !(iss.eof()))
+	//	dst[j]=sha256(args[i-1]);
+	//  args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn.
+	//	dst_value_str[j]=args[i];
+	// 	dst_value[j]=string2double(dst_value_str[j]);
+
+	// 	if(dst_value[i]<0) //No se puede transferir una cantidad negativa
 	// 		return MSG_FAIL;
-	// 	if( !(getline(iss, dst_value[i], ' ').good()) || !(iss.eof()))
-	// 		return MSG_FAIL;
-	// 	if(dst_value[i]<0)
-	// 		return MSG_FAIL;
-	// 	dst_value[i]=stod(dst_value[i]);
-	// 	scr_value-=dst_value[i];
-	// 	i++;
-	// }
-	// if(src_value<0)
+	// 	scr_value-=dst_value[j];
+	// if(src_value<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
 	// 	return MSG_FAIL;
+	// }
+	//  //Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferrirles
+	//	//por lo que se crea un arreglo con la informacion de la transaccion 
+	
+	//Queda generar un arreglo de 3 cosas para el input
+	//Array <string> input_array(3); //Siempre se tendra un arreglo de 3 elementos, pues hay un solo input 
+									// y cada input requiere 3 campos a especificar: tx_id, idx, addr.
+	//1)Cargar el tx_id. //tx_id, el hash de la transaccion de donde este input toma fondos,
+	//2)Cargar el idx.  //idx, un valor entero no negativo que sirve de indice sobre la secuencia de outputs
+					   //de la transaccion con hash tx_id
+	//3)Cargar el addr. //addr, la direccion de origen de los fondos (que debe coincidir con la direcci ´ on del ´
+					   //output referenciado
+	//4)Implementar el operador + para el array, asi se pueden concatenar dos arrays.
+	//  Concatenar input_array con args.getSubArray(2,final). Debe quedar guardado en input_array.
+	//5)Se crea la transaccion:
+	//  txn txn_aux(input_array); 
+	//6)En algun lado se deben actualizar los users de la lista global con los valores de las 
+	//  transferencias realizadas
+	//7)Añadir a la mempool(variable global) la transaccion actual txn_aux:
+	//	mempool.addTxn(txn_aux);
+
+	//return sha256(txn_aux.getTxnAsString());
 	 return "hola";
 }
 
 string cmdMine(Array <string> args)
+		//Ensambla y agrega a la Algochain un nuevo bloque a partir de todas las transacciones en la mempool. 
+		//La dificultad del minado viene dada por args
 {
-	return "hola";
+	/*Valor de retorno.
+	 	Hash del bloque en caso de exito;  FAIL en caso de falla por invalidez.
+	*/
+	size_t bits = stoi(args[0]);
+	block aux_save;
+	if(bits<0)
+	{
+		cerr << "ERROR: dificultad invalida"<< endl; // que otra falla?
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	string prev_block = sha256(sha256(aux.getBlockAsString()));
+	// hdr header_aux = aux.getHeader();
+	// string prev_block = header_aux.getTxnHash(); //de donde saco el prevbloc? de lalista de bloques
+	mempool.setHeader(prev_block,bits);
+	aux_save = mempool; //lo guargo para despues imprimirlo
+	//guardar la mempool en la parte de la lista correspondientes
+	algochain.append(mempool);
+	//limpiar mempool
+	block empty_block;
+	mempool = empty_block;
+	return aux_save.getBlockAsString();
 }
+
 
 string cmdBalance(Array <string> args)
 {
-	return "hola";
+	string balance = find(args[0]);//funcion que estaban haciendo, como va a funcionar?
+	//double aux = id_balance.balance;// paso solo el user a find y no find hasheado
+	return balance;
+	//verificar el error de finduser
 }
 
 string cmdBlock(Array <string> args)
 {
-	return "hola";
+	//funcion find, le tiro el id y me devuelve blocl
+	return find(args[0]);
 }
 
 string cmdTxn(Array <string> args)
 {
+	
 	return "hola";
 }
 
 string cmdLoad(Array <string> args)
 {
-	return "hola";
+	ifs.open(args[0].c_str(), ios::in);
+	iss = &ifs;
+	if (!iss->good()) {
+	cerr << "cannot open "
+			<< args[0]
+			<< "."
+			<< endl;
+	exit(1);
+	}
+	algochain.clear();//
+	if(setAlgochainFromFile(iss)==false)
+	{
+		cerr << "ERROR: no se pudo cargar el archivo "
+		<< endl;
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	return sha256(sha256(aux.getBlockAsString()));
 }
 
 string cmdSave(Array <string> args)
 {
+	ofs.open(args[0].c_str(), ios::out);
+	oss = &ofs;
+	if (!oss->good()) 
+	{
+		cerr << "cannot open "
+		     << arg
+		     << "."
+		     << endl;
+		exit(1);		// EXIT: Terminación del programa en su totalidad
+	}
+	else if (oss->bad()) 
+	{
+		cerr << "cannot write to output stream."
+		     << endl;
+		exit(1);
+	}
+	string algochain_string = printAlgochain(algochain);
+	*oss << algochain_string;
 	return "hola";
 }
 
