@@ -1,5 +1,6 @@
 #ifndef _FINDERS_H_
-#include _FINDERS_H_
+#define _FINDERS_H_
+
 #include "sha256.h"
 #include "block.h"
 #include <string.h>
