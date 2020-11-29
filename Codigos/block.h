@@ -14,7 +14,6 @@
 #include "tools.h"
 #include "Array.h"
 #include "sha256.h"
-#include "Lista.h"
 #define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
 
 // o Se usaran strings para representar los hash
@@ -36,10 +35,12 @@ class inpt
 	inpt(); //Creador base
 	inpt(string&); //Creador mediante una string
 	~inpt( ); //Destructor
+	inpt & operator=(const inpt &);
 	//Si hay getters deberian haber setters. Si no se usan, eliminarlos.
 	string getAddr();
 	outpnt getOutPoint();
 	string getInputAsString();
+	
 };
 inpt::inpt(){}//Creador base
 
@@ -64,6 +65,17 @@ inpt::inpt(string & str) //Creador mediante una string
 	{
 		this->addr=ERROR; // Si hay un error pone addr en ERROR, para avisar a un nivel mas alto
 	}
+}
+
+inpt & inpt::operator=(const inpt & right)
+{
+	if (&right != this)
+	{
+		outpoint = right.outpoint;
+		addr = right.addr;
+		return *this;
+	}
+	return *this;
 }
 
 outpnt inpt::getOutPoint(){return outpoint;}
@@ -98,6 +110,7 @@ class outpt
 	outpt(); //Creador base
 	outpt(string&); //Creador mediante una string
 	~outpt( ); //Destructor
+	outpt & operator=(const outpt &);
 	double getValue();
 	string getAddr();
 	string getOutputAsString();
@@ -109,6 +122,17 @@ outpt::outpt() //Creador base
 
 outpt::~outpt() //Destructor base
 {    
+}
+
+outpt & outpt::operator=(const outpt & right)
+{
+	if(&right != this)
+	{
+		value = right.value;
+		addr = right.addr;
+		return *this;
+	}
+	return *this;
 }
 
 outpt::outpt(string & str) //Creador mediante una string
@@ -168,6 +192,7 @@ class txn
 	txn(Array<string>&); //Creador en base a un array de cadenas. El array debe contener todos los campos necesarios
 						// para crear la transaccion.
 	~txn( ); //Destructor
+	txn &operator=( const txn & );
 
 	void setNTxIn(const size_t) ;
 	void setNTxOut(const size_t);
@@ -215,6 +240,18 @@ txn::~txn()
 {
 }
 
+txn & txn::operator=(const txn &right)
+{
+	if(&right != this)
+	{
+		n_tx_in = right.n_tx_in;
+		n_tx_out = right.n_tx_out;
+		tx_in = right.tx_in;
+		tx_out = right.tx_out;
+		return *this;
+	}
+	return *this;
+}
 void txn::setNTxIn(const  size_t n) 
 {
 	n_tx_in=n;
@@ -344,13 +381,13 @@ bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica e
 	return true;
 }
 
-
 size_t txn::getNTxIn(){return n_tx_in;}
 
 size_t txn::getNTxOut(){return n_tx_out;}
 
 Array<inpt>& txn::getInputs(){return tx_in;}
 Array<outpt>& txn::getOutputs(){return tx_out;}
+
 
 string txn::getTxnAsString()
 {
@@ -386,6 +423,7 @@ class bdy
 	public:
 	bdy();
 	~bdy();
+	bdy & operator=(const bdy &);
 	bdy getBody();
 	string getBodyAsString();
 	size_t getTxnCount();
@@ -395,12 +433,23 @@ class bdy
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
 	void txnsArrRedim(const size_t );
-};
+};	
 bdy::bdy()
 {	
 }
 
 bdy::~bdy(){}
+
+bdy & bdy::operator=(const bdy & right)
+{
+	if(&right != this)
+	{
+		txn_count = right.txn_count;
+		txns = right.txns;
+		return *this;
+	}
+	return *this;
+}
 
 void bdy::setTxnCount(const size_t n)
 {
@@ -537,6 +586,7 @@ class hdr
 	public:
 	hdr();
 	~hdr();
+	hdr & operator=(const hdr &);
 	bool setPrevBlock(const string&);
 	void setTxnsHash(const string&);
 	void setBits(const size_t n);
@@ -559,6 +609,18 @@ hdr::hdr()
 
 hdr::~hdr(){}
 
+hdr & hdr::operator=(const hdr & right)
+{
+	if(&right != this)
+	{
+		prev_block = right.prev_block;
+		txns_hash = right.txns_hash;
+		bits = right.bits;
+		nonce = right.nonce;
+		return *this;
+	}
+	return *this;
+}
 
 bool hdr::setPrevBlock(const string & str)//Se modifica el retorno del setter por defecto (void) por
 										// necesidad. Verifica si el setteo pudo realizarse correctamente.
@@ -685,6 +747,7 @@ class block
 												//dificultad y un flujo de entrada por el que se reciben las 
 											   // transacciones.
 	~block( ); //Destructor
+	block & operator=(const block &);
 	void setHeader(const string&,const size_t);
 	string setBody(istream *iss);
 	void setHeader(hdr header);
@@ -715,6 +778,17 @@ void block::setHeader(const string& prev_block_str,const size_t diffic)
 	header.setTxnsHash(aux);
 	header.setBits(diffic);
 	header.setNonce(header.getPrevBlock(),header.getTxnHash(),header.getBits());
+}
+
+block & block::operator=(const block & right)
+{
+	if(&right != this)
+	{
+		header = right.header;
+		body = right.body;
+		return *this;
+	}
+	return *this;
 }
 
 string block::setBody(istream *iss)
@@ -764,7 +838,7 @@ block::~block()
 {
 }
 
-string block::getBlockAsString() 
+string block::getBlockAsString()
 {
 	string result, str;
 	result.append(header.getHeaderAsString());
@@ -773,5 +847,3 @@ string block::getBlockAsString()
 	return result;
 }
 #endif //_BLOCK_H_
-
-
