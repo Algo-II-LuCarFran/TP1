@@ -40,7 +40,12 @@ class inpt
 	string getAddr();
 	outpnt getOutPoint();
 	string getInputAsString();
-	
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, inpt& in) 
+	{
+		in.show(oss);
+		return oss;
+	}
 };
 inpt::inpt(){}//Creador base
 
@@ -99,6 +104,15 @@ string inpt::getInputAsString()
 
 	return result;
 }
+
+void inpt::show(ostream& oss)
+{
+	if(outpoint.tx_id == "" || addr == "")
+	{
+		return ;
+	}
+	oss << outpoint.tx_id << " " << outpoint.idx << " " << addr;
+}
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 class outpt
 {
@@ -114,6 +128,12 @@ class outpt
 	double getValue();
 	string getAddr();
 	string getOutputAsString();
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, outpt& out) 
+	{
+		out.show(oss);
+		return oss;
+	}
 };
 
 outpt::outpt() //Creador base
@@ -176,6 +196,14 @@ string outpt::getOutputAsString()
 	return result;
 }
 
+void outpt::show(ostream& oss)
+{
+	if(addr == "")
+	{
+		return ;
+	}
+	oss << value << " " << addr;
+}
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
 
@@ -200,7 +228,7 @@ class txn
 	bool setTxIn(const size_t, Array<string>&);
 	string setTxOut(const size_t n, istream *iss);
 	bool setTxOut(const size_t, Array<string>&);
-	string txn::setTxOutFile(const size_t n, istream *iss);
+	string setTxOutFile(const size_t n, istream *iss);
 
 	size_t getNTxIn();
 	size_t getNTxOut();
@@ -209,6 +237,12 @@ class txn
 
 	string getTxnAsString();
 	string validateTxn();
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, txn& tx) 
+	{
+		tx.show(oss);
+		return oss;
+	}
 };
 
 
@@ -413,6 +447,21 @@ string txn::getTxnAsString()
 	}
 	return result;
 }
+
+void txn::show(ostream& oss)
+{
+	oss << n_tx_in << endl;
+	for (size_t i = 0; i < tx_in.getSize(); i++)
+	{
+		oss << tx_in[i] << endl;
+	}
+	
+	oss << n_tx_out << endl;
+	for (size_t i = 0; i < tx_out.getSize(); i++)
+	{
+		oss << tx_out[i] << endl;
+	}
+}
 //--------------------------CLASE BODY----------------------------------------------------------------------------------------
 
 class bdy
@@ -433,6 +482,12 @@ class bdy
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
 	void txnsArrRedim(const size_t );
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, bdy& body) 
+	{
+		body.show(oss);
+		return oss;
+	}
 };	
 bdy::bdy()
 {	
@@ -572,6 +627,15 @@ bdy bdy::getBody(){return *this;}
 
 void bdy::txnsArrRedim(const size_t n ){txns.ArrayRedim(n);}
 
+
+void bdy::show(ostream& oss)
+{
+	oss << txn_count << endl;
+	for (size_t i = 0; i < txns.getSize(); i++)
+	{
+		oss << txns[i];
+	}
+}
 //--------------------------CLASE HEADER----------------------------------------------------------------------------------------
 
 class hdr
@@ -597,6 +661,12 @@ class hdr
 	size_t getBits();
 	size_t getNonce();
 	string getHeaderAsString();
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, hdr& header) 
+	{
+		header.show(oss);
+		return oss;
+	}
 };
 
 hdr::hdr()
@@ -734,6 +804,13 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 	return ;
 }
 
+void hdr::show(ostream& oss)
+{
+	oss << prev_block << endl;
+	oss << txns_hash << endl;
+	oss << bits << endl;
+	oss << nonce << endl;
+}
 //--------------------------CLASE BLOCK----------------------------------------------------------------------------------------
 class block
 {   
@@ -756,6 +833,12 @@ class block
 	hdr getHeader();
 	bdy getBody();
 	string getBlockAsString();
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, block& block) 
+	{
+		block.show(oss);
+		return oss;
+	}
 };
 
 hdr block::getHeader()
@@ -800,7 +883,9 @@ string block::setBody(istream *iss)
 	body.setTxnCount(txn_count);
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
+	cout << "antes del seteo de la transaccion" << endl;
 	str=body.setTxns(iss);
+	cout << str << endl;
 	if (isHash(str)==true)
 	{
 		return str;
@@ -830,7 +915,9 @@ block::block()
 
 block::block(const string str,const  size_t diffic, istream *iss)
 {
+	cout << "antes del body" << endl;
 	setBody(iss);
+	cout << "antes del header" << endl;
 	setHeader(str, diffic);
 }
 
@@ -845,5 +932,11 @@ string block::getBlockAsString()
 	result.append("\n");
 	result.append(body.getBodyAsString());
 	return result;
+}
+
+void block::show(ostream& oss)
+{
+	oss << header;
+	oss << body;
 }
 #endif //_BLOCK_H_

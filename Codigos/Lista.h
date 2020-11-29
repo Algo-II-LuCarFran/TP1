@@ -162,7 +162,7 @@ list<T>::~list() //Verficar que elimine TODOS los nodos de la lista.
 }
 
 template<typename T>
-size_t list<T>::size(){return this->max_size;};
+size_t list<T>::size(){return this->max_size;}
 
 template<typename T>
 void list<T>::append(const T& t)

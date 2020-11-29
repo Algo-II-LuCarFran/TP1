@@ -6,6 +6,7 @@
 #include <cstring>
 #include "Array.h"
 #include "tools.h"
+#include "Lista.h"
 #include "block.h"
 #include "sha256.h"
 #include "global.h"
@@ -79,7 +80,7 @@ p_func dictCmds( string cmd, int &num_param)
 
 string cmdInit(Array <string> args)
 {
-
+ 
 	string user;
 	string STR_TXNing;
 	double value;
@@ -118,10 +119,11 @@ string cmdInit(Array <string> args)
 	STR_TXNing.append(user);
 	
 	istringstream iss(STR_TXNing);
-
 	block genesis_block(NULL_HASH, bits, &iss);
-	
 	mempool = genesis_block;
+	list<block> algochain;
+	algochain.append(mempool);
+	cout << algochain << endl;
 	return sha256(genesis_block.getBlockAsString());
 }
 
