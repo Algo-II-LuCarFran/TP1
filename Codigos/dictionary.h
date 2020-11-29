@@ -11,7 +11,6 @@
 #include "Lista.h"
 #include "block.h"
 #include "sha256.h"
-#include "Lista.h"
 #include "main.h"
 
 //-----------------------------------------------------MACROS----------------------------------------------
