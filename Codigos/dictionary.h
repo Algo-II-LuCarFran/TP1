@@ -1,6 +1,8 @@
 #ifndef _DICTIONARY_H_
 #define _DICTIONARY_H_
 
+// dictionary.h tiene elementos que traducen los comandos para la interfaz con la algochain 
+// ingresados por linea de comandos.  
 #include <iostream>
 #include <string.h>
 #include <cstring>
@@ -9,6 +11,8 @@
 #include "block.h"
 #include "sha256.h"
 
+//-----------------------------------------------------MACROS----------------------------------------------
+//Para definir las referencias de comandos
 #define STR_INIT "init"
 #define STR_TRANSFER "transfer"
 #define STR_MINE "mine"
@@ -18,15 +22,27 @@
 #define STR_LOAD "load"
 #define STR_SAVE "save"
 
+//Para definir hashes en un estado inicial
 #define NULL_HASH "0000000000000000000000000000000000000000000000000000000000000000"
+
+//Para contar la cantidad de punteros a funciones se tiene. Se utiliza para encontrar el que se necesita en 
+//cada situacion
 #define MAXCMD 8
 
+//Para ocurrencias de error
 #define MSG_FAIL "FAIL"
 
+//Para aumentar el tamaño de un arreglo dinamico
 #define CHOP_SIZE 5
+
+//----------------------------------------------VARIABLES GLOBALES-----------------------------------------
 using namespace std;
 
 block mempool;
+
+//-----------------------------------------------PUNTEROS A FUNCION ---------------------------------------
+//Los punteros a funcion ejecutan el comando ingresado y devuelven lo especificado por el comando (como un 
+// hash que represente cierto objeto o un mensaje de error)
 
 typedef string (* p_func)(Array <string>);
 
@@ -127,9 +143,9 @@ string cmdTransfer( Array <string> args)
 	//ALGOCHAIN; conseguir su value y verificar que dicho valor (su dinero disponible) no sea menor a la suma de
 	//las cantidades a transferir.
 
-	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
+	// string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
 	
-	string aux;
+	// string aux;
 	
 	//double scr_value=string2double(<variable global que representa los balances>.find(value,scr)); 
 	//Se encuentra el dinero disponible por el usuario que aporta el dinero en la transaccion.
@@ -170,13 +186,15 @@ string cmdTransfer( Array <string> args)
 	//Queda generar un arreglo de 3 cosas para el input
 	//Array <string> input_array(3); //Siempre se tendra un arreglo de 3 elementos, pues hay un solo input 
 									// y cada input requiere 3 campos a especificar: tx_id, idx, addr.
-	//1)Cargar el tx_id.
-	//2)Cargar el idx. 
-	//3)Cargar el addr.
+	//1)Cargar el tx_id. //tx_id, el hash de la transaccion de donde este input toma fondos,
+	//2)Cargar el idx.  //idx, un valor entero no negativo que sirve de indice sobre la secuencia de outputs
+					   //de la transaccion con hash tx_id
+	//3)Cargar el addr. //addr, la direccion de origen de los fondos (que debe coincidir con la direcci ´ on del ´
+					   //output referenciado
 	//4)Implementar el operador + para el array, asi se pueden concatenar dos arrays.
 	//  Concatenar input_array con args.getSubArray(2,final). Debe quedar guardado en input_array.
 	//5)Se crea la transaccion:
-	//txn txn_aux(input_array); 
+	//  txn txn_aux(input_array); 
 	//6)En algun lado se deben actualizar los users de la lista global con los valores de las 
 	//  transferencias realizadas
 	//7)Añadir a la mempool(variable global) la transaccion actual txn_aux:
