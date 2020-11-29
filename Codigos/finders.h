@@ -1,6 +1,7 @@
 #ifndef _FINDERS_H_
 #include _FINDERS_H_
 #include "sha256.h"
+#include "block.h"
 #include <string.h>
 #include <cstring>
 
@@ -33,19 +34,20 @@ string finderUser(string d)
     //Es necesario implementar los getters en Block.h
     //Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
     //y getAddr()
-    string result;
+    
+    // string result;
 
-    string d_hash=sha256(d);
-    outpt aux;
-    for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
-    {
-        for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
-        {
-            aux=this->getBody().getTxns()[i].getTxOut()[j];
-            if(aux.addr==d_hash)
-                return aux.getValueAsString();
-        }
-    }
+    // string d_hash=sha256(d);
+    // outpt aux;
+    // for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
+    // {
+    //     for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
+    //     {
+    //         aux=this->getBody().getTxns()[i].getTxOut()[j];
+    //         if(aux.addr==d_hash)
+    //             return aux.getValueAsString();
+    //     }
+    // }
     return "";
 }
 
