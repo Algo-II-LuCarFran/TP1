@@ -253,6 +253,7 @@ txn::txn()
 	tx_in.ArrayRedim(0);
 	tx_out.ArrayRedim(0);
 }
+
 txn::txn(Array<string>& txn_str_arr)
 {
 	size_t i;
@@ -525,9 +526,10 @@ string bdy::setTxns(istream *iss)
 	string str,error_string;
 	size_t aux, i = 0;
 	bool err;
-
+	cout << "Entro a la carga de transacciones" << endl; 
 	while(getline(*iss, str, '\n'))
 	{
+		cout << str << endl;
 		if(isHash(str)==true || str == "")
 		{
 			return str;
@@ -883,9 +885,8 @@ string block::setBody(istream *iss)
 	body.setTxnCount(txn_count);
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
-	cout << "antes del seteo de la transaccion" << endl;
 	str=body.setTxns(iss);
-	cout << str << endl;
+
 	if (isHash(str)==true)
 	{
 		return str;
@@ -915,9 +916,7 @@ block::block()
 
 block::block(const string str,const  size_t diffic, istream *iss)
 {
-	cout << "antes del body" << endl;
 	setBody(iss);
-	cout << "antes del header" << endl;
 	setHeader(str, diffic);
 }
 
