@@ -11,6 +11,7 @@
 #include "block.h"
 #include "sha256.h"
 #include "Lista.h"
+#include "main.h"
 
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para definir las referencias de comandos
