@@ -10,7 +10,7 @@
 #define _LIST_H_
 #include <iostream>
 #include <math.h> //Necesaria para el uso de floor().
-#include "finders.h" //Necesaria para el uso de find().
+// #include "finders.h" //Necesaria para el uso de find().
 using namespace std;
 
 template<class T>
@@ -57,6 +57,8 @@ class list
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
+    T  getFirstNode();
+    T  getLastNode();
     template <class TT>  friend ostream & operator<<(ostream & os,  list<TT> &L)//Operador de impresion de salida
     {
         node *aux = L.first;
@@ -68,7 +70,10 @@ class list
         return os;
     }
 };
-
+template<typename T>
+T list<T>::getFirstNode(){return this->first->data;}
+template<typename T>
+T list<T>::getLastNode(){return this->last->data;}
 
 template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
@@ -317,13 +322,13 @@ T list<T>::find(const T& t)
     // cout<<"No lo encontre, devuelvo NULL"<<endl;
     return NULL; //Si se hubo algun error se devuelve NULL.
 }
-template<typename T>
-string list<T>::find(const string& ref,const string& d )
-{
-    finder aux_finder;
-    aux_finder=finderParse(ref);
-    return aux_finder(d);
-}
+// template<typename T>
+// string list<T>::find(const string& ref,const string& d )
+// {
+//     finder aux_finder;
+//     aux_finder=finderParse(ref);
+//     return aux_finder(d);
+// }
 
 
 template<typename T>
