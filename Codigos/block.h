@@ -526,10 +526,8 @@ string bdy::setTxns(istream *iss)
 	string str,error_string;
 	size_t aux, i = 0;
 	bool err;
-	cout << "Entro a la carga de transacciones" << endl; 
 	while(getline(*iss, str, '\n'))
 	{
-		cout << str << endl;
 		if(isHash(str)==true || str == "")
 		{
 			return str;
@@ -633,6 +631,7 @@ void bdy::txnsArrRedim(const size_t n ){txns.ArrayRedim(n);}
 void bdy::show(ostream& oss)
 {
 	oss << txn_count << endl;
+	cout << "imprimo el size del txns " << txns.getSize() << endl;
 	for (size_t i = 0; i < txns.getSize(); i++)
 	{
 		oss << txns[i];
