@@ -198,11 +198,18 @@ string outpt::getOutputAsString()
 
 void outpt::show(ostream& oss)
 {
+	string aux;
+	string str_exact_precision;
+	aux=to_string(value);
+	size_t i;
+	for(i=aux.length()-1; aux[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
+	str_exact_precision=aux.substr(0,i+1); //Se copia la sub cadena desdeada
+
 	if(addr == "")
 	{
 		return ;
 	}
-	oss << value << " " << addr;
+	oss << str_exact_precision << " " << addr;
 }
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
@@ -900,7 +907,8 @@ string block::setBody(istream *iss)
 	{
 	   cerr<<str<<endl;
 	   exit(1);
-	};
+	}
+	return "\0";
 }
 
 block::block()

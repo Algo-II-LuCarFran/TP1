@@ -137,7 +137,6 @@ string cmdInit(Array <string> args)
 
 	block genesis_block(NULL_HASH, bits, &iss);
 
-	cout << genesis_block << endl;
 	return sha256(genesis_block.getBlockAsString());
 }
 
