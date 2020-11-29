@@ -4,6 +4,7 @@
 #include <string.h>
 #include <cstring>
 
+using namespace std;
 
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para contar la cantidad de finders que se tiene. Se utiliza para encontrar el que se necesita en 
