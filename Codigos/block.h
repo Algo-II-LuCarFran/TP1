@@ -200,7 +200,7 @@ class txn
 	bool setTxIn(const size_t, Array<string>&);
 	string setTxOut(const size_t n, istream *iss);
 	bool setTxOut(const size_t, Array<string>&);
-	string txn::setTxOutFile(const size_t n, istream *iss);
+	//string txn::setTxOutFile(const size_t n, istream *iss);
 
 	size_t getNTxIn();
 	size_t getNTxOut();

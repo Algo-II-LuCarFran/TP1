@@ -73,13 +73,14 @@ class list
     }
     T getLastNode();
     T getFirstNode();
+    string getListAsAString();
 };
 
 template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
 template<typename T>
-list<T>::list(const list& L)
+list<T>::list( list& L)// estaba como const pero tiraba error
 {
     node* prev_;
     node* next_;
@@ -324,16 +325,37 @@ bool list<T>::removeElement(const T& t)
 template<typename T>
 T list<T>::getFirstNode()
 {
-    node *aux = L.first;
+    node *aux = first;
     T aux2 = aux->getData();
     return aux2;
 }
 template<typename T>
 T list<T>::getLastNode()
 {
-    node *aux = L.last;
+    node *aux = last;
     T aux2 = aux->getData();
     return aux2;
+}
+
+
+
+template<typename T>
+string list<T>::getListAsAString()
+{
+    node* next_;
+    node* aux;
+    string str_aux;
+    string str_list;
+    next_=this->first;
+    for (size_t i = 0; i < this->max_size; i++)
+    {
+        str_aux = next_->getData().getBlockAsAString();
+        str_list.append(str_aux);
+        aux=next_->next;
+        next=aux;
+    }
+    return str_aux;
+    
 }
 
 // list const &operator=(const list<T>& other_list)

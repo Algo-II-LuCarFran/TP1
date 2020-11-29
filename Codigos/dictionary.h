@@ -83,7 +83,7 @@ string cmdInit(Array <string> args)
 	double value;
 	size_t bits;
 
-	user =sha256(args[0]);
+	user = sha256(args[0]);
 
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
@@ -240,6 +240,24 @@ string cmdLoad(Array <string> args)
 
 string cmdSave(Array <string> args)
 {
+	ofs.open(args[0].c_str(), ios::out);
+	oss = &ofs;
+	if (!oss->good()) 
+	{
+		cerr << "cannot open "
+		     << arg
+		     << "."
+		     << endl;
+		exit(1);		// EXIT: Terminación del programa en su totalidad
+	}
+	else if (oss->bad()) 
+	{
+		cerr << "cannot write to output stream."
+		     << endl;
+		exit(1);
+	}
+	string algochain_string= printAlgochain(algochain);
+	*oss << algochain_string;
 	return "hola";
 }
 

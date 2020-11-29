@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <bitset>
+#include "block.h"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ bool isNumber(const string& s) //Devuelve 1 si es true y 0 si es false
 	Numeric n;
 	return((istringstream(s) >> n >> ws).eof());
 }
-
+/*
 bool setAlgochainFromFile( istream *iss)
 {
 	block block_aux, block_empty;
@@ -105,5 +106,10 @@ bool setAlgochainFromFile( istream *iss)
 	return true;
 	
 }
+*/
+// string printAlgochain(list<block> chain)
+// {
+
+// }
 
 #endif //TOOLS_H
