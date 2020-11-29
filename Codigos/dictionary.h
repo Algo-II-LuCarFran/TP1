@@ -99,7 +99,7 @@ string cmdInit(Array <string> args)
 	double value;
 	size_t bits;
 
-	user =sha256(args[0]);
+	user = sha256(args[0]);
 
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
@@ -205,32 +205,96 @@ string cmdTransfer( Array <string> args)
 }
 
 string cmdMine(Array <string> args)
+		//Ensambla y agrega a la Algochain un nuevo bloque a partir de todas las transacciones en la mempool. 
+		//La dificultad del minado viene dada por args
 {
-	return "hola";
+	/*Valor de retorno.
+	 	Hash del bloque en caso de exito;  FAIL en caso de falla por invalidez.
+	*/
+	size_t bits = stoi(args[0]);
+	block aux_save;
+	if(bits<0)
+	{
+		cerr << "ERROR: dificultad invalida"<< endl; // que otra falla?
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	string prev_block = sha256(sha256(aux.getBlockAsString()));
+	// hdr header_aux = aux.getHeader();
+	// string prev_block = header_aux.getTxnHash(); //de donde saco el prevbloc? de lalista de bloques
+	mempool.setHeader(prev_block,bits);
+	aux_save = mempool; //lo guargo para despues imprimirlo
+	//guardar la mempool en la parte de la lista correspondientes
+	algochain.append(mempool);
+	//limpiar mempool
+	block empty_block;
+	mempool = empty_block;
+	return aux_save.getBlockAsString();
 }
+
 
 string cmdBalance(Array <string> args)
 {
-	return "hola";
+	string balance = find(args[0]);//funcion que estaban haciendo, como va a funcionar?
+	//double aux = id_balance.balance;// paso solo el user a find y no find hasheado
+	return balance;
+	//verificar el error de finduser
 }
 
 string cmdBlock(Array <string> args)
 {
-	return "hola";
+	//funcion find, le tiro el id y me devuelve blocl
+	return find(args[0]);
 }
 
 string cmdTxn(Array <string> args)
 {
+	
 	return "hola";
 }
 
 string cmdLoad(Array <string> args)
 {
-	return "hola";
+	ifs.open(args[0].c_str(), ios::in);
+	iss = &ifs;
+	if (!iss->good()) {
+	cerr << "cannot open "
+			<< args[0]
+			<< "."
+			<< endl;
+	exit(1);
+	}
+	algochain.clear();//
+	if(setAlgochainFromFile(iss)==false)
+	{
+		cerr << "ERROR: no se pudo cargar el archivo "
+		<< endl;
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	return sha256(sha256(aux.getBlockAsString()));
 }
 
 string cmdSave(Array <string> args)
 {
+	ofs.open(args[0].c_str(), ios::out);
+	oss = &ofs;
+	if (!oss->good()) 
+	{
+		cerr << "cannot open "
+		     << arg
+		     << "."
+		     << endl;
+		exit(1);		// EXIT: Terminación del programa en su totalidad
+	}
+	else if (oss->bad()) 
+	{
+		cerr << "cannot write to output stream."
+		     << endl;
+		exit(1);
+	}
+	string algochain_string = printAlgochain(algochain);
+	*oss << algochain_string;
 	return "hola";
 }
 
