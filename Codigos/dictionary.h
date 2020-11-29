@@ -227,6 +227,7 @@ string cmdLoad(Array <string> args)
 			<< endl;
 	exit(1);
 	}
+	algochain.clear();//
 	if(setAlgochainFromFile(iss)==false)
 	{
 		cerr << "ERROR: no se pudo cargar el archivo "

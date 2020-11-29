@@ -95,8 +95,14 @@ bool setAlgochainFromFile( istream *iss)
 			str=str_aux;
 			break;
 		}
+		else
+		{
+			return false;
+		}
+		
 
 	}
+	return true;
 	
 }
 

@@ -17,7 +17,7 @@ using namespace std;
 
 int main(int argc, char * const argv[])
 {
-	// string str = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+	string str = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 	cmdline cmdl(options);	// Objeto con parametro tipo option_t (struct) declarado globalmente. Ver línea 51 main.cc
 	cmdl.parse(argc, argv); // Metodo de parseo de la clase cmdline
 
