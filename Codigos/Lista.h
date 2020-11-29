@@ -41,7 +41,7 @@ class list
                     // Si la lista esta vacia max_size=0
     public:
     list(); //Constructor basico
-    list(const list& L); //Constructor en base a otra list.
+    //list(const list& L); //Constructor en base a otra list.
     ~list(); //Destructor
     void append(const T& t); //Agregar nodo al final de la list.
     void insert(const T& t); //Agregar nodo al principio de la list.
@@ -65,54 +65,55 @@ class list
 	}
     T getFirstNode();
     T getLastNode();
+    list const &operator=(list const &);
 };
 
 
 template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
-template<typename T>
-list<T>::list(const list& L)
-{
-    node* prev_;
-    node* next_;
-    size_t i;
+// template<typename T>
+// list<T>::list(const list& L)
+// {
+//     node* prev_;
+//     node* next_;
+//     size_t i;
 
-    if(L.empty())
-    {
-        this->max_size=0;
-        this->first=NULL;
-        this->last=NULL;
-    }
-    else
-    {
-        this->first=L->first;
-        this->last=L->last;
+//     if(L.empty())
+//     {
+//         this->max_size=0;
+//         this->first=NULL;
+//         this->last=NULL;
+//     }
+//     else
+//     {
+//         this->first=L->first;
+//         this->last=L->last;
 
-        next_=L->first;
-        prev_=L->last;
-        for(size_t i=1; i<=floor(L->max_size)/2;i++)
-        {    
-            node* iter_1=new node(next_->data);
-            iter_1=next_;
-            next_=iter_1->next;
-            next_->prev=iter_1;
+//         next_=L->first;
+//         prev_=L->last;
+//         for(size_t i=1; i<=floor(L->max_size)/2;i++)
+//         {    
+//             node* iter_1=new node(next_->data);
+//             iter_1=next_;
+//             next_=iter_1->next;
+//             next_->prev=iter_1;
 
-            node* iter_2=new node(prev_->data);
-            iter_2=prev_;
-            prev_=iter_2->prev;
-            prev_->next=iter_2;
-        }
-        if((L->max_size)%2) //En este punto next->next=prev_->prev
-        {
-            node* iter_1=new node(next_->next->data);
-            iter_1=next_;
-            next_=iter_1->next;
-            next_->prev=iter_1;
-        } 
-        this->max_size=L->max_size;
-    }
-}
+//             node* iter_2=new node(prev_->data);
+//             iter_2=prev_;
+//             prev_=iter_2->prev;
+//             prev_->next=iter_2;
+//         }
+//         if((L->max_size)%2) //En este punto next->next=prev_->prev
+//         {
+//             node* iter_1=new node(next_->next->data);
+//             iter_1=next_;
+//             next_=iter_1->next;
+//             next_->prev=iter_1;
+//         } 
+//         this->max_size=L->max_size;
+//     }
+// }
 
 template<typename T>
 bool list<T>::empty()
@@ -374,9 +375,48 @@ T list<T>::getFirstNode()
 template<typename T>
 T list<T>::getLastNode()
 {
-    node *aux = last;
-    T aux2 = aux->getData();
-    return aux2;
+    cout << "carla es capa" << endl;
+
+    
+    return this->first->data;
+}
+
+
+template<typename T>
+list<T> const &list<T>::operator=(list const &orig)
+{
+	node *iter;
+	node *sig_aux;
+	node *prev_aux;
+
+	if (this != &orig)
+	{
+		for (iter = first; iter != 0; )
+		{
+			sig_aux = iter->next;
+			delete iter;
+			iter = sig_aux;	
+		}
+
+		first = 0;
+		last = 0;
+
+		for (iter = orig.first, prev_aux = 0; iter != 0; iter = iter->next)
+		{
+			node *new_node = new node(iter->data);
+			new_node->prev = prev_aux;
+			new_node->next = 0;
+			if (prev_aux != 0)
+				prev_aux->next = new_node;
+			if (first == 0)
+				first = new_node;
+			prev_aux = new_node;
+		}
+		last = prev_aux;
+		max_size = orig.max_size;
+	}
+
+	return *this;
 }
 
 #endif // _LIST_H_
