@@ -15,6 +15,8 @@ static void opt_output(string const &);
 static void opt_factor(string const &);
 static void opt_help(string const &);
 
+block mempool;
+list <block> algochain;
 // Tabla de opciones de línea de comando. El formato de la tabla
 // consta de un elemento por cada opción a definir. A su vez, en
 // cada entrada de la tabla tendremos:

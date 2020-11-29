@@ -12,6 +12,7 @@
 #include "block.h"
 #include "sha256.h"
 #include "Lista.h"
+#include "main.h"
 
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para definir las referencias de comandos
@@ -40,7 +41,7 @@
 //----------------------------------------------VARIABLES GLOBALES-----------------------------------------
 using namespace std;
 
-block mempool;
+
 
 //-----------------------------------------------PUNTEROS A FUNCION ---------------------------------------
 //Los punteros a funcion ejecutan el comando ingresado y devuelven lo especificado por el comando (como un 
