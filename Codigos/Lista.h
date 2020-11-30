@@ -41,7 +41,7 @@ class list
                     // Si la lista esta vacia max_size=0
     public:
     list(); //Constructor basico
-    //list(const list& L); //Constructor en base a otra list.
+    list(const list<T>& L); //Constructor en base a otra list.
     ~list(); //Destructor
     void append(const T& t); //Agregar nodo al final de la list.
     void insert(const T& t); //Agregar nodo al principio de la list.
@@ -73,7 +73,7 @@ template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
 template<typename T>
-list<T>::list(const list& L)
+list<T>::list(const list<T>& L)
 {
     node* prev_;
     node* next_;

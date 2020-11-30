@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char * const argv[])
 {
 	int a=9;
-	
+	a=8;
 	Array <string> args(1);
 	args[0]="algochain.txt";
 	list <block> algochain;
