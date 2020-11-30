@@ -399,7 +399,7 @@ string list<T>::findAttr(const string& ref,const string& d )
 {
     finder aux_finder;
     aux_finder=finderParse(ref);
-    return aux_finder(d,(this->data).to_string());
+    return aux_finder(d,(this->first->data).toString());
 }
 
 

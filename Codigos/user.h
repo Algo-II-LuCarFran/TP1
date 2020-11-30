@@ -21,6 +21,8 @@ public:
 	void setBalance(const double &);
 	void setTransactions(const bdy &);
 	void show(ostream&);
+	
+	string toString();
 	friend ostream& operator<<(ostream& oss, user& usr) 
 	{
 		usr.show(oss);
@@ -67,5 +69,12 @@ void user::show(ostream& oss)
 	oss << balance << endl;
 	
 	oss << transactions;
+}
+
+string user::toString()
+{
+    ostringstream ss;
+    ss << this;
+    return ss.str();
 }
 #endif //_USER_H_
