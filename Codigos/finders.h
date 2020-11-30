@@ -17,34 +17,32 @@
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
-typedef string (*finder)(string d); //Buscan en un bloque dado el value del usuario d
+typedef string (*finder)(string d, block b); //Buscan en un bloque "b" el dato "d"
 
 
 //Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
-string finderUser(string d);
+string findBalance(string d, block b);
 
-
-string finderUser(string d)
+string findBalance(string d, block b)
 {
     //Se recorren todos los outputs de todas las transacciones realizadas buscando
     //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
 
     //Es necesario implementar los getters en Block.h
-    //Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
-    //y getAddr()
     string result;
 
     string d_hash=sha256(d);
     outpt aux;
-    for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
-    {
-        for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
-        {
-            aux=this->getBody().getTxns()[i].getTxOut()[j];
-            if(aux.addr==d_hash)
-                return aux.getValueAsString();
-        }
-    }
+
+
+
+    
+    // for(size_t j=b.getBody().getTxns()[i].getNTxOut();j>=0;j--)
+    // {
+    //     aux=b.getBody().getTxns()[i].getTxOut()[j];
+    //     if(aux.addr==d_hash)
+    //         return aux.getValueAsString();
+    // }
     return "";
 }
 

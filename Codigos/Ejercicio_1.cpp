@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Lista.h"
 #include "Array.h"
+#include "block.h"
 using namespace std;
 
 // void testMultipleInstantiationArray()
@@ -69,20 +70,35 @@ using namespace std;
 //     cout<<"El valor "<< f <<" esta en la lista"<<endl;
 // }
 
+// void testGetNode()
+// {
+//     list <string> L;
+//     L.append("Carla");
+//     L.append("Carlashiam");
+//     L.append("Franashiam");
+//     string a,b;
+//     a=L.getFirstNode();
+//     b=L.getLastNode();
+//     cout<<L<<endl;
+//     cout<<"El primer y ultimo dato son: "<<endl;
+//     cout<<a<<"\n"<<b<<endl;
+// }
+    
 void testGetNode()
 {
-    list <string> L;
-    L.append("Carla");
-    L.append("Carlashiam");
-    L.append("Franashiam");
-    string a,b;
+    list <block> L;
+    block bloque_1,bloque_2;
+
+    block bloque_3,bloque_4;
+    L.append(bloque_1);
+    L.append(bloque_2);
+
     a=L.getFirstNode();
     b=L.getLastNode();
     cout<<L<<endl;
     cout<<"El primer y ultimo dato son: "<<endl;
     cout<<a<<"\n"<<b<<endl;
 }
-    
 
 // void testListFindwithin()
 // {
