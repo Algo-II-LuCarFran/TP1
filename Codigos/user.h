@@ -1,25 +1,25 @@
 #ifndef _USER_H_
 #define _USER_H_
 
-#include "Array.h"
 #include "block.h"
+#include "Lista.h"
 
 class user
 {
 	string name;
 	double balance;
-	bdy transactions;
+	list<txn> transactions;
 public:
 	user();
 	user(string);
 	~user();
 	string getName();
 	double getBalance();
-	const bdy& getTransactions();
+	list<txn> getTransactions();
 
 	void setName(const string &);
 	void setBalance(const double &);
-	void setTransactions(const bdy &);
+	void setTransactions(const list<txn> &);
 	void show(ostream&);
 	
 	string toString();
@@ -43,22 +43,24 @@ user::~user()
 user::user(string str_user)
 {
 	istringstream ss(str_user);
-	string balance_str;
+	string str;
 
 	getline(ss, name, '\n');
-	getline(ss, balance_str, '\n');
-	balance = stod(balance_str);
-
-	transactions.setTxns(&ss);
+	getline(ss, str, '\n');
+	balance = stod(str);
+	getline(ss, str, '\n');
 }
 
-string user::getName(){return name;}
+string user::getName()
+{
+	return name;
+}
 double user::getBalance(){return balance;}
-const bdy & user::getTransactions(){return transactions;}
+list<txn>& user::getTransactions(){return transactions;}
 
 void user::setName(const string & str){name = str;}
 void user::setBalance(const double & n){balance = n;}
-void user::setTransactions(const bdy & body){transactions = body;}
+void user::setTransactions(const list<txn> & d){transactions = d;}
 
 void user::show(ostream& oss)
 {
@@ -74,7 +76,7 @@ void user::show(ostream& oss)
 string user::toString()
 {
     ostringstream ss;
-    ss << this;
+    ss << *this;
     return ss.str();
 }
 #endif //_USER_H_
