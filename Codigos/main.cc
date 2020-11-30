@@ -29,8 +29,8 @@ string cmdSave(Array <string> args, list <block> & algochain);
 
 int main()
 {
-	int a=9;
-	a=8;
+	size_t a=9;
+	a=9-8;
 	Array <string> args(1);
 	args[0]="algochain.txt";
 	list <block> algochain;
@@ -59,9 +59,6 @@ string cmdSave(Array <string> args, list <block> & algochain)
 		     << endl;
 		exit(1);
 	}
-	// block aux ;
-	// aux = algochain.getFirstNode();
-	// cout << "el primer nodo " <<aux.getBlockAsString() << endl;
 	*oss << algochain;
 	return "Carga realizada con exito";
 }
