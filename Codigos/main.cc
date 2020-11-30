@@ -26,7 +26,7 @@ int main(int argc, char * const argv[])
 	Array <string> args(1);
 	args[0]="algochain.txt";
 	list <block> algochain;
-	string str = cmdLoad(args,algochain);
+	string str = cmdLoad(args);//,algochain);
 	cout << str << endl;
 }
 

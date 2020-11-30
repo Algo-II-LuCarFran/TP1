@@ -276,7 +276,7 @@ string cmdLoad(Array <string> args)
 		list <block> empty_list;
 		algochain = empty_list;//
 	}
-	if(setAlgochainFromFile(iss,algochain)==false)
+	if(setAlgochainFromFile(iss)==false)
 	{
 		cerr << "ERROR: no se pudo cargar el archivo "
 		<< endl;
