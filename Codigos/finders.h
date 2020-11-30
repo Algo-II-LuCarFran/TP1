@@ -1,9 +1,11 @@
 #ifndef _FINDERS_H_
-#include _FINDERS_H_
+#define _FINDERS_H_
 #include "sha256.h"
 #include <string.h>
 #include <cstring>
+#include <iostream>
 
+using namespace std;
 
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para contar la cantidad de finders que se tiene. Se utiliza para encontrar el que se necesita en 
@@ -11,19 +13,21 @@
 #define MAXFINDER 1
 
 //Para definir las referencias de busqueda
-#define STR_VALUE "value" 
+#define STR_BALANCE "balance" 
+#define FINDNT "FINDNT"
 
 
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
-typedef string (*finder)(string d, block b); //Buscan en un bloque "b" el dato "d"
+template <typename T>
+typedef string (*finder)(string d, <T> t); //Buscan en un bloque "b" el dato "d"
 
 
 //Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
-string findBalance(string d, block b);
+string findBalance(string d, <user> b);
 
-string findBalance(string d, block b)
+string findBalance(string d, user b)
 {
     //Se recorren todos los outputs de todas las transacciones realizadas buscando
     //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
@@ -31,19 +35,16 @@ string findBalance(string d, block b)
     //Es necesario implementar los getters en Block.h
     string result;
 
-    string d_hash=sha256(d);
-    outpt aux;
-
-
-
-    
-    // for(size_t j=b.getBody().getTxns()[i].getNTxOut();j>=0;j--)
+    if(d==b.name)
+        return to_string(b.balance);
+    // outpt aux_txn;
+    // for(size_t j=b.transactions[i].getNTxOut();j>=0;j--)
     // {
-    //     aux=b.getBody().getTxns()[i].getTxOut()[j];
+    //     aux=b.transactions[i].getTxOut()[j];
     //     if(aux.addr==d_hash)
     //         return aux.getValueAsString();
     // }
-    return "";
+    return FINDNT;
 }
 
 //---------------------------------------------DICCIONARIOS-----------------------------------------------
@@ -59,8 +60,7 @@ struct finder_option_t
 };
 
 static finder_option_t dictionary_finder[] = {
-	{STR_ISTR_VALUE, finderUser},
-
+    {STR_BALANCE, findBalance}
 };
 
 p_func finderParse( string ref)

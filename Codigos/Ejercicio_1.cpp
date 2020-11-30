@@ -1,7 +1,10 @@
 #include <iostream>
 #include "Lista.h"
-#include "Array.h"
-#include "block.h"
+#include "main.h" //ESTO NO VA
+// #include "Array.h"
+// #include "block.h"
+#include <string.h>
+#include <cstring>
 using namespace std;
 
 // void testMultipleInstantiationArray()
@@ -84,21 +87,21 @@ using namespace std;
 //     cout<<a<<"\n"<<b<<endl;
 // }
     
-void testGetNode()
-{
-    list <block> L;
-    block bloque_1,bloque_2;
+// void testGetNode()
+// {
+//     list <block> L;
+//     block bloque_1,bloque_2;
 
-    block bloque_3,bloque_4;
-    L.append(bloque_1);
-    L.append(bloque_2);
+//     block bloque_3,bloque_4;
+//     L.append(bloque_1);
+//     L.append(bloque_2);
 
-    a=L.getFirstNode();
-    b=L.getLastNode();
-    cout<<L<<endl;
-    cout<<"El primer y ultimo dato son: "<<endl;
-    cout<<a<<"\n"<<b<<endl;
-}
+//     a=L.getFirstNode();
+//     b=L.getLastNode();
+//     cout<<L<<endl;
+//     cout<<"El primer y ultimo dato son: "<<endl;
+//     cout<<a<<"\n"<<b<<endl;
+// }
 
 // void testListFindwithin()
 // {
@@ -120,9 +123,35 @@ void testGetNode()
 //     cout<<"El arreglo original es \n"<<arr<<endl;
 //     cout<<"El subarreglo queda \n"<<sub_arr<<endl;
 // }
+// void testDoubleConvertion()
+// {
+//     string str;
+//     double num,result;
+
+//     num= 253.48;
+//     str=to_string(num);
+//     result=stod(str);
+
+//     cout<<"Este es el double original \n"<<num<<endl;
+//     cout<<"Esta es la conversion a string \n"<<str<<endl;
+//     cout<<"Este es el double convertido \n"<<result<<endl;
+
+// }
+
+
+void testFinder()
+{
+    string result;
+    user aux;
+    aux.balance=256.75;
+    aux.name="Fran";
+    users.append(aux);
+    result=users.find("balance","Fran");
+    cout<<"El resultado es: \n"<< result<< endl;
+
+}
 
 int main()
 {
-    testGetNode();
     return 0;
 }

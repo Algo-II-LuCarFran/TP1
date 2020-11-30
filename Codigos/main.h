@@ -21,7 +21,7 @@ list <block> algochain;
 
 struct user
 {
-	string addr;
+	string name;
 	double balance;
 	list<txn> transactions; 
 };

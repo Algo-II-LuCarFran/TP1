@@ -10,7 +10,9 @@
 #define _LIST_H_
 #include <iostream>
 #include <math.h> //Necesaria para el uso de floor().
-// #include "finders.h" //Necesaria para el uso de find().
+#include "finders.h" //Necesaria para el uso de find().
+#include <string.h>
+#include <cstring>
 using namespace std;
 
 template<class T>
@@ -322,13 +324,74 @@ T list<T>::find(const T& t)
     // cout<<"No lo encontre, devuelvo NULL"<<endl;
     return NULL; //Si se hubo algun error se devuelve NULL.
 }
-// template<typename T>
-// string list<T>::find(const string& ref,const string& d )
-// {
-//     finder aux_finder;
-//     aux_finder=finderParse(ref);
-//     return aux_finder(d);
-// }
+template<typename T>
+string list<T>::find(const string& ref,const string& d )
+{
+    finder aux_finder;
+    aux_finder=finderParse(ref);
+    string result;
+    node* prev_;
+    node* aux;
+
+
+    if(this->empty())
+    {    
+        // cout<<"La lista esta vacia"<<endl;
+        return FINDNT;
+    }
+    else
+    {
+        aux=this->last;
+        aux->next=this->last->next;
+        aux->prev=this->last->prev;
+
+        if((result=aux_finder(d,aux->data))!=FINDNT) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
+        {   
+            // cout<<"Encontre el dato, es "<<aux->data<<endl;
+            // *data_pointer=aux->data; 
+            // cout<<"El valor del contenido del puntero que se devuelve es: "<<*data_pointer<<endl;
+            // cout<<"El valor del puntero es "<< data_pointer<<endl;
+            return result;
+        }
+
+        for(size_t i=this->max_size; i>=1;i--)
+        {   
+            // cout<<"Llego a la "<<this->max_size-i+1<<"esima iteracion del for"<<endl;
+            //Se fija el nodo anterior correctamente
+            prev_=aux->prev;
+            //Se comprueba que no se haya llegado al ppio de la lista
+            if(!prev_)
+            {   
+                // cout<<"Llegue al principio de la lista. No encontre el dato. Devuelvo NULL"<<endl; 
+                return FINDNT;
+            }
+
+            prev_->next=aux;
+            prev_->prev=aux->prev->prev; 
+
+            // cout<<"El valor del dato actual es "<<aux->data<<endl;
+            // cout<<"El valor del dato actual de prev_ es "<<prev_->data<<endl;
+
+            // cout<<"El valor del dato previo es "<<aux->prev->data<<endl;
+            // cout<<"El valor del dato previo de prev_ es "<<prev_->prev->data<<endl;
+            //Se comprueba si el dato buscado está en nodo anterior
+            if((result=aux_finder(d,prev_->data))!=FINDNT)
+            {
+                // cout<<"Encontre el dato, es "<<prev_->data<<endl;
+                // cout<<"Data_pointer tiene cargado: "<<data_pointer<<endl;
+                // cout<<"Data_pointer tiene adentro: "<<*data_pointer<<endl;
+                // (*data_pointer)=prev_->data; 
+                // cout<<"Pude asignarle algo a data_pointer: "<< *data_pointer <<endl;
+                return result;
+            }
+            //Se retrocede en la lista
+            aux=prev_;
+            aux->next=prev_->next;
+            aux->prev=prev_->prev;
+        } 
+    }
+    return FINDNT;
+}
 
 
 template<typename T>
