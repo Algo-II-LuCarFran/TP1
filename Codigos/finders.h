@@ -2,6 +2,7 @@
 #define _FINDERS_H_
 
 #include "sha256.h"
+#include "global.h"
 #include "block.h"
 #include <string.h>
 #include <cstring>
@@ -13,21 +14,23 @@ using namespace std;
 //cada situacion
 #define MAXFINDER 1
 
+
+#define FINDNT "Findnt" 
 //Para definir las referencias de busqueda
-#define STR_VALUE "value" 
+#define STR_BALANCE "balance" 
 
 
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
-typedef string (*finder)(string d); //Buscan en un bloque dado el value del usuario d
+typedef string (*finder)(string d,string str); //Buscan en un la string str dato d
 
 
 //Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
-string finderUser(string d);
 
+string findBalance(string d, string str);
 
-string finderUser(string d)
+string findBalance(string d, string str)
 {
     //Se recorren todos los outputs de todas las transacciones realizadas buscando
     //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
@@ -35,9 +38,12 @@ string finderUser(string d)
     //Es necesario implementar los getters en Block.h
     //Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
     //y getAddr()
-
-    // string result;
-
+    user aux_user(str);
+    string result;
+    if(d==aux_user.name)
+        return to_string(aux_user.balance);
+    else
+        return FINDNT;
     // string d_hash=sha256(d);
     // outpt aux;
     // for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
@@ -49,7 +55,6 @@ string finderUser(string d)
     //             return aux.getValueAsString();
     //     }
     // }
-    return "";
 }
 
 //---------------------------------------------DICCIONARIOS-----------------------------------------------
@@ -65,8 +70,7 @@ struct finder_option_t
 };
 
 static finder_option_t dictionary_finder[] = {
-	{STR_VALUE, finderUser},
-
+	{STR_BALANCE, findBalance},
 };
 
 finder finderParse( string ref)

@@ -1,8 +1,12 @@
-#ifndef _GLOBAL_H_
-#define _GLOBAL_H_
+// #ifndef _GLOBAL_H_
+// #define _GLOBAL_H_
 
-#include "block.h"
+// #include "block.h"
+// #include "Lista.h"
+// #include "user.h"
 
-extern block mempool;
+// block mempool;
+// list <block> algochain;
+// list <user> users;
 
-#endif //_GLOBAL_H
+// #endif //_GLOBAL_H
