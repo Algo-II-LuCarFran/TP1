@@ -22,7 +22,7 @@ public:
 	void setTransactions(const bdy &);
 	void show(ostream&);
 	
-	string toString()
+	string toString();
 	friend ostream& operator<<(ostream& oss, user& usr) 
 	{
 		usr.show(oss);
