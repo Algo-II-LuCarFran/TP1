@@ -67,7 +67,7 @@ static finder_option_t dictionary_finder[] = {
     {STR_BALANCE, findBalance}
 };
 
-p_func finderParse( string ref)
+finder finderParse( string ref)
 {
 	string aux;
 	int i = 0;

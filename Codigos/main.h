@@ -29,6 +29,30 @@ struct user
 };
 
 list <user> users;
+
+string findBalance(string d)
+// , user b)
+{
+    //Se recorren todos los outputs de todas las transacciones realizadas buscando
+    //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
+
+    //Es necesario implementar los getters en Block.h
+    string result;
+
+    if(d==users.name)
+        return to_string(users.balance);
+    // outpt aux_txn;
+    // for(size_t j=b.transactions[i].getNTxOut();j>=0;j--)
+    // {
+    //     aux=b.transactions[i].getTxOut()[j];
+    //     if(aux.addr==d_hash)
+    //         return aux.getValueAsString();
+    // }
+    return FINDNT;
+}
+
+
+
 // Tabla de opciones de línea de comando. El formato de la tabla
 // consta de un elemento por cada opción a definir. A su vez, en
 // cada entrada de la tabla tendremos:

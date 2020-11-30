@@ -13,7 +13,11 @@
 #include "finders.h" //Necesaria para el uso de find().
 #include <string.h>
 #include <cstring>
+
+#define FINDNT "FINDNT"
+
 using namespace std;
+
 
 template<class T>
 class list
@@ -327,8 +331,9 @@ T list<T>::find(const T& t)
 template<typename T>
 string list<T>::find(const string& ref,const string& d )
 {
-    finder aux_finder;
-    aux_finder=finderParse(ref);
+    // finder aux_finder;
+    // aux_finder=finderParse(ref);
+
     string result;
     node* prev_;
     node* aux;
@@ -345,7 +350,7 @@ string list<T>::find(const string& ref,const string& d )
         aux->next=this->last->next;
         aux->prev=this->last->prev;
 
-        if((result=aux_finder(d,aux->data))!=FINDNT) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
+        if((result=findBalance(d)!=FINDNT) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
         {   
             // cout<<"Encontre el dato, es "<<aux->data<<endl;
             // *data_pointer=aux->data; 
