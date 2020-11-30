@@ -6,7 +6,7 @@ all: algochain
 algochain: main.o cmdline.o sha256.o
 		$(CC) $(CCFLAGS) -o algochain main.o cmdline.o sha256.o
 
-main.o: main.cc cmdline.h sha256.h Array.h block.h main.h
+main.o: main.cc cmdline.h sha256.h Array.h block.h main.h Lista.h dictionary.h
 		$(CC) $(CCFLAGS) -c main.cc -o main.o 
 
 cmdline.o: cmdline.cc cmdline.h

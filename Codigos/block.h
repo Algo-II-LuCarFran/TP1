@@ -321,16 +321,16 @@ string txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del 
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
-		// if(isHash(aux_s)==true)
-		// {
-		// 	return aux_s;
-		// }
+		if(isHash(aux_s)==true)
+		{
+			return aux_s;
+		}
 		inpt in(aux_s);
 		if(isError(in.getAddr())==false)
 			return "ERROR: addres invalida";
 		tx_in[i] = in;
 	}
-	return "\0";
+	return "OK";
 }
 
 bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
@@ -367,7 +367,6 @@ bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 {
-	cout << "settxout" << endl;
 	string aux_s;
 	for (size_t i = 0; i < n; i++)
 	{
@@ -381,7 +380,7 @@ string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del 
 			return "ERROR: addres invalida";
 		tx_out[i] = out;
 	}
-	return "\0";
+	return "OK";
 }
 
 // string txn::setTxOutFile(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
@@ -533,13 +532,11 @@ void bdy::setTxns(Array <txn> n)
 
 string bdy::setTxns(istream *iss)
 {
-	cout << "entre a settxns" << endl;
 	string str,error_string;
 	size_t aux, i = 0;
-	bool err;
+	bool err=false;
 	while(getline(*iss, str, '\n'))
 	{
-		cout<< "entre al while " << str<< endl;
 		if(isHash(str)==true || str == "")
 		{
 			return str;
@@ -552,53 +549,47 @@ string bdy::setTxns(istream *iss)
 		// Se verifica n_tx_in
 		if(isNumber<size_t>(str)==0 || (str[0]) == '\0')
 		{
-			cout<< "ntxin no es un numero" << endl;
 			err=true;
 			break;
 		}
+	
 
 		aux = stoi(str);
 		txns[i].setNTxIn(aux);
-		cout << "guarde ntxin" << endl;
 		// Se verifican las entradas
 
-		if(txns[i].setTxIn(aux, iss)!="\0")
+		if(txns[i].setTxIn(aux, iss)!="OK")
 		{
-			cout<<"error enn txin"<< endl;
 			err=true;
 			break;
 		}
-		cout<< "guarde txin"<< endl;
+		
+
 		// Se verifica n_tx_out
 		getline(*iss, str, '\n');
-
-		cout<< str << endl;
 
 		if(isNumber<size_t>(str)==0 || (str[0]) == '\0')
 		{
 			err=true;
 			break;
 		}
+		
 		aux = stoi(str);
 		txns[i].setNTxOut(aux);
 
-		cout<< "guarde ntxout "<< aux <<  endl;
 		// Se verifican las salidas
 		str=txns[i].setTxOut(aux, iss);
-		cout<< "guarde txout "<< str <<  endl;
+		
 		if(isHash(str)==true)
 		{
-			cout<< "es un hash" << str << endl;
 			return str;
 		}
-		else if(str=="\0")
+		else if(str=="OK")
 		{
-			cout << "es barra cero" << str << endl;
 			return str;
 		}
 		else 
 		{
-			cout << "ninguna de las anteriores" << endl;
 			err=true;
 			break;
 		}
@@ -620,7 +611,7 @@ string bdy::setTxns(istream *iss)
 	{
 		return str;
 	}
-	return "\0";
+	return "OK";
 }
 
 string bdy::getBodyAsString()
@@ -899,28 +890,26 @@ string block::setBody(istream *iss)
 {
 	string str;
 	getline(*iss, str, '\n');
-	cout<< " antes de guardar str en txn count "<< str<<endl;
 	size_t txn_count = stoi(str);
 	//validar que sea numero
 	body.setTxnCount(txn_count);
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
 	str=body.setTxns(iss);
-	cout <<  "volvi del body.settxns con " << str<<endl;
 	if (isHash(str)==true)
 	{
 		return str;
-	}
+	}	
 	else if (str=="")
 	{
 		return str;
 	}	
-	else if(str!="\0")
+	else if(str!="OK")
 	{
-	   cerr<<str<<endl;
+		cerr<< "ERROR: set txns fallo";
 	   exit(1);
 	}
-	return "\0";
+	return "OK";
 }
 
 block::block()

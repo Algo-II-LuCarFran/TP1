@@ -72,48 +72,48 @@ class list
 template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
-// template<typename T>
-// list<T>::list(const list& L)
-// {
-//     node* prev_;
-//     node* next_;
-//     size_t i;
+template<typename T>
+list<T>::list(const list& L)
+{
+    node* prev_;
+    node* next_;
+    size_t i;
 
-//     if(L.empty())
-//     {
-//         this->max_size=0;
-//         this->first=NULL;
-//         this->last=NULL;
-//     }
-//     else
-//     {
-//         this->first=L->first;
-//         this->last=L->last;
+    if(L.empty())
+    {
+        this->max_size=0;
+        this->first=NULL;
+        this->last=NULL;
+    }
+    else
+    {
+        this->first=L->first;
+        this->last=L->last;
 
-//         next_=L->first;
-//         prev_=L->last;
-//         for(size_t i=1; i<=floor(L->max_size)/2;i++)
-//         {    
-//             node* iter_1=new node(next_->data);
-//             iter_1=next_;
-//             next_=iter_1->next;
-//             next_->prev=iter_1;
+        next_=L->first;
+        prev_=L->last;
+        for(size_t i=1; i<=floor(L->max_size)/2;i++)
+        {    
+            node* iter_1=new node(next_->data);
+            iter_1=next_;
+            next_=iter_1->next;
+            next_->prev=iter_1;
 
-//             node* iter_2=new node(prev_->data);
-//             iter_2=prev_;
-//             prev_=iter_2->prev;
-//             prev_->next=iter_2;
-//         }
-//         if((L->max_size)%2) //En este punto next->next=prev_->prev
-//         {
-//             node* iter_1=new node(next_->next->data);
-//             iter_1=next_;
-//             next_=iter_1->next;
-//             next_->prev=iter_1;
-//         } 
-//         this->max_size=L->max_size;
-//     }
-// }
+            node* iter_2=new node(prev_->data);
+            iter_2=prev_;
+            prev_=iter_2->prev;
+            prev_->next=iter_2;
+        }
+        if((L->max_size)%2) //En este punto next->next=prev_->prev
+        {
+            node* iter_1=new node(next_->next->data);
+            iter_1=next_;
+            next_=iter_1->next;
+            next_->prev=iter_1;
+        } 
+        this->max_size=L->max_size;
+    }
+}
 
 template<typename T>
 bool list<T>::empty()
@@ -368,17 +368,13 @@ void list<T>::show(ostream& oss) {
 template<typename T>
 T list<T>::getFirstNode()
 {
-    node *aux = first;
-    T aux2 = aux->getData();
-    return aux2;
+    return this->first->data;
 }
+
 template<typename T>
 T list<T>::getLastNode()
 {
-    cout << "carla es capa" << endl;
-
-    
-    return this->first->data;
+    return this->last->data;
 }
 
 
