@@ -20,14 +20,18 @@ using namespace std;
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
-template <typename T>
-typedef string (*finder)(string d, <T> t); //Buscan en un bloque "b" el dato "d"
+
+// template <typename T>
+typedef string (*finder)(string d);
+// , <T> t); //Buscan en un bloque "b" el dato "d"
 
 
 //Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
-string findBalance(string d, <user> b);
+string findBalance(string d);
+// , <user> b);
 
-string findBalance(string d, user b)
+string findBalance(string d)
+// , user b)
 {
     //Se recorren todos los outputs de todas las transacciones realizadas buscando
     //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
@@ -35,8 +39,8 @@ string findBalance(string d, user b)
     //Es necesario implementar los getters en Block.h
     string result;
 
-    if(d==b.name)
-        return to_string(b.balance);
+    if(d==users.name)
+        return to_string(users.balance);
     // outpt aux_txn;
     // for(size_t j=b.transactions[i].getNTxOut();j>=0;j--)
     // {

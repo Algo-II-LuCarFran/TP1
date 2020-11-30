@@ -7,6 +7,8 @@
 #include <sstream>
 #include <cstdlib>
 #include "cmdline.h"
+#include "block.h"
+#include "Lista.h"
 
 using namespace std;
 

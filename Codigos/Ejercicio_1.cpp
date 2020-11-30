@@ -1,8 +1,8 @@
 #include <iostream>
 #include "Lista.h"
 #include "main.h" //ESTO NO VA
-// #include "Array.h"
-// #include "block.h"
+#include "Array.h"
+#include "block.h"
 #include <string.h>
 #include <cstring>
 using namespace std;
