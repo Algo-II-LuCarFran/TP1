@@ -136,7 +136,6 @@ string cmdInit(Array <string> args)
 	istringstream iss(STR_TXNing);
 
 	block genesis_block(NULL_HASH, bits, &iss);
-
 	return sha256(genesis_block.getBlockAsString());
 }
 

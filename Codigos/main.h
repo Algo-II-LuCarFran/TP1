@@ -17,7 +17,7 @@ static void opt_help(string const &);
 
 block mempool;
 list <block> algochain;
-list <user> users;
+
 
 struct user
 {
@@ -26,6 +26,7 @@ struct user
 	list<txn> transactions; 
 };
 
+list <user> users;
 // Tabla de opciones de línea de comando. El formato de la tabla
 // consta de un elemento por cada opción a definir. A su vez, en
 // cada entrada de la tabla tendremos:

@@ -116,7 +116,7 @@ void inpt::show(ostream& oss)
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 class outpt
 {
-	double value; //La  cantidad de Algocoins a transferir en este output
+	string value; //La  cantidad de Algocoins a transferir en este output
 	string addr; //La direccion de origen de los fondos (que debe coincidir con la direccion del output referenciado)
 
 	public:
@@ -125,7 +125,7 @@ class outpt
 	outpt(string&); //Creador mediante una string
 	~outpt( ); //Destructor
 	outpt & operator=(const outpt &);
-	double getValue();
+	string getValue();
 	string getAddr();
 	string getOutputAsString();
 	void show(ostream&);
@@ -165,7 +165,7 @@ outpt::outpt(string & str) //Creador mediante una string
 
 	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
 	{
-		this->value=stod(str_value);
+		this->value=str_value;
 		this->addr=str_addr;
 	}
 	else
@@ -176,7 +176,7 @@ outpt::outpt(string & str) //Creador mediante una string
 
 string outpt::getAddr(){return addr;}
 
-double outpt::getValue(){return value;}
+string outpt::getValue(){return value;}
 
 string outpt::getOutputAsString()
 {
@@ -184,13 +184,8 @@ string outpt::getOutputAsString()
 	string str_exact_precision;
 	string result;
 	ostringstream str_os;
-
-	size_t i;
-	aux=to_string(this->value);	
-	for(i=aux.length()-1; aux[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
-	str_exact_precision=aux.substr(0,i+1); //Se copia la sub cadena desdeada
-
-	result.append(str_exact_precision);
+	
+	result.append(this->value);
 	result.append(" ");
 	result.append((this->getAddr()));
 	return result;
@@ -198,18 +193,11 @@ string outpt::getOutputAsString()
 
 void outpt::show(ostream& oss)
 {
-	string aux;
-	string str_exact_precision;
-	aux=to_string(value);
-	size_t i;
-	for(i=aux.length()-1; aux[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
-	str_exact_precision=aux.substr(0,i+1); //Se copia la sub cadena desdeada
-
 	if(addr == "")
 	{
 		return ;
 	}
-	oss << str_exact_precision << " " << addr;
+	oss << value << " " << addr;
 }
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
