@@ -717,7 +717,15 @@ bool hdr::setPrevBlock(const string & str)//Se modifica el retorno del setter po
 }
 
 
-void hdr::setTxnsHash(const string & str){txns_hash = sha256(sha256(str));}
+void hdr::setTxnsHash(const string & str)
+{
+	if(isHash(str)==true)
+	{
+		txns_hash = str;
+	}
+	else
+		txns_hash = sha256(sha256(str));
+}
 
 
 void hdr::setBits(const size_t n){bits = n;}
