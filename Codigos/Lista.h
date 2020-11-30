@@ -11,13 +11,7 @@
 #include <iostream>
 #include <math.h> //Necesaria para el uso de floor().
 #include "finders.h" //Necesaria para el uso de find().
-#include <string.h>
-#include <cstring>
-
-#define FINDNT "FINDNT"
-
 using namespace std;
-
 
 template<class T>
 class list
@@ -63,23 +57,16 @@ class list
     bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
     size_t size(); //Obtiene el tamaño de la list
     // list const &operator=(const list& other_list);
-    T  getFirstNode();
-    T  getLastNode();
-    template <class TT>  friend ostream & operator<<(ostream & os,  list<TT> &L)//Operador de impresion de salida
-    {
-        node *aux = L.first;
-        while (aux)
-        {
-            os << aux->getData()<<endl;
-            aux = aux->getNext();
-        }
-        return os;
-    }
+	void show(ostream&);
+	friend ostream& operator<<(ostream& oss, list& l) 
+	{
+		l.show(oss);
+		return oss;
+	}
+    T getFirstNode();
+    T getLastNode();
 };
-template<typename T>
-T list<T>::getFirstNode(){return this->first->data;}
-template<typename T>
-T list<T>::getLastNode(){return this->last->data;}
+
 
 template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
@@ -173,7 +160,7 @@ list<T>::~list() //Verficar que elimine TODOS los nodos de la lista.
 }
 
 template<typename T>
-size_t list<T>::size(){return this->max_size;};
+size_t list<T>::size(){return this->max_size;}
 
 template<typename T>
 void list<T>::append(const T& t)
@@ -331,71 +318,9 @@ T list<T>::find(const T& t)
 template<typename T>
 string list<T>::find(const string& ref,const string& d )
 {
-    // finder aux_finder;
-    // aux_finder=finderParse(ref);
-
-    string result;
-    node* prev_;
-    node* aux;
-
-
-    if(this->empty())
-    {    
-        // cout<<"La lista esta vacia"<<endl;
-        return FINDNT;
-    }
-    else
-    {
-        aux=this->last;
-        aux->next=this->last->next;
-        aux->prev=this->last->prev;
-
-        if((result=findBalance(d)!=FINDNT) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
-        {   
-            // cout<<"Encontre el dato, es "<<aux->data<<endl;
-            // *data_pointer=aux->data; 
-            // cout<<"El valor del contenido del puntero que se devuelve es: "<<*data_pointer<<endl;
-            // cout<<"El valor del puntero es "<< data_pointer<<endl;
-            return result;
-        }
-
-        for(size_t i=this->max_size; i>=1;i--)
-        {   
-            // cout<<"Llego a la "<<this->max_size-i+1<<"esima iteracion del for"<<endl;
-            //Se fija el nodo anterior correctamente
-            prev_=aux->prev;
-            //Se comprueba que no se haya llegado al ppio de la lista
-            if(!prev_)
-            {   
-                // cout<<"Llegue al principio de la lista. No encontre el dato. Devuelvo NULL"<<endl; 
-                return FINDNT;
-            }
-
-            prev_->next=aux;
-            prev_->prev=aux->prev->prev; 
-
-            // cout<<"El valor del dato actual es "<<aux->data<<endl;
-            // cout<<"El valor del dato actual de prev_ es "<<prev_->data<<endl;
-
-            // cout<<"El valor del dato previo es "<<aux->prev->data<<endl;
-            // cout<<"El valor del dato previo de prev_ es "<<prev_->prev->data<<endl;
-            //Se comprueba si el dato buscado está en nodo anterior
-            if((result=aux_finder(d,prev_->data))!=FINDNT)
-            {
-                // cout<<"Encontre el dato, es "<<prev_->data<<endl;
-                // cout<<"Data_pointer tiene cargado: "<<data_pointer<<endl;
-                // cout<<"Data_pointer tiene adentro: "<<*data_pointer<<endl;
-                // (*data_pointer)=prev_->data; 
-                // cout<<"Pude asignarle algo a data_pointer: "<< *data_pointer <<endl;
-                return result;
-            }
-            //Se retrocede en la lista
-            aux=prev_;
-            aux->next=prev_->next;
-            aux->prev=prev_->prev;
-        } 
-    }
-    return FINDNT;
+    finder aux_finder;
+    aux_finder=finderParse(ref);
+    return aux_finder(d);
 }
 
 
@@ -427,6 +352,31 @@ bool list<T>::removeElement(const T& t)
     return false; //Si no lo encontro en el for es porque no esta en la lista
 }
 
-
+template <typename T>
+void list<T>::show(ostream& oss) {
+	if(first == NULL){
+		oss << "NULL";
+	}
+	node* now = first;
+	while(now->next != NULL){
+		oss << now->data << endl;
+		now = now->next;
+	}
+	oss << now->data << endl;
+}
+template<typename T>
+T list<T>::getFirstNode()
+{
+    node *aux = first;
+    T aux2 = aux->getData();
+    return aux2;
+}
+template<typename T>
+T list<T>::getLastNode()
+{
+    node *aux = last;
+    T aux2 = aux->getData();
+    return aux2;
+}
 
 #endif // _LIST_H_

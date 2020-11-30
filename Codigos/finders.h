@@ -1,9 +1,10 @@
 #ifndef _FINDERS_H_
 #define _FINDERS_H_
+
 #include "sha256.h"
+#include "block.h"
 #include <string.h>
 #include <cstring>
-#include <iostream>
 
 using namespace std;
 
@@ -13,42 +14,42 @@ using namespace std;
 #define MAXFINDER 1
 
 //Para definir las referencias de busqueda
-#define STR_BALANCE "balance" 
-#define FINDNT "FINDNT"
+#define STR_VALUE "value" 
 
 
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
-
-// template <typename T>
-typedef string (*finder)(string d);
-// , <T> t); //Buscan en un bloque "b" el dato "d"
+typedef string (*finder)(string d); //Buscan en un bloque dado el value del usuario d
 
 
 //Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
-string findBalance(string d);
-// , <user> b);
+string finderUser(string d);
 
-string findBalance(string d)
-// , user b)
+
+string finderUser(string d)
 {
     //Se recorren todos los outputs de todas las transacciones realizadas buscando
     //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
 
     //Es necesario implementar los getters en Block.h
-    string result;
+    //Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
+    //y getAddr()
 
-    if(d==users.name)
-        return to_string(users.balance);
-    // outpt aux_txn;
-    // for(size_t j=b.transactions[i].getNTxOut();j>=0;j--)
+    // string result;
+
+    // string d_hash=sha256(d);
+    // outpt aux;
+    // for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
     // {
-    //     aux=b.transactions[i].getTxOut()[j];
-    //     if(aux.addr==d_hash)
-    //         return aux.getValueAsString();
+    //     for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
+    //     {
+    //         aux=this->getBody().getTxns()[i].getTxOut()[j];
+    //         if(aux.addr==d_hash)
+    //             return aux.getValueAsString();
+    //     }
     // }
-    return FINDNT;
+    return "";
 }
 
 //---------------------------------------------DICCIONARIOS-----------------------------------------------
@@ -64,7 +65,8 @@ struct finder_option_t
 };
 
 static finder_option_t dictionary_finder[] = {
-    {STR_BALANCE, findBalance}
+	{STR_VALUE, finderUser},
+
 };
 
 finder finderParse( string ref)
@@ -72,9 +74,9 @@ finder finderParse( string ref)
 	string aux;
 	int i = 0;
 
-	while(ref != dictionary_finder[i].reference && i < MAXCMD) i++;
+	while(ref != dictionary_finder[i].reference && i < MAXFINDER) i++;
 	
-	if(i == MAXCMD)
+	if(i == MAXFINDER)
 	{
 		cerr << "El finder no es valido" << endl;
 		exit(1);
