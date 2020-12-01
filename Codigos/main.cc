@@ -66,11 +66,11 @@ int main()
 
 	
 
-	// user carla(STR_TXNing);
-	// users.append(carla);
+	user carla(STR_TXNing);
+	users.append(carla);
 	// cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
 	// cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
-	// cout <<"La lista de users resulta \n" <<users<< endl;
+	cout <<"La lista de users resulta \n" <<users<< endl;
 
  	return 0;
 }

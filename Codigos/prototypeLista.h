@@ -54,6 +54,8 @@ class list
 	T getFirstNode();
 	T getLastNode();
 	list<T> const & operator=(list const &orig);
+	bool deleteFirstNode();
+	bool deleteLastNode();
 };
 
 #endif //_PROTOTYPELISTA_H_
