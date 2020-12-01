@@ -15,7 +15,7 @@ public:
 	~user();
 	string getName();
 	double getBalance();
-	list<txn> getTransactions();
+	list<txn>& getTransactions();
 
 	void setName(const string &);
 	void setBalance(const double &);

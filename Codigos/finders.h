@@ -34,7 +34,7 @@ string findTransactions(string d, string str)
 	string result, aux;
 	aux = aux_user.getName();
 	if(d == aux)
-		return (aux_user.getTransactions()).getBodyAsString();
+		return "LCAS SE LA COME";
 	else
 		return FINDNT;
 

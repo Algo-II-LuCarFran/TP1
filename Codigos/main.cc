@@ -3,14 +3,15 @@
 #include <sstream>
 #include <cstdlib>
 #include <iomanip>
+using namespace std;
 
+#include "Lista.h"
 #include "cmdline.h"
 #include "sha256.h"
 #include "block.h"
 #include "dictionary.h"
 #include "main.h"
 
-using namespace std;
 
 // agregar una variable global lista algochain static list<block> algochain;
 // static block mempool();
@@ -48,35 +49,36 @@ int main()
 	// L4.insert("la");
 	// L4.insert("come");
 	// cout<<L4;
-	string STR_TXNing;
-	STR_TXNing.append("lucas");
-	STR_TXNing.append("\n");
-	STR_TXNing.append("25.5");
-	STR_TXNing.append("\n");
-	STR_TXNing.append("1");
-	STR_TXNing.append("\n");
-	STR_TXNing.append("1"); // txn in
-	STR_TXNing.append("\n");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append(" ");
-	STR_TXNing.append("0");
-	STR_TXNing.append(" ");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append("\n");
-	STR_TXNing.append("1");
-	STR_TXNing.append("\n");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append(" ");
-	STR_TXNing.append(NULL_HASH);
-	user fran(STR_TXNing);
-	user carla(STR_TXNing);
-	user lucas(STR_TXNing);
+	// string STR_TXNing;
+	// STR_TXNing.append("lucas");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("25.5");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("1");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("1"); // txn in
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append("0");
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("1");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append(NULL_HASH);
+
+	user fran("fran\n23.54\n\0");
+	user carla("carla\n2303.54\n\0");
+	user lucas("lucas\n12312.33\n\0");
 	users.append(fran);
 	users.append(carla);
 	users.append(lucas);
 
 	string result;
-	result= users.findAttr("transactions","lucas");
+	result= users.findAttr("balance","lucas");
 	cout<<result<<endl;
 	return 0;
 }
