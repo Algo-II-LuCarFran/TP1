@@ -19,69 +19,59 @@ using namespace std;
 
 int main()
 {
-	Array <string> args(1);
-	args[0]="algochain.txt";
-	cout <<  cmdLoad(args) << endl;
-	args[0]="prueba.txt";
-	ifs.open(args[0].c_str(), ios::in);
-	iss = &ifs;
-	block mempoolcarla(NULL_HASH, 1,iss );
-	ifs.close();
-	mempool = mempoolcarla;
-	args[0] = "3";
-	cout << cmdMine(args)<< endl;
+	// Array <string> args(1);
+	// args[0]="algochain.txt";
+	// cout <<  cmdLoad(args) << endl;
+	// args[0]="prueba.txt";
+	// ifs.open(args[0].c_str(), ios::in);
+	// iss = &ifs;
+	// block mempoolcarla(NULL_HASH, 1,iss );
+	// ifs.close();
+	// mempool = mempoolcarla;
+	// args[0] = "3";
+	// cout << cmdMine(args)<< endl;
 
-	args[0]="algochainout.txt";
-	cout<< cmdSave(args)<<endl;
+	// args[0]="algochainout.txt";
+	// cout<< cmdSave(args)<<endl;
 
 
-	// string STR_TXNing;
-	// STR_TXNing.append("Carla");
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append("157.68");
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append("2"); // txn in
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append(" ");
-	// STR_TXNing.append("0");
-	// STR_TXNing.append(" ");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append(" ");
-	// STR_TXNing.append("0");
-	// STR_TXNing.append(" ");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append("2");
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append(" ");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append("\n");
-	// STR_TXNing.append(NULL_HASH);
-	// STR_TXNing.append(" ");
-	// STR_TXNing.append(NULL_HASH);
+	string STR_TXNing;
+	STR_TXNing.append("Carla");
+	STR_TXNing.append("\n");
+	STR_TXNing.append("157.68");
+	STR_TXNing.append("\n");
+	STR_TXNing.append("2"); // txn in
+	STR_TXNing.append("\n");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append(" ");
+	STR_TXNing.append("0");
+	STR_TXNing.append(" ");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append("\n");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append(" ");
+	STR_TXNing.append("0");
+	STR_TXNing.append(" ");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append("\n");
+	STR_TXNing.append("2");
+	STR_TXNing.append("\n");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append(" ");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append("\n");
+	STR_TXNing.append(NULL_HASH);
+	STR_TXNing.append(" ");
+	STR_TXNing.append(NULL_HASH);
 
 	
 
 	// user carla(STR_TXNing);
-	// // users.append(carla);
-	// // cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
-	// // cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
+	// users.append(carla);
+	// cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
+	// cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
+	// cout <<"La lista de users resulta \n" <<users<< endl;
 
-	// // cout<<"antes de terminar" << endl;
-	// list<user> lucas;
-	// lucas.append(carla);
-	// // list<double> lucas;
-	// // lucas.append(2.3);
-	// // lucas.append(2.4);
-	// // lucas.append(2.5);
-
-	// // list<double> fran(lucas);
-	// cout << lucas << endl;
-	// // cout << fran << endl;
  	return 0;
 }
 

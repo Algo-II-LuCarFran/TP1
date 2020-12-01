@@ -563,6 +563,7 @@ string bdy::setTxns(istream *iss)
 	{
 		if(isHash(str)==true || str == "")
 		{
+			txn_count = i;
 			return str;
 		}
 		if(i >=txns.getSize())
@@ -604,13 +605,15 @@ string bdy::setTxns(istream *iss)
 		// Se verifican las salidas
 
 		str=txns[i].setTxOut(aux, iss);
-		
+		i++;
 		if(isHash(str)==true)
 		{
+			txn_count = i;
 			return str;
 		}
 		else if(str=="OK")
 		{
+			txn_count = i;
 			return str;
 		}
 		else 
@@ -618,9 +621,9 @@ string bdy::setTxns(istream *iss)
 			err=true;
 			break;
 		}
-		i++;
 		
 	}
+	txn_count = i;
 	if(err==true)
 	{
 		error_string.append("Error en la transaccion ");
@@ -631,7 +634,6 @@ string bdy::setTxns(istream *iss)
 		error_string.append("Vuelva a cargar los datos del bloque");
 		return error_string;
 	}
-	txn_count = i;
 	if(str == "")
 	{
 		return str;
@@ -868,10 +870,11 @@ class block
 	bdy body;
 
 	public:
-	block(); //Creador base
-	block(const string,const  size_t, istream*); //Creador en base al hash del bloque previo, al nivel de  
+	block(); //Constructor base
+	block(const string,const  size_t, istream*); //Constructor en base al hash del bloque previo, al nivel de  
 												//dificultad y un flujo de entrada por el que se reciben las 
 											   // transacciones.
+	block(const string ); //Constructor en base a una string.
 	~block( ); //Destructor
 	block & operator=(const block &);
 	void setHeader(const string&,const size_t);
@@ -965,6 +968,24 @@ block::block(const string str,const  size_t diffic, istream *iss)
 {
 	setBody(iss);
 	setHeader(str, diffic);
+}
+
+block::block(const string block_str)
+{
+	istringstream ss(block_str);
+	string aux;
+	int aux_int;
+	getline(ss, aux, '\n');
+	this->header.setPrevBlock(aux);
+	getline(ss, aux, '\n');
+	this->header.setTxnsHash(aux);
+	getline(ss, aux, '\n');
+	aux_int=stoi(aux);
+	this->header.setBits(aux_int);
+	getline(ss, aux, '\n');
+	aux_int=stoi(aux);
+	this->header.setNonce(aux_int);
+	body.setTxns(&ss);
 }
 
 block::~block()

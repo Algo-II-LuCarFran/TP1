@@ -140,50 +140,60 @@ string cmdInit(Array <string> args)
 
 string cmdTransfer( Array <string> args)
 {
+	//El comando se invoca asi:
+	// transfer src dst1 value1 dst2 value 2 ... dstN valueN
+
 	//Se debe buscar la ultima aparicion de ese usuario primero en la MEMPOOL y si no se encuentra nada, en la 
 	//ALGOCHAIN; conseguir su value y verificar que dicho valor (su dinero disponible) no sea menor a la suma de
 	//las cantidades a transferir.
 
-	// string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
-	
-	// string aux;
-	
-	//double scr_value=string2double(<variable global que representa los balances>.find(value,scr)); 
-	//Se encuentra el dinero disponible por el usuario que aporta el dinero en la transaccion.
-	//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
-
-	//size_t dim_array_aux=(args.getSize()-1)/2;
-	//Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
+	double src_balance,aux;
+	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
+	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
+												//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
+	aux=src_balance;
+	size_t dim_array_aux=(args.getSize()-1)/2;
+	Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
 
 	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
 	// args.getSize()-1 es la cantidad de argumentos relacionados a los usuarios de destino. Como vienen de a pares
 	//(una vez validados) el resultado de (args.getSize()-1)/2 sera siempre entero, el valor del tamaño del arreglo.
 
-	// Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
-	// Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
-
-	//Se obtienen el hash del usuario origen y su dinero disponible indicados por linea de comandos en variables aux(arreglos).
-	//Se verifica en la variable global de usuarios si las transacciones son validas (mediante variables aux). Si lo son,
-	//se cargan. Si no ,se anulan.
-
-
-	// for(size_t i=2,size_t j=0; i <=args.getSize() ;i+=2,j++)
-	// {
-	// 	//Se consiguen los hash de los usuarios destino y los valores a transferir
-	//	dst[j]=sha256(args[i-1]);
-	//  args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn.
-	//	dst_value_str[j]=args[i];
-	// 	dst_value[j]=string2double(dst_value_str[j]);
-
-	// 	if(dst_value[i]<0) //No se puede transferir una cantidad negativa
-	// 		return MSG_FAIL;
-	// 	scr_value-=dst_value[j];
-	// if(src_value<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
-	// 	return MSG_FAIL;
-	// }
-	//  //Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferrirles
-	//	//por lo que se crea un arreglo con la informacion de la transaccion 
+	Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
+	Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
 	
+	size_t n=args.getSize();
+
+	for(size_t i=2,j=0; i <= n ;i+=2,j++)
+	{
+		//Se consiguen los hash de los usuarios destino y los valores a transferir
+		dst[j]=sha256(args[i-1]); //Puede no ser necesario conseguir los hashes, podria trabajarse directamente con los nombres de los usuarios.
+	 	
+		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
+		args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn. 
+		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
+
+		dst_value_str[j]=args[i]; // Se necesitan como strings? 
+		dst_value[j]=stod(dst_value_str[j]);
+
+		if(dst_value[i]<0) //No se puede transferir una cantidad negativa
+			return MSG_FAIL;
+		src_balance -=dst_value[j];
+		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
+			return MSG_FAIL;
+	}
+	//Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferirles
+	//por lo que se crea un arreglo con la informacion de la transaccion.
+
+	// Se debe buscar en la lista de transacciones del user src todos los outputs necesarios hasta completar la 
+	//cantidad que se desea transferir: buscar en los outputs hasta conseguir aux-src_balance.
+
+	
+
+
+
+
+
 	//Queda generar un arreglo de 3 cosas para el input
 	//Array <string> input_array(3); //Siempre se tendra un arreglo de 3 elementos, pues hay un solo input 
 									// y cada input requiere 3 campos a especificar: tx_id, idx, addr.
