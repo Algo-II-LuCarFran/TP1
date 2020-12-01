@@ -40,7 +40,7 @@ class list
 					// Si la lista esta vacia max_size=0
 	public:
 	list(); //Constructor basico
-	list(const list& L); //Constructor en base a otra list.
+	list(list& L); //Constructor en base a otra list.
 	~list(); //Destructor
 	void append(const T& t); //Agregar nodo al final de la list.
 	void insert(const T& t); //Agregar nodo al principio de la list.
@@ -71,7 +71,7 @@ template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
 template<typename T>
-list<T>::list(const list& L)
+list<T>::list(list& L)
 {
 	node* prev_;
 	node* next_;
@@ -85,12 +85,12 @@ list<T>::list(const list& L)
 	}
 	else
 	{
-		this->first=L->first;
-		this->last=L->last;
+		this->first=L.first;
+		this->last=L.last;
 
-		next_=L->first;
-		prev_=L->last;
-		for(size_t i=1; i<=floor(L->max_size)/2;i++)
+		next_=L.first;
+		prev_=L.last;
+		for(size_t i=1; i<=floor(L.max_size)/2;i++)
 		{    
 			node* iter_1=new node(next_->data);
 			iter_1=next_;
@@ -102,14 +102,14 @@ list<T>::list(const list& L)
 			prev_=iter_2->prev;
 			prev_->next=iter_2;
 		}
-		if((L->max_size)%2) //En este punto next->next=prev_->prev
+		if((L.max_size)%2) //En este punto next->next=prev_->prev
 		{
 			node* iter_1=new node(next_->next->data);
 			iter_1=next_;
 			next_=iter_1->next;
 			next_->prev=iter_1;
 		} 
-		this->max_size=L->max_size;
+		this->max_size=L.max_size;
 	}
 }
 

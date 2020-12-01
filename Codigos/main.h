@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef _MAIN_H_
+#define _MAIN_H_
 
 #include <fstream>
 #include <iomanip>
@@ -14,6 +14,7 @@
 #include "user.h"
 
 using namespace std;
+
 
 /**************** Elementos globales ******************/
 static void opt_input(string const &);
