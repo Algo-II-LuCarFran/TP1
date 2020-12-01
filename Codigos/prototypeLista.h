@@ -50,6 +50,7 @@ class list
 		l.show(oss);
 		return oss;
 	}
+	string toString();
 	T getFirstNode();
 	T getLastNode();
 };

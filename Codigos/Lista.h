@@ -370,4 +370,10 @@ T list<T>::getLastNode()
 	return aux2;
 }
 
+string user::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 #endif // _LIST_H_
