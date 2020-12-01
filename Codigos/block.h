@@ -563,6 +563,7 @@ string bdy::setTxns(istream *iss)
 	{
 		if(isHash(str)==true || str == "")
 		{
+			txn_count = i;
 			return str;
 		}
 		if(i >=txns.getSize())
@@ -605,12 +606,15 @@ string bdy::setTxns(istream *iss)
 
 		str=txns[i].setTxOut(aux, iss);
 		
+		i++;
 		if(isHash(str)==true)
 		{
+			txn_count = i;
 			return str;
 		}
 		else if(str=="OK")
 		{
+			txn_count = i;
 			return str;
 		}
 		else 
@@ -618,9 +622,9 @@ string bdy::setTxns(istream *iss)
 			err=true;
 			break;
 		}
-		i++;
 		
 	}
+	txn_count = i;
 	if(err==true)
 	{
 		error_string.append("Error en la transaccion ");
@@ -631,7 +635,7 @@ string bdy::setTxns(istream *iss)
 		error_string.append("Vuelva a cargar los datos del bloque");
 		return error_string;
 	}
-	txn_count = i;
+	
 	if(str == "")
 	{
 		return str;

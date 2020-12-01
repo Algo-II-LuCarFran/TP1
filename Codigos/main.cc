@@ -33,7 +33,7 @@ int main()
 
 	args[0]="algochainout.txt";
 	cout<< cmdSave(args)<<endl;
-
+int a =9;
 
 	// string STR_TXNing;
 	// STR_TXNing.append("Carla");
