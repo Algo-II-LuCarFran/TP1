@@ -1,5 +1,6 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef _MAIN_H_
+#define _MAIN_H_
+
 
 #include <fstream>
 #include <iomanip>
@@ -8,7 +9,13 @@
 #include <cstdlib>
 #include "cmdline.h"
 
+#include "Lista.h"
+#include "block.h"
+#include "Array.h"
+#include "user.h"
+
 using namespace std;
+
 
 /**************** Elementos globales ******************/
 static void opt_input(string const &);
@@ -17,16 +24,8 @@ static void opt_help(string const &);
 
 block mempool;
 list <block> algochain;
-
-
-struct user
-{
-	string addr;
-	double balance;
-	list<txn> transactions; 
-};
-
 list <user> users;
+
 // Tabla de opciones de línea de comando. El formato de la tabla
 // consta de un elemento por cada opción a definir. A su vez, en
 // cada entrada de la tabla tendremos:
