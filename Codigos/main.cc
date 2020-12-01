@@ -9,6 +9,7 @@
 #include "block.h"
 #include "dictionary.h"
 #include "main.h"
+#include "Lista.h"
 
 using namespace std;
 
@@ -22,129 +23,130 @@ using namespace std;
 // agregar una variable global lista algochain static list<block> algochain;
 // static block mempool();
 
-string cmdLoad(Array <string> args, list <block> &algochain);
-bool setAlgochainFromFile( istream *iss, list <block> &algochain);
-string cmdSave(Array <string> args, list <block> & algochain);
+// string cmdLoad(Array <string> args);
+// bool setAlgochainFromFile( istream *iss);
+// string cmdSave(Array <string> args);
 
 
-int main()
-{
-	size_t a=9;
-	a=9-8;
-	Array <string> args(1);
-	args[0]="algochain.txt";
-	list <block> algochain;
-	string str = cmdLoad(args,algochain);
-	cout << str << endl;
+// list <block> algochain;
+
+// int main()
+// {
+// 	size_t a=9;
+// 	a=9-8;
+// 	Array <string> args(1);
+// 	args[0]="algochain.txt";
+// 	string str = cmdLoad(args);
+// 	cout << str << endl;
 	
-	args[0]="algochainout.txt";
-	cout<< cmdSave(args,algochain)<<endl;
-}
+// 	args[0]="algochainout.txt";
+// 	cout<< cmdSave(args)<<endl;
+// }
 
-string cmdSave(Array <string> args, list <block> & algochain)
-{
-	ofs.open(args[0].c_str(), ios::out);
-	oss = &ofs;
-	if (!oss->good()) 
-	{
-		cerr << "cannot open "
-		     << args[0]
-		     << "."
-		     << endl;
-		exit(1);		// EXIT: Terminación del programa en su totalidad
-	}
-	else if (oss->bad()) 
-	{
-		cerr << "cannot write to output stream."
-		     << endl;
-		exit(1);
-	}
-	*oss << algochain;
-	return "Carga realizada con exito";
-}
+// string cmdSave(Array <string> args)
+// {
+// 	ofs.open(args[0].c_str(), ios::out);
+// 	oss = &ofs;
+// 	if (!oss->good()) 
+// 	{
+// 		cerr << "cannot open "
+// 		     << args[0]
+// 		     << "."
+// 		     << endl;
+// 		exit(1);		// EXIT: Terminación del programa en su totalidad
+// 	}
+// 	else if (oss->bad()) 
+// 	{
+// 		cerr << "cannot write to output stream."
+// 		     << endl;
+// 		exit(1);
+// 	}
+// 	*oss << algochain;
+// 	return "Carga realizada con exito";
+// }
 
-string cmdLoad(Array <string> args, list <block> & algochain)
-{
-	ifs.open(args[0].c_str(), ios::in);
-	iss = &ifs;
-	if (!iss->good()) {
-	cerr << "cannot open "
-			<< args[0]
-			<< "."
-			<< endl;
-	exit(1);
-	}
-	if(algochain.empty()==false)//la vacio si es necesario
-	{
-		list <block> empty_list;
-		algochain = empty_list;//
-	}
-	if(setAlgochainFromFile(iss,algochain)==false)
-	{
-		cerr << "ERROR: no se pudo cargar el archivo "
-		<< endl;
-		exit(1);
-	}
-	block aux ;
-	aux = algochain.getLastNode();
-	return sha256(sha256(aux.getBlockAsString()));
-}
-
-
-bool setAlgochainFromFile( istream *iss, list <block> &algochain)
-{
-	block block_aux, block_empty;
-	string str,str_aux;
-	getline(*iss, str, '\n');	
-	size_t i = 0, aux = 0;
-	hdr header_aux;
-	size_t diff, nonce;
-	bdy body_aux;
-	while (str!="")
-	{
-		//seteo el header
-		//validacion
-		header_aux.setPrevBlock(str);
-		getline(*iss, str, '\n');
-		//validacion
-		header_aux.setTxnsHash(str);
-		getline(*iss, str, '\n');
-		diff = stoi(str);
-		header_aux.setBits(diff);
-		getline(*iss, str, '\n');
-		nonce = stoi(str);
-		header_aux.setNonce(nonce);
+// string cmdLoad(Array <string> args)
+// {
+// 	ifs.open(args[0].c_str(), ios::in);
+// 	iss = &ifs;
+// 	if (!iss->good()) {
+// 	cerr << "cannot open "
+// 			<< args[0]
+// 			<< "."
+// 			<< endl;
+// 	exit(1);
+// 	}
+// 	if(algochain.empty()==false)//la vacio si es necesario
+// 	{
+// 		list <block> empty_list;
+// 		algochain = empty_list;//
+// 	}
+// 	if(setAlgochainFromFile(iss)==false)
+// 	{
+// 		cerr << "ERROR: no se pudo cargar el archivo "
+// 		<< endl;
+// 		exit(1);
+// 	}
+// 	block aux ;
+// 	aux = algochain.getLastNode();
+// 	return sha256(sha256(aux.getBlockAsString()));
+// }
 
 
-		block_aux.setHeader(header_aux);
-		//seteo el body
-		str_aux=block_aux.setBody(iss);
+// bool setAlgochainFromFile( istream *iss)
+// {
+// 	block block_aux, block_empty;
+// 	string str,str_aux;
+// 	getline(*iss, str, '\n');	
+// 	size_t i = 0, aux = 0;
+// 	hdr header_aux;
+// 	size_t diff, nonce;
+// 	bdy body_aux;
+// 	while (str!="")
+// 	{
+// 		//seteo el header
+// 		//validacion
+// 		header_aux.setPrevBlock(str);
+// 		getline(*iss, str, '\n');
+// 		//validacion
+// 		header_aux.setTxnsHash(str);
+// 		getline(*iss, str, '\n');
+// 		diff = stoi(str);
+// 		header_aux.setBits(diff);
+// 		getline(*iss, str, '\n');
+// 		nonce = stoi(str);
+// 		header_aux.setNonce(nonce);
+
+
+// 		block_aux.setHeader(header_aux);
+// 		//seteo el body
+// 		str_aux=block_aux.setBody(iss);
 		
-		if(isHash(str_aux)==true)
-		{
-			str=str_aux;
-			algochain.append(block_aux);
-			break;
-		}
-		else if (str_aux=="")
-		{	
-			str=str_aux;
-			algochain.append(block_aux);
-			break;
-		}
-		else if (str_aux=="OK")
-		{
-			algochain.append(block_aux);
-			getline(*iss, str, '\n');			
-			continue;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	return true;
-}
+// 		if(isHash(str_aux)==true)
+// 		{
+// 			str=str_aux;
+// 			algochain.append(block_aux);
+// 			break;
+// 		}
+// 		else if (str_aux=="")
+// 		{	
+// 			str=str_aux;
+// 			algochain.append(block_aux);
+// 			break;
+// 		}
+// 		else if (str_aux=="OK")
+// 		{
+// 			algochain.append(block_aux);
+// 			getline(*iss, str, '\n');			
+// 			continue;
+// 		}
+// 		else
+// 		{
+// 			return false;
+// 		}
+// 	}
+// 	return true;
+// }
 
 
 
