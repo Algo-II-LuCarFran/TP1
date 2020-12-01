@@ -28,6 +28,9 @@ class user
 		usr.show(oss);
 		return oss;
 	}
+
+	user const &operator=(user const &);
+
 };
 
 user::user()
@@ -89,5 +92,18 @@ string user::toString()
     ostringstream ss;
     ss << *this;
     return ss.str();
+}
+
+
+user const &user::operator=(user const &right)
+{
+	if(&right != this)
+	{
+		name = right.name;
+		balance = right.balance;
+		transactions = right.transactions;
+		return *this;
+	}
+	return *this;
 }
 #endif //_USER_H_
