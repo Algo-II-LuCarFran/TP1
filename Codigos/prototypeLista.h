@@ -37,7 +37,7 @@ class list
 	bool empty(); //Verifica si la list está vacia.
 	T  find(const T& t); //Encuentra el ultimo nodo que contiene el dato T. Si  no lo encuentra, debe devolver NULL.
 							  //DEBERIA devolver un puntero a un dato dentro de un nodo de la lista,DEBE devolver un puntero a un dato constante.
-	string findAttr(const string& ref,const string& d ); //Encuentra el dato "d" de  tipo "ref" en su última aparición en la lista.
+	string find(const string& ref,const string& d ); //Encuentra el dato "d" de  tipo "ref" en su última aparición en la lista.
 													//Ejemplo: ref=value d=Carla. Devuelve una string con el el ultimo output de Carla
 												   // Ejemplo: ref= id   d=<valor del hash>. Devuelve el bloque como string.
 												  // Si  no lo encuentra, devuelve una cadena vacia.                          

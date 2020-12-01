@@ -42,13 +42,29 @@ user::~user()
 
 user::user(string str_user)
 {
+	//HAY QUE RECIBIR LA CANTIDAD DE TRANSACCIONES.ES UNA VERGA. SE PUEDE CAMBIAR??????
+	//Para crear el usuario a partir de una string, se considera que dicha string contiene todos los campos de user separados 
+	//por fines de linea (\n): name,balance y transactions.
 	istringstream ss(str_user);
-	string str;
+	bdy aux_body;
 
-	getline(ss, name, '\n');
-	getline(ss, str, '\n');
-	balance = stod(str);
-	getline(ss, str, '\n');
+	string aux_str;
+	txn aux_txn;
+	getline(ss, this->name, '\n');
+	getline(ss, aux_str, '\n');
+	balance = stod(aux_str);
+
+	// getline(ss, aux_str, '\n'); //Error de compatibilidad finders vs cosas Carla.
+	// aux_body.setTxnCount(stoi(aux_str));
+	aux_body.setTxnCount(1); // AGREGADO PARA QUE FUNCIONE LO DE CARLA.
+	aux_body.setTxns(&ss);	// PORQUE ACA NO SE SETEA TXNCOUNT. 
+
+	Array <txn> array_aux_txns=aux_body.getTxns();
+	for(size_t i=0; i<aux_body.getTxnCount(); i++)
+	{
+		this->transactions.append(array_aux_txns[i]);
+	}
+	// }
 }
 
 string user::getName()

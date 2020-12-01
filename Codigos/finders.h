@@ -1,8 +1,9 @@
 #ifndef _FINDERS_H_
 #define _FINDERS_H_
 
-#include <iostream>
-#include "user.h"
+#include <iostream> 
+#include "user.h"	//Necesario para buscar dentro de la lista de usuarios.
+#include "block.h" //Necesario para crear la lista de transacciones de cada usuario.
 
 using namespace std;
 //-----------------------------------------------------MACROS----------------------------------------------
@@ -28,13 +29,17 @@ typedef string (*finder)(string d,string str); //Buscan en un la string str dato
 string findBalance(string d, string str);
 string findTransactions(string d, string str);
 
-string findTransactions(string d, string str)
+string findTransactions(string d, string str) 
 {
+	//str debe ser el contenedor de la transaccion. En este caso el user.
+	
+	//Esta funcion devuelve todas las transacciones del usuario como una string.
     user aux_user(str);
 	string result, aux;
 	aux = aux_user.getName();
 	if(d == aux)
-		return (aux_user.getTransactions()).toString();
+		return aux_user.getTransactions().toString();
+		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
 	else
 		return FINDNT;
 

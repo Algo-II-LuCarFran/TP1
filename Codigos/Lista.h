@@ -261,8 +261,18 @@ T list<T>::find(const T& t)
 	// cout<<"No lo encontre, devuelvo NULL"<<endl;
 	return NULL; //Si se hubo algun error se devuelve NULL.
 }
+
+
 template<typename T>
-string list<T>::findAttr(const string& ref,const string& d )
+string list<T>::toString()
+{
+	ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
+
+template<typename T>
+string list<T>::find(const string& ref,const string& d )
 {
 	finder aux_finder;
 	aux_finder = finderParse(ref);
@@ -370,10 +380,10 @@ T list<T>::getLastNode()
 	return aux2;
 }
 
-string user::toString()
-{
-    ostringstream ss;
-    ss << *this;
-    return ss.str();
-}
+// string user::toString()
+// {
+//     ostringstream ss;
+//     ss << *this;
+//     return ss.str();
+// }
 #endif // _LIST_H_
