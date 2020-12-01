@@ -25,19 +25,17 @@ int main()
     // // L2.append(2);
     // // L2.append(3); 
     // // cout<<L2;
-    // list <string> L3;
-    // L3.insert("Hola");
-    // L3.insert("Mundo");
-    // cout<<L3;
+    list <string> L3;
+    L3.insert("Hola");
+    L3.insert("Mundo");
+    cout<<L3;
 
-    // list <string> L4;
-    // L4.insert("Carla");
-    // L4.insert("se");
-    // L4.insert("la");
-    // L4.insert("come");
-    // cout<<L4;
-
-    
+    list <string> L4;
+    L4.insert("Carla");
+    L4.insert("se");
+    L4.insert("la");
+    L4.insert("come");
+    cout<<L4;
     
     return 0;
 }

@@ -53,6 +53,7 @@ class list
 	string toString();
 	T getFirstNode();
 	T getLastNode();
+	list<T> const & operator=(list const &orig);
 };
 
 #endif //_PROTOTYPELISTA_H_

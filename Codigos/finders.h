@@ -16,6 +16,8 @@ using namespace std;
 //Para definir las referencias de busqueda
 #define STR_BALANCE "balance" 
 #define STR_TRANSACTIONS "transactions"
+#define STR_BLOCK "block"
+
 
 using namespace std;
 //-----------------------------------------------------FINDERS---------------------------------------------
@@ -42,14 +44,12 @@ string findTransactions(string d, string str)
 		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
 	else
 		return FINDNT;
-
 }
 string findBalance(string d, string str)
 {
 	//Se recorren todos los outputs de todas las transacciones realizadas buscando
 	//la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
 
-	//Es necesario implementar los getters en Block.h
 	//Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
 	//y getAddr()
 
@@ -61,6 +61,29 @@ string findBalance(string d, string str)
 	else
 		return FINDNT;
 }
+
+string findBlock(string d, string str)
+{
+	string aux;
+	aux=sha256(sha256(str));
+	if(aux==d)
+		return str;
+	else
+		return FINDNT;
+}
+
+// string findTransaction(string d, string str) 
+// {
+// 	//Esta funcion devuelve la transaccion buscada como una string.
+//     user aux_user(str);
+// 	string result, aux;
+// 	aux = aux_user.getName();
+// 	if(d == aux)
+// 		return aux_user.getTransactions().toString();
+// 		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
+// 	else
+// 		return FINDNT;
+// }
 
 //---------------------------------------------DICCIONARIOS-----------------------------------------------
 //Definicion de las estructuras que relacionan las referencias (el tipo de dato que se
@@ -76,7 +99,8 @@ struct finder_option_t
 
 static finder_option_t dictionary_finder[] = {
 	{STR_BALANCE, findBalance},
-    {STR_TRANSACTIONS, findTransactions}
+    {STR_TRANSACTIONS, findTransactions},
+	{STR_BLOCK, findBlock}
 };
 
 finder finderParse( string ref)

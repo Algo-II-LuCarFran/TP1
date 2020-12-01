@@ -8,8 +8,8 @@ class user
 {
 	string name;
 	double balance;
-	list<txn> transactions;
-public:
+	list <txn> transactions; //Solo se guardan las transacciones donde user aparece como output.
+	public:
 	user();
 	user(string);
 	~user();
@@ -42,7 +42,6 @@ user::~user()
 
 user::user(string str_user)
 {
-	//HAY QUE RECIBIR LA CANTIDAD DE TRANSACCIONES.ES UNA VERGA. SE PUEDE CAMBIAR??????
 	//Para crear el usuario a partir de una string, se considera que dicha string contiene todos los campos de user separados 
 	//por fines de linea (\n): name,balance y transactions.
 	istringstream ss(str_user);
@@ -53,11 +52,7 @@ user::user(string str_user)
 	getline(ss, this->name, '\n');
 	getline(ss, aux_str, '\n');
 	balance = stod(aux_str);
-
-	// getline(ss, aux_str, '\n'); //Error de compatibilidad finders vs cosas Carla.
-	// aux_body.setTxnCount(stoi(aux_str));
-	aux_body.setTxnCount(1); // AGREGADO PARA QUE FUNCIONE LO DE CARLA.
-	aux_body.setTxns(&ss);	// PORQUE ACA NO SE SETEA TXNCOUNT. 
+	aux_body.setTxns(&ss); 
 
 	Array <txn> array_aux_txns=aux_body.getTxns();
 	for(size_t i=0; i<aux_body.getTxnCount(); i++)
