@@ -11,7 +11,7 @@ using namespace std;
 #include "block.h"
 #include "dictionary.h"
 #include "main.h"
-
+#include "global.h"
 
 // agregar una variable global lista algochain static list<block> algochain;
 // static block mempool();
@@ -68,10 +68,18 @@ int main()
 
 	user carla(STR_TXNing);
 	users.append(carla);
+	users.append(carla);
+	
+
+	list<user> aux;
+
+	aux = users;
+	cout << "users list \n" << users ;
+	cout << "aux list \n" << aux ;
+	
 	// cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
 	// cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
-	cout <<"La lista de users resulta \n" <<users<< endl;
-
+	// cout <<"La lista de users resulta \n" <<users<< endl;
  	return 0;
 }
 

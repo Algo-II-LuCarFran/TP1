@@ -28,7 +28,7 @@ class list
 					// Si la lista esta vacia max_size=0
 	public:
 	list(); //Constructor basico
-	list(list<T> &L); //Constructor en base a otra list.
+	list(const list &); //Constructor en base a otra list.
 	~list(); //Destructor
 	void append(const T& t); //Agregar nodo al final de la list.
 	void insert(const T& t); //Agregar nodo al principio de la list.
@@ -50,10 +50,11 @@ class list
 		l.show(oss);
 		return oss;
 	}
+
+	list const &operator=(list const &);
 	string toString();
 	T getFirstNode();
 	T getLastNode();
-	list<T> const & operator=(list const &orig);
 	bool deleteFirstNode();
 	bool deleteLastNode();
 };

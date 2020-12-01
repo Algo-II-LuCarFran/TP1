@@ -18,46 +18,45 @@ template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
 template<typename T>
-list<T>::list(list<T>& L)
+list<T>::list(const list &orig) : first(0), last(0), max_size(orig.max_size)
 {
-	node* prev_;
-	node* next_;
-	size_t i;
+	node *iter;
+	node *ant;
 
-	if(L.empty())
+	// Recorremos la secuencia original en sentido directo. En cada paso,
+	// creamos un nodo, copiando el dato correspondiente, y lo enganchamos
+	// al final de nuestra nueva lista.
+	//
+	for (iter = orig.last, ant = 0; iter != 0; iter = iter->next)
 	{
-		this->max_size=0;
-		this->first=NULL;
-		this->last=NULL;
-	}
-	else
-	{
-		this->first=L.first;
-		this->last=L.last;
+		// Creamos un nodo, copiando el dato, y lo enganchamos en e
+		// final de nuestra lista.
+		//
+		node *new_node = new node(iter->data);
+		new_node->prev = ant;
+		new_node->next = 0;
 
-		next_=L.first;
-		prev_=L.last;
-		for(size_t i=1; i<=floor(L.max_size)/2;i++)
-		{    
-			node* iter_1=new node(next_->data);
-			iter_1=next_;
-			next_=iter_1->next;
-			next_->prev=iter_1;
+		// Si ésta no es la primera pasada, es decir, si no se trata
+		// del primer nodo de la lista, ajustamos el enlace sig_ del
+		// nodo anterior.
+		//
+		if (ant != 0)
+			ant->next = new_node;
 
-			node* iter_2=new node(prev_->data);
-			iter_2=prev_;
-			prev_=iter_2->prev;
-			prev_->next=iter_2;
-		}
-		if((L.max_size)%2) //En este punto next->next=prev_->prev
-		{
-			node* iter_1=new node(next_->next->data);
-			iter_1=next_;
-			next_=iter_1->next;
-			next_->prev=iter_1;
-		} 
-		this->max_size=L.max_size;
+		// Además, tenemos que ajustar los punteros a los elementos
+		// distinguidos de la secuencia, primero y último. En el caso
+		// de pri_ (enlace al primer elemento), esto lo vamos a
+		// hacer una única vez; para el caso de ult_, iremos tomando
+		// registro del último nodo procesado, para ajustarlo antes
+		// de retornar.
+		//
+		if (first == 0)
+			first = new_node;
+		ant = new_node;
 	}
+	
+	// Ajustamos el puntero al último elemento de la copia.
+	last = ant;
 }
 
 template<typename T>
@@ -73,35 +72,13 @@ bool list<T>::empty()
 
 
 template<typename T>
-list<T>::~list() //Verficar que elimine TODOS los nodos de la lista.
+list<T>::~list()
 {
-	size_t i,j;
-	node* aux_forwards;
-	node* aux_backwards;
-	//Para borrar la lista doblemente enlazada se procede a eliminar
-	//los nodos desde el principio hasta la mitad y desde el final hacia 
-	//la mitad:
-	// - se inicializa un puntero auxiliar al final de la lista y otro al principio;
-	// - se hace que los punteros auxiliares apunten a first y last de la lista original;
-	// - se borran first y last de la lista original;
-	// - se designan los punteros auxiliares como first y last de la "nueva lista" con menos nodos;
-	// - si el numero de elementos en la lista era impar, se elimina el sobrante.
-	 
-	for(i=1,j=max_size; i<=floor(max_size)/2 ; i++,j--) //La presencia de i y j son meramente representativas, para dar una analogia con arreglos.
+	for (node *p = first; p; )
 	{
-		aux_forwards=this->first->next;
-		aux_backwards=this->last->prev;
-
-		delete (this->first);
-		delete (this->last);
-
-		this->first=aux_forwards;
-		this->last=aux_backwards;
-	}
-
-	if((this->max_size)%2)
-	{
-		delete this->first;
+		node *q = p->next;
+		delete p;
+		p = q;
 	}
 }
 
@@ -384,43 +361,40 @@ T list<T>::getLastNode()
 //     return ss.str();
 // }
 
-
-
 template<typename T>
 list<T> const &list<T>::operator=(list const &orig)
 {
-	node *iter;
-	node *sig_aux;
-	node *prev_aux;
+	node *iter_;
+	node *next_;
+	node *prev_;
 
 	if (this != &orig)
 	{
-		for (iter = first; iter != 0; )
+		for (iter_ = first; iter_ != 0; )
 		{
-			sig_aux = iter->next;
-			delete iter;
-			iter = sig_aux;	
+			next_ = iter_->next;
+			delete iter_;
+			iter_ = next_;	
 		}
 
 		first = 0;
 		last = 0;
 
-		for (iter = orig.first, prev_aux = 0; iter != 0; iter = iter->next)
+		for (iter_ = orig.first, prev_ = 0; iter_ != 0; iter_ = iter_->next)
 		{
-			node *new_node = new node(iter->data);
-			new_node->prev = prev_aux;
+			node *new_node = new node(iter_->data);
+			new_node->prev = prev_;
 			new_node->next = 0;
-			if (prev_aux != 0)
-				prev_aux->next = new_node;
+			if (prev_ != 0)
+				prev_->next = new_node;
 			if (first == 0)
 				first = new_node;
-			prev_aux = new_node;
+			prev_ = new_node;
 		}
-		last = prev_aux;
+		last = prev_;
 		max_size = orig.max_size;
 	}
 
 	return *this;
 }
-
 #endif // _LIST_H_

@@ -1,6 +1,7 @@
-#include <iostream>
+
 #include "Lista.h"
 #include "Array.h"
+#include <iostream>
 using namespace std;
 
 int main()
