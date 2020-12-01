@@ -61,7 +61,7 @@ int main()
 	// lucas.append(2.3);
 	// lucas.append(2.4);
 	// lucas.append(2.5);
-
+	cout<< lucas<<endl;
 	// list<double> fran(lucas);
 	// cout << lucas << endl;
 	// cout << fran << endl;
