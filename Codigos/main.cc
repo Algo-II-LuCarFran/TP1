@@ -50,10 +50,22 @@ int main()
 
 
 	user carla(STR_TXNing);
-	users.append(carla);
-	cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
-	cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
-	return 0;
+	// users.append(carla);
+	// cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
+	// cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
+
+	// cout<<"antes de terminar" << endl;
+	list<user> lucas;
+	lucas.append(carla);
+	// list<double> lucas;
+	// lucas.append(2.3);
+	// lucas.append(2.4);
+	// lucas.append(2.5);
+
+	// list<double> fran(lucas);
+	// cout << lucas << endl;
+	// cout << fran << endl;
+ 	return 0;
 }
 
 

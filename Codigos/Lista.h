@@ -18,7 +18,7 @@ template<typename T>
 list<T>::list(){first=NULL;last=NULL;max_size=0;}
 
 template<typename T>
-list<T>::list(list& L)
+list<T>::list(list<T>& L)
 {
 	node* prev_;
 	node* next_;

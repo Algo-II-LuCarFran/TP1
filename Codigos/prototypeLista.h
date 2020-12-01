@@ -28,7 +28,7 @@ class list
 					// Si la lista esta vacia max_size=0
 	public:
 	list(); //Constructor basico
-	list(list& L); //Constructor en base a otra list.
+	list(list<T> &L); //Constructor en base a otra list.
 	~list(); //Destructor
 	void append(const T& t); //Agregar nodo al final de la list.
 	void insert(const T& t); //Agregar nodo al principio de la list.
