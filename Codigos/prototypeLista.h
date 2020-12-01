@@ -55,6 +55,8 @@ class list
 	string toString();
 	T getFirstNode();
 	T getLastNode();
+	bool deleteFirstNode();
+	bool deleteLastNode();
 };
 
 #endif //_PROTOTYPELISTA_H_
