@@ -226,6 +226,7 @@ class txn
 	txn(); //Creador base
 	txn(Array<string>&); //Creador en base a un array de cadenas. El array debe contener todos los campos necesarios
 						// para crear la transaccion.
+	txn(string txn_str); //Creador en base a una cadenas que contiene toda la informacion para crear la transaccion.
 	~txn( ); //Destructor
 	txn &operator=( const txn & );
 
@@ -268,12 +269,34 @@ txn::txn(Array<string>& txn_str_arr)
 	for(i=1;i<(this->getNTxIn())+1;i++)
 	{
 		inpt in(txn_str_arr[i]);
-		tx_in[i] = in;
+		tx_in[i-1] = in;
 	}
 	this->setNTxOut(stoi(txn_str_arr[i]));
-	for( ;i<(this->getNTxOut())+1;i++)
+	for( size_t j=0;j<(this->getNTxOut());j++,i++)
 	{
 		outpt out(txn_str_arr[i]);
+		tx_out[j] = out;
+	}
+}
+txn::txn(string txn_str)
+{
+	istringstream ss(txn_str);
+	string aux;
+	getline(ss, aux, '\n');
+	size_t i;
+	this->setNTxIn(stoi(aux));
+	for(i=0;i<(this->getNTxIn());i++)
+	{
+		getline(ss, aux, '\n');
+		inpt in(aux);
+		tx_in[i] = in;
+	}
+	getline(ss, aux, '\n');
+	this->setNTxOut(stoi(aux));
+	for(i=0 ;i<(this->getNTxOut());i++)
+	{
+		getline(ss, aux, '\n');
+		outpt out(aux);
 		tx_out[i] = out;
 	}
 }
@@ -461,13 +484,13 @@ void txn::show(ostream& oss)
 	if(n_tx_in == 0)
 		return ;
 	oss << n_tx_in << endl;
-	for (size_t i = 0; i < tx_in.getSize(); i++)
+	for (size_t i = 0; i < n_tx_in; i++)
 	{
 		oss << tx_in[i] << endl;
 	}
 	
 	oss << n_tx_out << endl;
-	for (size_t i = 0; i < tx_out.getSize(); i++)
+	for (size_t i = 0; i < n_tx_out; i++)
 	{
 		oss << tx_out[i] << endl;
 	}
@@ -488,6 +511,7 @@ class bdy
 	size_t getTxnCount();
 	Array<txn> getTxns();
 	string getTxnAsString();
+	string getTxnsAsString();
 	void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
@@ -525,10 +549,10 @@ void bdy::setTxnCount(const size_t n)
 	}
 }
 
-void bdy::setTxns(Array <txn> n)
-{
-	txns = n;
-}
+// void bdy::setTxns(Array <txn> n)
+// {
+// 	txns = n;
+// }
 
 string bdy::setTxns(istream *iss)
 {
@@ -566,7 +590,7 @@ string bdy::setTxns(istream *iss)
 
 		// Se verifica n_tx_out
 		getline(*iss, str, '\n');
-
+		
 		if(isNumber<size_t>(str)==0 || (str[0]) == '\0')
 		{
 			err=true;
@@ -610,6 +634,17 @@ string bdy::setTxns(istream *iss)
 	}
 	return "\0";
 }
+string bdy::getTxnsAsString()
+{
+	string result;
+	if((txn_count==1) && (!txns[0].getTxnAsString().compare("0")))
+		return "0\n";
+	for (size_t i = 0; i < txn_count; i++)
+	{
+		result.append(txns[i].getTxnAsString());
+	}
+	return result;
+}
 
 string bdy::getBodyAsString()
 {
@@ -617,15 +652,7 @@ string bdy::getBodyAsString()
 	str = to_string(txn_count);
 	result.append(str);
 	result.append("\n");
-
-	if((txn_count==1) && (!txns[0].getTxnAsString().compare("0")))
-		return "0\n";
-
-	for (size_t i = 0; i < txn_count; i++)
-	{
-		result.append(txns[i].getTxnAsString());
-	}
-	
+	result.append(this->getTxnsAsString());
 	return result;
 }
 

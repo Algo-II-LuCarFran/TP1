@@ -40,8 +40,6 @@
 //----------------------------------------------VARIABLES GLOBALES-----------------------------------------
 using namespace std;
 
-
-
 //-----------------------------------------------PUNTEROS A FUNCION ---------------------------------------
 //Los punteros a funcion ejecutan el comando ingresado y devuelven lo especificado por el comando (como un 
 // hash que represente cierto objeto o un mensaje de error)

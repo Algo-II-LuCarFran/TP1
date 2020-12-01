@@ -1,55 +1,65 @@
 #ifndef _FINDERS_H_
 #define _FINDERS_H_
 
-#include "sha256.h"
-#include "block.h"
-#include <string.h>
-#include <cstring>
+#include <iostream> 
+#include "user.h"	//Necesario para buscar dentro de la lista de usuarios.
+#include "block.h" //Necesario para crear la lista de transacciones de cada usuario.
 
 using namespace std;
-
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para contar la cantidad de finders que se tiene. Se utiliza para encontrar el que se necesita en 
 //cada situacion
-#define MAXFINDER 1
+#define MAXFINDER 2
 
+
+#define FINDNT "Findnt" 
 //Para definir las referencias de busqueda
-#define STR_VALUE "value" 
+#define STR_BALANCE "balance" 
+#define STR_TRANSACTIONS "transactions"
 
-
+using namespace std;
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
-typedef string (*finder)(string d); //Buscan en un bloque dado el value del usuario d
+typedef string (*finder)(string d,string str); //Buscan en un la string str dato d
 
 
 //Recordar modificar la macro MAXFINDER al agregar nuevas funciones aqui
-string finderUser(string d);
 
+string findBalance(string d, string str);
+string findTransactions(string d, string str);
 
-string finderUser(string d)
+string findTransactions(string d, string str) 
 {
-    //Se recorren todos los outputs de todas las transacciones realizadas buscando
-    //la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
+	//str debe ser el contenedor de la transaccion. En este caso el user.
+	
+	//Esta funcion devuelve todas las transacciones del usuario como una string.
+    user aux_user(str);
+	string result, aux;
+	aux = aux_user.getName();
+	if(d == aux)
+		return aux_user.getTransactions().toString();
+		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
+	else
+		return FINDNT;
 
-    //Es necesario implementar los getters en Block.h
-    //Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
-    //y getAddr()
+}
+string findBalance(string d, string str)
+{
+	//Se recorren todos los outputs de todas las transacciones realizadas buscando
+	//la utlima aparicion del usuario especificado para devolver el valor que quedo en output.
 
-    // string result;
+	//Es necesario implementar los getters en Block.h
+	//Seria bueno agregar unos metodos mas en la clase outpt que sean getValueAsString()
+	//y getAddr()
 
-    // string d_hash=sha256(d);
-    // outpt aux;
-    // for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
-    // {
-    //     for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
-    //     {
-    //         aux=this->getBody().getTxns()[i].getTxOut()[j];
-    //         if(aux.addr==d_hash)
-    //             return aux.getValueAsString();
-    //     }
-    // }
-    return "";
+	user aux_user(str);
+	string result, aux;
+	aux = aux_user.getName();
+	if(d == aux)
+		return to_string(aux_user.getBalance());
+	else
+		return FINDNT;
 }
 
 //---------------------------------------------DICCIONARIOS-----------------------------------------------
@@ -65,8 +75,8 @@ struct finder_option_t
 };
 
 static finder_option_t dictionary_finder[] = {
-	{STR_VALUE, finderUser},
-
+	{STR_BALANCE, findBalance},
+    {STR_TRANSACTIONS, findTransactions}
 };
 
 finder finderParse( string ref)
@@ -83,4 +93,19 @@ finder finderParse( string ref)
 	}
 	return dictionary_finder[i].fndr;
 }
-#endif // _FINDERS_H_
+#endif //_FINDERS_H_
+
+
+
+		
+	// string d_hash=sha256(d);
+	// outpt aux;
+	// for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
+	// {
+	//     for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
+	//     {
+	//         aux=this->getBody().getTxns()[i].getTxOut()[j];
+	//         if(aux.addr==d_hash)
+	//             return aux.getValueAsString();
+	//     }
+	// }
