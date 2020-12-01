@@ -3,21 +3,79 @@
 #include <sstream>
 #include <cstdlib>
 #include <iomanip>
+using namespace std;
 
+#include "Lista.h"
 #include "cmdline.h"
 #include "sha256.h"
 #include "block.h"
 #include "dictionary.h"
 #include "main.h"
-#include "Lista.h"
-
-using namespace std;
 
 
-// static istream *iss = 0;	// Input Stream (clase para manejo de los flujos de entrada)
-// static ostream *oss = 0;	// Output Stream (clase para manejo de los flujos de salida)
-// static fstream ifs; 		// Input File Stream (derivada de la clase ifstream que deriva de istream para el manejo de archivos)
-// static fstream ofs;		// Output File Stream (derivada de la clase ofstream que deriva de ostream para el manejo de archivos)
+// agregar una variable global lista algochain static list<block> algochain;
+// static block mempool();
+
+
+int main()
+{
+	// string STR_TXNing;
+	// STR_TXNing.append("Carla");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("157.68");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("2"); // txn in
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append("0");
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append("0");
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append("2");
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append("\n");
+	// STR_TXNing.append(NULL_HASH);
+	// STR_TXNing.append(" ");
+	// STR_TXNing.append(NULL_HASH);
+
+
+	// user carla(STR_TXNing);
+	// // users.append(carla);
+	// // cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
+	// // cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
+
+	// // cout<<"antes de terminar" << endl;
+	// list<user> lucas;
+	// lucas.append(carla);
+	// // list<double> lucas;
+	// // lucas.append(2.3);
+	// // lucas.append(2.4);
+	// // lucas.append(2.5);
+
+	// // list<double> fran(lucas);
+	// cout << lucas << endl;
+	// // cout << fran << endl;
+		size_t a=9;
+	a=9-8+0;
+	Array <string> args(1);
+	args[0]="algochain.txt";
+	string str = cmdLoad(args);
+	cout << str << endl;
+	
+	args[0]="algochainout.txt";
+	cout<< cmdSave(args)<<endl;
+ 	return 0;
+}
 
 
 // agregar una variable global lista algochain static list<block> algochain;

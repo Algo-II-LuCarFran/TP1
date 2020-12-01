@@ -1,4 +1,4 @@
-CCFLAGS= -Wall -pedantic
+CCFLAGS= -Wall
 CC= g++
 
 all: algochain
@@ -6,7 +6,7 @@ all: algochain
 algochain: main.o cmdline.o sha256.o
 		$(CC) $(CCFLAGS) -o algochain main.o cmdline.o sha256.o
 
-main.o: main.cc cmdline.h sha256.h Array.h block.h main.h Lista.h dictionary.h
+main.o: main.cc cmdline.cc sha256.cpp Array.h block.h cmdline.h dictionary.h finders.h sha256.h tools.h user.h prototypeLista.h
 		$(CC) $(CCFLAGS) -c main.cc -o main.o 
 
 cmdline.o: cmdline.cc cmdline.h

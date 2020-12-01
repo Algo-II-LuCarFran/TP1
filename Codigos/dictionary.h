@@ -40,9 +40,6 @@
 //----------------------------------------------VARIABLES GLOBALES-----------------------------------------
 using namespace std;
 
-block mempool;
-list <block> algochain;
-
 //-----------------------------------------------PUNTEROS A FUNCION ---------------------------------------
 //Los punteros a funcion ejecutan el comando ingresado y devuelven lo especificado por el comando (como un 
 // hash que represente cierto objeto o un mensaje de error)
@@ -138,7 +135,6 @@ string cmdInit(Array <string> args)
 	istringstream iss(STR_TXNing);
 
 	block genesis_block(NULL_HASH, bits, &iss);
-
 	return sha256(genesis_block.getBlockAsString());
 }
 
@@ -242,6 +238,7 @@ string cmdMine(Array <string> args)
 }
 
 
+
 string cmdBalance(Array <string> args)
 {
 	// string balance = find(args[0]);//funcion que estaban haciendo, como va a funcionar?
@@ -291,7 +288,7 @@ string cmdLoad(Array <string> args)
 	return sha256(sha256(aux.getBlockAsString()));
 }
 
- string cmdSave(Array <string> args)
+string cmdSave(Array <string> args)
  { 
 	ofs.open(args[0].c_str(), ios::out);
 	oss = &ofs;

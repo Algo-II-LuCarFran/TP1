@@ -1,5 +1,6 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef _MAIN_H_
+#define _MAIN_H_
+
 
 #include <fstream>
 #include <iomanip>
@@ -8,13 +9,22 @@
 #include <cstdlib>
 #include "cmdline.h"
 
+#include "Lista.h"
+#include "block.h"
+#include "Array.h"
+#include "user.h"
+
 using namespace std;
+
 
 /**************** Elementos globales ******************/
 static void opt_input(string const &);
 static void opt_output(string const &);
-static void opt_factor(string const &);
 static void opt_help(string const &);
+
+block mempool;
+list <block> algochain;
+list <user> users;
 
 // Tabla de opciones de línea de comando. El formato de la tabla
 // consta de un elemento por cada opción a definir. A su vez, en
@@ -46,13 +56,11 @@ static void opt_help(string const &);
 static option_t options[] = {
 	{1, "i", "input", "-", opt_input, OPT_DEFAULT},
 	{1, "o", "output", "-", opt_output, OPT_DEFAULT},
-	{1, "d", "difficulty", NULL, opt_factor, OPT_MANDATORY},
 	{0, "h", "help", NULL, opt_help, OPT_DEFAULT},
 	{0, },
 };
 
 
-static int difficulty;
 static istream *iss = 0;	// Input Stream (clase para manejo de los flujos de entrada)
 static ostream *oss = 0;	// Output Stream (clase para manejo de los flujos de salida)
 static fstream ifs; 		// Input File Stream (derivada de la clase ifstream que deriva de istream para el manejo de archivos)
@@ -112,31 +120,6 @@ opt_output(string const &arg)
 }
 
 static void
-opt_factor(string const &arg)
-{
-	istringstream iss(arg);
-
-	// Intentamos extraer el factor de la línea de comandos.
-	// Para detectar argumentos que únicamente consistan de
-	// números enteros, vamos a verificar que EOF llegue justo
-	// después de la lectura exitosa del escalar.
-	//
-	if (!(iss >> difficulty) || !iss.eof() || difficulty<0) {
-		cerr << "Valor invalido de  dificultad: "
-		     << arg
-		     << "."
-		     << endl;
-		exit(1);
-	}
-
-	if (iss.bad()) {
-		cerr << "No se pudo leer la dificultad."
-		     << endl;
-		exit(1);
-	}
-}
-
-static void
 opt_help(string const &arg)
 {
 	cout << "cmdline -f factor [-i file] [-o file]"
@@ -144,4 +127,76 @@ opt_help(string const &arg)
 	exit(0);
 }
 
+bool setAlgochainFromFile( istream *iss)
+{
+	block block_aux, block_empty;
+	string str,str_aux;
+	getline(*iss, str, '\n');	
+	cout << "esto es lo primero que agarro de iss " << str << " JA " << endl;
+	size_t i = 0, aux = 0;
+	hdr header_aux;
+	size_t diff, nonce;
+	bdy body_aux;
+	while (str!="")
+	{
+		//seteo el header
+		if(isHash(str)==false)
+		{
+			cerr << "ERROR: no es un hash para prev block" << endl;
+			exit(1);
+		}
+		header_aux.setPrevBlock(str);
+		getline(*iss, str, '\n');
+		if(isHash(str)==false)
+		{
+			cerr << "ERROR: no es un hash para prev block" << endl;
+			return false;
+		}
+		header_aux.setTxnsHash(str);
+		getline(*iss, str, '\n');
+		if(isNumber<size_t>(str)==0)
+		{
+			cerr<<"ERROR: no es un numero"<< endl;
+			return false;
+		}
+		diff = stoi(str);
+		header_aux.setBits(diff);
+		getline(*iss, str, '\n');
+		if(isNumber<size_t>(str)==0)
+		{
+			cerr<<"ERROR: no es un numero"<< endl;
+			return false;
+		}
+		nonce = stoi(str);
+		header_aux.setNonce(nonce);
+
+		block_aux.setHeader(header_aux); //guarda el header
+		//seteo el body
+		str_aux=block_aux.setBody(iss);
+		
+		if(isHash(str_aux)==true)
+		{
+			str=str_aux;
+			algochain.append(block_aux);
+			break;
+		}
+		else if (str_aux=="")
+		{	
+			str=str_aux;
+			algochain.append(block_aux);
+			break;
+		}
+		else if (str_aux=="OK")
+		{
+			algochain.append(block_aux);
+			getline(*iss, str, '\n');			
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
 #endif //MAIN_H
