@@ -233,7 +233,7 @@ string cmdMine(Array <string> args)
 	//limpiar mempool
 	block empty_block;
 	mempool = empty_block;
-	return aux_save.getBlockAsString();
+	return sha256(sha256(aux_save.getBlockAsString()));
 	//return "hola";
 }
 
@@ -283,6 +283,7 @@ string cmdLoad(Array <string> args)
 		<< endl;
 		exit(1);
 	}
+	ifs.close();
 	block aux ;
 	aux = algochain.getLastNode();
 	return sha256(sha256(aux.getBlockAsString()));
@@ -306,7 +307,8 @@ string cmdSave(Array <string> args)
 		     << endl;
 		exit(1);
 	}
-	*oss << algochain;
+	*oss << algochain;//le agrego tostring?
+	ofs.close();
 	return "Carga realizada con exito";
 }
 

@@ -19,6 +19,22 @@ using namespace std;
 
 int main()
 {
+	Array <string> args(1);
+	args[0]="algochain.txt";
+	cout <<  cmdLoad(args) << endl;
+	args[0]="prueba.txt";
+	ifs.open(args[0].c_str(), ios::in);
+	iss = &ifs;
+	block mempoolcarla(NULL_HASH, 1,iss );
+	ifs.close();
+	mempool = mempoolcarla;
+	args[0] = "3";
+	cout << cmdMine(args)<< endl;
+
+	args[0]="algochainout.txt";
+	cout<< cmdSave(args)<<endl;
+
+
 	// string STR_TXNing;
 	// STR_TXNing.append("Carla");
 	// STR_TXNing.append("\n");
@@ -48,6 +64,7 @@ int main()
 	// STR_TXNing.append(" ");
 	// STR_TXNing.append(NULL_HASH);
 
+	
 
 	// user carla(STR_TXNing);
 	// // users.append(carla);
@@ -65,15 +82,6 @@ int main()
 	// // list<double> fran(lucas);
 	// cout << lucas << endl;
 	// // cout << fran << endl;
-		size_t a=9;
-	a=9-8+0;
-	Array <string> args(1);
-	args[0]="algochain.txt";
-	string str = cmdLoad(args);
-	cout << str << endl;
-	
-	args[0]="algochainout.txt";
-	cout<< cmdSave(args)<<endl;
  	return 0;
 }
 

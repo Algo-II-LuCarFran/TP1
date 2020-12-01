@@ -132,7 +132,6 @@ bool setAlgochainFromFile( istream *iss)
 	block block_aux, block_empty;
 	string str,str_aux;
 	getline(*iss, str, '\n');	
-	cout << "esto es lo primero que agarro de iss " << str << " JA " << endl;
 	size_t i = 0, aux = 0;
 	hdr header_aux;
 	size_t diff, nonce;
