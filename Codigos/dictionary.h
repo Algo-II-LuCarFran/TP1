@@ -11,6 +11,7 @@
 #include "block.h"
 #include "sha256.h"
 #include "Lista.h"
+#include "main.h"
 
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para definir las referencias de comandos
@@ -211,27 +212,31 @@ string cmdMine(Array <string> args)
 	/*Valor de retorno.
 	 	Hash del bloque en caso de exito;  FAIL en caso de falla por invalidez.
 	*/
-	// size_t bits = stoi(args[0]);
-	// block aux_save;
-	// if(bits<0)
-	// {
-	// 	cerr << "ERROR: dificultad invalida"<< endl; // que otra falla?
-	// 	exit(1);
-	// }
-	// block aux = algochain.getLastNode();
-	// string prev_block = sha256(sha256(aux.getBlockAsString()));
-	// // hdr header_aux = aux.getHeader();
-	// // string prev_block = header_aux.getTxnHash(); //de donde saco el prevbloc? de lalista de bloques
-	// mempool.setHeader(prev_block,bits);
-	// aux_save = mempool; //lo guargo para despues imprimirlo
-	// //guardar la mempool en la parte de la lista correspondientes
-	// algochain.append(mempool);
-	// //limpiar mempool
-	// block empty_block;
-	// mempool = empty_block;
-	// return aux_save.getBlockAsString();
-	return "hola";
+	size_t bits = stoi(args[0]);
+	block aux_save;
+	if(bits<0)
+	{
+		cerr << "ERROR: dificultad invalida"<< endl; // que otra falla?
+		exit(1);
+	}
+	block aux = algochain.getLastNode();
+	string prev_block = sha256(sha256(aux.getBlockAsString()));
+	if(isHash(prev_block)==false)
+	{
+		cerr << "ERROR: al convertir prev block"<< endl; // que otra falla?
+		exit(1);
+	}
+	mempool.setHeader(prev_block,bits);
+	aux_save = mempool; //lo guargo para despues imprimirlo
+	//guardar la mempool en la parte de la lista correspondientes
+	algochain.append(mempool);
+	//limpiar mempool
+	block empty_block;
+	mempool = empty_block;
+	return sha256(sha256(aux_save.getBlockAsString()));
+	//return "hola";
 }
+
 
 
 string cmdBalance(Array <string> args)
@@ -258,48 +263,53 @@ string cmdTxn(Array <string> args)
 
 string cmdLoad(Array <string> args)
 {
-	// ifs.open(args[0].c_str(), ios::in);
-	// iss = &ifs;
-	// if (!iss->good()) {
-	// cerr << "cannot open "
-	// 		<< args[0]
-	// 		<< "."
-	// 		<< endl;
-	// exit(1);
-	// }
-	// algochain.clear();//
-	// if(setAlgochainFromFile(iss)==false)
-	// {
-	// 	cerr << "ERROR: no se pudo cargar el archivo "
-	// 	<< endl;
-	// 	exit(1);
-	// }
-	// block aux = algochain.getLastNode();
-	// return sha256(sha256(aux.getBlockAsString()));
-	return "hola";
+	ifs.open(args[0].c_str(), ios::in);
+	iss = &ifs;
+	if (!iss->good()) {
+	cerr << "cannot open "
+			<< args[0]
+			<< "."
+			<< endl;
+	exit(1);
+	}
+	if(algochain.empty()==false)//la vacio si es necesario
+	{
+		list <block> empty_list;
+		algochain = empty_list;//
+	}
+	if(setAlgochainFromFile(iss)==false)
+	{
+		cerr << "ERROR: no se pudo cargar el archivo "
+		<< endl;
+		exit(1);
+	}
+	ifs.close();
+	block aux ;
+	aux = algochain.getLastNode();
+	return sha256(sha256(aux.getBlockAsString()));
 }
 
 string cmdSave(Array <string> args)
-{
-	// ofs.open(args[0].c_str(), ios::out);
-	// oss = &ofs;
-	// if (!oss->good()) 
-	// {
-	// 	cerr << "cannot open "
-	// 	     << arg
-	// 	     << "."
-	// 	     << endl;
-	// 	exit(1);		// EXIT: Terminación del programa en su totalidad
-	// }
-	// else if (oss->bad()) 
-	// {
-	// 	cerr << "cannot write to output stream."
-	// 	     << endl;
-	// 	exit(1);
-	// }
-	// string algochain_string = printAlgochain(algochain);
-	// *oss << algochain_string;
-	return "hola";
+ { 
+	ofs.open(args[0].c_str(), ios::out);
+	oss = &ofs;
+	if (!oss->good()) 
+	{
+		cerr << "cannot open "
+		     << args[0]
+		     << "."
+		     << endl;
+		exit(1);		// EXIT: Terminación del programa en su totalidad
+	}
+	else if (oss->bad()) 
+	{
+		cerr << "cannot write to output stream."
+		     << endl;
+		exit(1);
+	}
+	*oss << algochain;//le agrego tostring?
+	ofs.close();
+	return "Carga realizada con exito";
 }
 
 

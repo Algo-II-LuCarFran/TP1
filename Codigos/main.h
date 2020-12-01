@@ -127,4 +127,75 @@ opt_help(string const &arg)
 	exit(0);
 }
 
+bool setAlgochainFromFile( istream *iss)
+{
+	block block_aux, block_empty;
+	string str,str_aux;
+	getline(*iss, str, '\n');	
+	size_t i = 0, aux = 0;
+	hdr header_aux;
+	size_t diff, nonce;
+	bdy body_aux;
+	while (str!="")
+	{
+		//seteo el header
+		if(isHash(str)==false)
+		{
+			cerr << "ERROR: no es un hash para prev block" << endl;
+			exit(1);
+		}
+		header_aux.setPrevBlock(str);
+		getline(*iss, str, '\n');
+		if(isHash(str)==false)
+		{
+			cerr << "ERROR: no es un hash para prev block" << endl;
+			return false;
+		}
+		header_aux.setTxnsHash(str);
+		getline(*iss, str, '\n');
+		if(isNumber<size_t>(str)==0)
+		{
+			cerr<<"ERROR: no es un numero"<< endl;
+			return false;
+		}
+		diff = stoi(str);
+		header_aux.setBits(diff);
+		getline(*iss, str, '\n');
+		if(isNumber<size_t>(str)==0)
+		{
+			cerr<<"ERROR: no es un numero"<< endl;
+			return false;
+		}
+		nonce = stoi(str);
+		header_aux.setNonce(nonce);
+
+		block_aux.setHeader(header_aux); //guarda el header
+		//seteo el body
+		str_aux=block_aux.setBody(iss);
+		
+		if(isHash(str_aux)==true)
+		{
+			str=str_aux;
+			algochain.append(block_aux);
+			break;
+		}
+		else if (str_aux=="")
+		{	
+			str=str_aux;
+			algochain.append(block_aux);
+			break;
+		}
+		else if (str_aux=="OK")
+		{
+			algochain.append(block_aux);
+			getline(*iss, str, '\n');			
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
 #endif //MAIN_H

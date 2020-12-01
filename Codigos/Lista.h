@@ -368,16 +368,13 @@ void list<T>::show(ostream& oss) {
 template<typename T>
 T list<T>::getFirstNode()
 {
-	node *aux = first;
-	T aux2 = aux->getData();
-	return aux2;
+    return this->first->data;
 }
+
 template<typename T>
 T list<T>::getLastNode()
 {
-	node *aux = last;
-	T aux2 = aux->getData();
-	return aux2;
+    return this->last->data;
 }
 
 // string user::toString()
@@ -386,4 +383,44 @@ T list<T>::getLastNode()
 //     ss << *this;
 //     return ss.str();
 // }
+
+
+
+template<typename T>
+list<T> const &list<T>::operator=(list const &orig)
+{
+	node *iter;
+	node *sig_aux;
+	node *prev_aux;
+
+	if (this != &orig)
+	{
+		for (iter = first; iter != 0; )
+		{
+			sig_aux = iter->next;
+			delete iter;
+			iter = sig_aux;	
+		}
+
+		first = 0;
+		last = 0;
+
+		for (iter = orig.first, prev_aux = 0; iter != 0; iter = iter->next)
+		{
+			node *new_node = new node(iter->data);
+			new_node->prev = prev_aux;
+			new_node->next = 0;
+			if (prev_aux != 0)
+				prev_aux->next = new_node;
+			if (first == 0)
+				first = new_node;
+			prev_aux = new_node;
+		}
+		last = prev_aux;
+		max_size = orig.max_size;
+	}
+
+	return *this;
+}
+
 #endif // _LIST_H_

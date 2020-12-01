@@ -344,16 +344,16 @@ string txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del 
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
-		// if(isHash(aux_s)==true)
-		// {
-		// 	return aux_s;
-		// }
+		if(isHash(aux_s)==true)
+		{
+			return aux_s;
+		}
 		inpt in(aux_s);
 		if(isError(in.getAddr())==false)
 			return "ERROR: addres invalida";
 		tx_in[i] = in;
 	}
-	return "\0";
+	return "OK";
 }
 
 bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
@@ -403,7 +403,7 @@ string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del 
 			return "ERROR: addres invalida";
 		tx_out[i] = out;
 	}
-	return "\0";
+	return "OK";
 }
 
 // string txn::setTxOutFile(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
@@ -484,13 +484,13 @@ void txn::show(ostream& oss)
 	if(n_tx_in == 0)
 		return ;
 	oss << n_tx_in << endl;
-	for (size_t i = 0; i < n_tx_in; i++)
+	for (size_t i = 0; i < tx_in.getSize(); i++)
 	{
 		oss << tx_in[i] << endl;
 	}
 	
 	oss << n_tx_out << endl;
-	for (size_t i = 0; i < n_tx_out; i++)
+	for (size_t i = 0; i < tx_out.getSize(); i++)
 	{
 		oss << tx_out[i] << endl;
 	}
@@ -512,7 +512,7 @@ class bdy
 	Array<txn> getTxns();
 	string getTxnAsString();
 	string getTxnsAsString();
-	void setTxns(Array <txn> txns);
+	// void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
 	void txnsArrRedim(const size_t );
@@ -558,7 +558,7 @@ string bdy::setTxns(istream *iss)
 {
 	string str,error_string;
 	size_t aux, i = 0;
-	bool err;
+	bool err=false;
 	while(getline(*iss, str, '\n'))
 	{
 		if(isHash(str)==true || str == "")
@@ -576,36 +576,40 @@ string bdy::setTxns(istream *iss)
 			err=true;
 			break;
 		}
-
+	
 		aux = stoi(str);
 		txns[i].setNTxIn(aux);
 
 		// Se verifican las entradas
 
-		if(txns[i].setTxIn(aux, iss)!="\0")
+		if(txns[i].setTxIn(aux, iss)!="OK")
 		{
 			err=true;
 			break;
 		}
-
-		// Se verifica n_tx_out
-		getline(*iss, str, '\n');
 		
+		// Se verifica n_tx_out
+
+		getline(*iss, str, '\n');
+
 		if(isNumber<size_t>(str)==0 || (str[0]) == '\0')
 		{
 			err=true;
 			break;
 		}
+		
 		aux = stoi(str);
 		txns[i].setNTxOut(aux);
 
 		// Se verifican las salidas
+
 		str=txns[i].setTxOut(aux, iss);
+		
 		if(isHash(str)==true)
 		{
 			return str;
 		}
-		else if(str=="\0")
+		else if(str=="OK")
 		{
 			return str;
 		}
@@ -632,8 +636,9 @@ string bdy::setTxns(istream *iss)
 	{
 		return str;
 	}
-	return "\0";
+	return "OK";
 }
+
 string bdy::getTxnsAsString()
 {
 	string result;
@@ -741,7 +746,15 @@ bool hdr::setPrevBlock(const string & str)//Se modifica el retorno del setter po
 }
 
 
-void hdr::setTxnsHash(const string & str){txns_hash = sha256(sha256(str));}
+void hdr::setTxnsHash(const string & str)
+{
+	if(isHash(str)==true)
+	{
+		txns_hash = str;
+	}
+	else
+		txns_hash = sha256(sha256(str));
+}
 
 
 void hdr::setBits(const size_t n){bits = n;}
@@ -776,8 +789,8 @@ string hdr::getHeaderAsString()
 	nonce_string = to_string(nonce); //convierto el nonce a string
 	str.append(nonce_string); 
 	return str;
-
 }
+
 void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bits) // Setea el header con el nonce que verifica que el hash del header cumpla con los primeros d bits en cero
 {
 	size_t out = 0; //inicializo d_auz que contara el nivel de difucultar y out que es un flag para el for
@@ -924,18 +937,17 @@ string block::setBody(istream *iss)
 	if (isHash(str)==true)
 	{
 		return str;
-	}
+	}	
 	else if (str=="")
 	{
 		return str;
-	}
-	
-	if(str!="\0")
+	}	
+	else if(str!="OK")
 	{
-	   cerr<<str<<endl;
-	   exit(1);
+		cerr<< "ERROR: set txns fallo \n"<< str << endl;
+	   	exit(1);
 	}
-	return "\0";
+	return "OK";
 }
 
 block::block()
@@ -973,4 +985,6 @@ void block::show(ostream& oss)
 	oss << header;
 	oss << body;
 }
+
+
 #endif //_BLOCK_H_
