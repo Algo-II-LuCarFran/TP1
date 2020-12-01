@@ -62,7 +62,6 @@ user::user(string str_user)
 	{
 		this->transactions.append(array_aux_txns[i]);
 	}
-	// }
 }
 
 string user::getName()
@@ -94,7 +93,6 @@ string user::toString()
     return ss.str();
 }
 
-
 user const &user::operator=(user const &right)
 {
 	if(&right != this)
@@ -106,4 +104,6 @@ user const &user::operator=(user const &right)
 	}
 	return *this;
 }
+
+
 #endif //_USER_H_

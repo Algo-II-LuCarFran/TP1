@@ -72,11 +72,8 @@ int main()
 	
 
 	list<user> aux;
-
-	aux = users;
-	cout << "users list \n" << users ;
-	cout << "aux list \n" << aux ;
-	
+	user fran = carla;
+	cout << fran;
 	// cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
 	// cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
 	// cout <<"La lista de users resulta \n" <<users<< endl;
