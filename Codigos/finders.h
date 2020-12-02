@@ -100,8 +100,8 @@ string findUser(string d, string str)
 string findTxnByHash(string d, string str)
 {
 	txn tran(str);
-	if(d == sha256(tran.getTxnAsString()))
-		return tran.getTxnAsString();
+	if(d == sha256(tran.toString()))
+		return tran.toString();
 	else
 		return "Findnt";
 }

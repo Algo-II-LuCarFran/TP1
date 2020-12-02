@@ -41,7 +41,7 @@ class inpt
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 class outpt
 {
-	double value; //La  cantidad de Algocoins a transferir en este output
+	string value; //La  cantidad de Algocoins a transferir en este output
 	string addr; //La direccion de origen de los fondos (que debe coincidir con la direccion del output referenciado)
 
 	public:
@@ -51,7 +51,7 @@ class outpt
 	outpt(string&, string &);
 	~outpt( ); //Destructor
 	outpt & operator=(const outpt &);
-	double getValue();
+	string getValue();
 	string getAddr();
 	string getOutputAsString();
 	void show(ostream&);
