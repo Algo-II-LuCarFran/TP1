@@ -158,7 +158,7 @@ void user::addTxn(txn tran)
 void user::loadTxn(txn tran)
 {
 	string aux_str_txn;
-	double source_value = 0, spent_value = 0;
+	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
 	
@@ -182,8 +182,10 @@ void user::loadTxn(txn tran)
 			source_value += aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue();
 		}
 		for (size_t i = 0; i < tran.getNTxOut(); i++)
-		{ //ME FALTA VER COMO ACTUALIZO EL BALANCE
-			spent_value += outputs[i].getValue(); 	
+		{
+			spent_value += outputs[i].getValue();
+			if(outputs[i].getAddr() == name)
+				change = outputs[i].getValue();
 		}
 
 		if(spent_value != source_value)
@@ -192,6 +194,19 @@ void user::loadTxn(txn tran)
 			exit(1);
 		}
 
+		balance = balance - spent_value + change;
 	}
+	else
+	{
+		for (size_t i = 0; i < tran.getNTxOut(); i++)
+		{
+			if(outputs[i].getAddr() == name)
+			{
+				balance += outputs[i].getValue();
+				break;
+			}
+		}
+	}
+	transactions.append(tran);
 }
 #endif //_USER_H_
