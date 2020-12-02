@@ -19,7 +19,6 @@ using namespace std;
 
 int main()
 {
-	cout << "FRAN TE QUIERO" << endl;
 	Array <string> args(1);
 	args[0]="algochain.txt";
 	cout <<  cmdLoad(args) << endl;
