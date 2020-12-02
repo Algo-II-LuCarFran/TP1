@@ -1,6 +1,15 @@
 #ifndef _FINDERS_H_
 #define _FINDERS_H_
 
+#define FINDNT "Findnt" 
+//Para definir las referencias de busqueda
+#define STR_BALANCE "balance" 
+#define STR_TRANSACTIONS "transactions"
+#define STR_BLOCK "block"
+#define STR_CHECK_USER "checkUser"
+#define STR_USER "user"
+#define STR_TXN_BY_HASH "txnByHash"
+
 #include <iostream> 
 #include "user.h"	//Necesario para buscar dentro de la lista de usuarios.
 #include "block.h" //Necesario para crear la lista de transacciones de cada usuario.
@@ -9,14 +18,9 @@ using namespace std;
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para contar la cantidad de finders que se tiene. Se utiliza para encontrar el que se necesita en 
 //cada situacion
-#define MAXFINDER 2
+#define MAXFINDER 4
 
 
-#define FINDNT "Findnt" 
-//Para definir las referencias de busqueda
-#define STR_BALANCE "balance" 
-#define STR_TRANSACTIONS "transactions"
-#define STR_BLOCK "block"
 
 
 using namespace std;
@@ -30,6 +34,9 @@ typedef string (*finder)(string d,string str); //Buscan en un la string str dato
 
 string findBalance(string d, string str);
 string findTransactions(string d, string str);
+string checkUser(string d, string str);
+string findUser(string d, string str);
+string findTxnByHash(string d, string str);
 
 string findTransactions(string d, string str) 
 {
@@ -72,6 +79,32 @@ string findBlock(string d, string str)
 		return FINDNT;
 }
 
+string checkUser(string d, string str)
+{
+	user aux_user(str);
+	if(d == aux_user.getName())
+		return "TRUE";
+	else
+		return "FALSE";
+}
+
+string findUser(string d, string str)
+{
+	user aux_user(str);
+	if(d == aux_user.getName())
+		return aux_user.toString();
+	else
+		return FINDNT;
+}
+
+string findTxnByHash(string d, string str)
+{
+	txn tran(str);
+	if(d == sha256(tran.getTxnAsString()))
+		return tran.getTxnAsString();
+	else
+		return FINDNT;
+}
 // string findTransaction(string d, string str) 
 // {
 // 	//Esta funcion devuelve la transaccion buscada como una string.
@@ -100,7 +133,9 @@ struct finder_option_t
 static finder_option_t dictionary_finder[] = {
 	{STR_BALANCE, findBalance},
     {STR_TRANSACTIONS, findTransactions},
-	{STR_BLOCK, findBlock}
+	{STR_BLOCK, findBlock},
+	{STR_CHECK_USER, checkUser},
+	{STR_TXN_BY_HASH, findTxnByHash}
 };
 
 finder finderParse( string ref)
