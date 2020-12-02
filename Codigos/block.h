@@ -107,6 +107,12 @@ bool inpt::operator==(const inpt & right) const
 
 bool inpt::operator!=(const inpt & right){return !(*this == right);}
 
+string inpt::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 
 outpt::outpt() //Creador base
@@ -188,6 +194,13 @@ bool outpt::operator==(const outpt & right) const
 		return true;
 	else
 		return false;
+}
+
+string outpt::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
 }
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
@@ -599,6 +612,13 @@ void bdy::show(ostream& oss)
 		oss << txns[i];
 	}
 }
+
+string hdr::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 //--------------------------CLASE HEADER----------------------------------------------------------------------------------------
 
 
@@ -752,6 +772,13 @@ void hdr::show(ostream& oss)
 	oss << bits << endl;
 	oss << nonce << endl;
 }
+
+string hdr::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 //--------------------------CLASE BLOCK----------------------------------------------------------------------------------------
 
 hdr block::getHeader()
@@ -876,5 +903,10 @@ void block::show(ostream& oss)
 	oss << body;
 }
 
-
+string block::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 #endif //_BLOCK_H_

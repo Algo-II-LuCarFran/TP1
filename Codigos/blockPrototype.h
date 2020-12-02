@@ -36,6 +36,7 @@ class inpt
 	}
 	bool operator==( const inpt &) const;
 	bool operator!=(const inpt &);
+	string toString();
 };
 
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
@@ -61,6 +62,7 @@ class outpt
 		return oss;
 	}
 	bool operator==( const outpt &) const;
+	string toString();
 };
 
 
@@ -137,6 +139,7 @@ class bdy
 		body.show(oss);
 		return oss;
 	}
+	string toString();
 };	
 
 //--------------------------CLASE HEADER----------------------------------------------------------------------------------------
@@ -171,6 +174,7 @@ class hdr
 		header.show(oss);
 		return oss;
 	}
+	string toString();
 };
 
 
@@ -204,6 +208,7 @@ class block{
 		block.show(oss);
 		return oss;
 	}
+	string toString();
 };
 
 #endif// _BLOCKPROTOTYPE_H_
