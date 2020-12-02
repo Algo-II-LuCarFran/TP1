@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string.h>
 #include <cstring>
+
 #include "Array.h"
 #include "tools.h"
 #include "Lista.h"
@@ -14,7 +15,6 @@
 #include "Lista.h"
 #include "main.h"
 #include "user.h"
-
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para definir las referencias de comandos
 #define STR_INIT "init"
@@ -195,7 +195,8 @@ string cmdTransfer( Array <string> args)
 	string str_user=users.find("user",src);
 	user aux_user(str_user);
 
-	Array<inpt> aux_arr_inputs(aux_user.trackMoney(src,aux-src_balance)); //Implementar este constructor en block.h
+	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.h
+	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
 	aux_txn.setTxIn(aux_arr_inputs);
 	
 	//Construccion del arreglo de outputs
@@ -219,7 +220,8 @@ string cmdTransfer( Array <string> args)
 		str_user=users.find("user",dst[i]);
 		if(str_user==FINDNT)
 		{
-			user new_user.addTxn(aux_txn);
+			user new_user;
+			new_user.addTxn(aux_txn);//falta ponerle el nombre
 			users.append(new_user);
 		}
 		else
@@ -233,7 +235,8 @@ string cmdTransfer( Array <string> args)
 	str_user=users.find("user",src);
 	if(str_user==FINDNT)
 	{
-		user new_user.addTxn(aux_txn);
+		user new_user;
+		new_user.addTxn(aux_txn);
 		users.append(new_user);
 	}
 	else

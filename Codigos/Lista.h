@@ -297,31 +297,31 @@ string list<T>::find(const string& ref,const string& d )
 
 
 template<typename T>
-bool list<T>::removeElement(const T& t)
+void list<T>::removeElement(const T &t)
 {
-	if( this->empty() )
-		return false;
-	node* iter;
-	node* next_;
-	node* aux;
-	next_=this->first;
 
-	for(size_t i=1; i<= this->max_size; i++)
+	node *iter, *next_=0;
+
+	for (iter = first; iter != 0; iter = next_)
 	{
-		iter=next;
-		if((next_->data)==t)
-		{   
-			aux=next_->prev;
-			iter=next_->next;
-			delete next_;
-			aux->next=iter;
-			iter->prev=aux;
-			return true;
+		next_ = iter->next;
+		if (t == iter->data)
+		{
+			node *prev = iter->prev;
+			if (prev == 0)
+				first = next_;
+			else
+				prev->next = next_;
+			if (next_ == 0)
+				last = prev;
+			else
+				next_->prev = prev;
+			delete iter;
+
+			max_size--;
+			break;
 		}
-		next_=iter->next;
-		next_->prev=iter;       
 	}
-	return false; //Si no lo encontro en el for es porque no esta en la lista
 }
 
 template <typename T>

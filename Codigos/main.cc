@@ -11,7 +11,7 @@ using namespace std;
 #include "block.h"
 #include "dictionary.h"
 #include "main.h"
-#include "global.h"
+
 
 // agregar una variable global lista algochain static list<block> algochain;
 // static block mempool();
@@ -19,67 +19,77 @@ using namespace std;
 
 int main()
 {
-	// Array <string> args(1);
-	// args[0]="algochain.txt";
-	// cout <<  cmdLoad(args) << endl;
-	// args[0]="prueba.txt";
-	// ifs.open(args[0].c_str(), ios::in);
-	// iss = &ifs;
-	// block mempoolcarla(NULL_HASH, 1,iss );
-	// ifs.close();
-	// mempool = mempoolcarla;
-	// args[0] = "3";
-	// cout << cmdMine(args)<< endl;
+	Array <string> args(1);
+	args[0]="algochain.txt";
+	cout <<  cmdLoad(args) << endl;
+	args[0]="prueba.txt";
+	ifs.open(args[0].c_str(), ios::in);
+	iss = &ifs;
+	block mempoolcarla(NULL_HASH, 1,iss );
+	ifs.close();
+	mempool = mempoolcarla;
+	args[0] = "3";
+	cout << cmdMine(args)<< endl;
 
-	// args[0]="algochainout.txt";
-	// cout<< cmdSave(args)<<endl;
+	args[0]="algochainout.txt";
+	cout<< cmdSave(args)<<endl;
+	// int a =9;
 
-
-	string STR_TXNing;
-	STR_TXNing.append("Carla");
-	STR_TXNing.append("\n");
-	STR_TXNing.append("157.68");
-	STR_TXNing.append("\n");
-	STR_TXNing.append("2"); // txn in
-	STR_TXNing.append("\n");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append(" ");
-	STR_TXNing.append("0");
-	STR_TXNing.append(" ");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append("\n");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append(" ");
-	STR_TXNing.append("0");
-	STR_TXNing.append(" ");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append("\n");
-	STR_TXNing.append("2");
-	STR_TXNing.append("\n");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append(" ");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append("\n");
-	STR_TXNing.append(NULL_HASH);
-	STR_TXNing.append(" ");
-	STR_TXNing.append(NULL_HASH);
-
+	// string aux_str;
+	// aux_str.append("Carla");
+	// aux_str.append("\n");
+	// aux_str.append("157.68");
+	// aux_str.append("\n");
+	// aux_str.append("2"); // txn in
+	// aux_str.append("\n");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append(" ");
+	// aux_str.append("0");
+	// aux_str.append(" ");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append("\n");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append(" ");
+	// aux_str.append("0");
+	// aux_str.append(" ");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append("\n");
+	// aux_str.append("2");
+	// aux_str.append("\n");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append(" ");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append("\n");
+	// aux_str.append(NULL_HASH);
+	// aux_str.append(" ");
+	// aux_str.append(NULL_HASH);
 	
 
-	user carla(STR_TXNing);
-	users.append(carla);
-	users.append(carla);
-	
+	// user carla(aux_str), fran, lucas;
+	// fran = carla;
+	// lucas = carla;
+	// fran.setName("fran");
+	// lucas.setName("lucas");
+	// users.append(carla);
+	// users.append(lucas);
+	// users.append(fran);
+	// cout << users;
+	// users.removeElement(carla);
+	// cout << users;
+	// // cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
+	// // cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
 
-	list<user> aux;
+	// // cout<<"antes de terminar" << endl;
+	// list<user> lucas;
+	// lucas.append(carla);
+	// // list<double> lucas;
+	// // lucas.append(2.3);
+	// // lucas.append(2.4);
+	// // lucas.append(2.5);
 
-	aux = users;
-	cout << "users list \n" << users ;
-	cout << "aux list \n" << aux ;
-	
-	// cout<<"El balance de Carla es \n"<<	users.find("balance","Carla")<<endl;
-	// cout<<"Las transacciones de Carla son \n"<<	users.find("transactions","Carla");
-	// cout <<"La lista de users resulta \n" <<users<< endl;
+	// // list<double> fran(lucas);
+	// cout << lucas << endl;
+	// // cout << fran << endl;
  	return 0;
 }
 
