@@ -74,7 +74,7 @@ Array<T>& Array<T>::operator=(const Array<T> &right)
 }
 
 template <class T>
-bool Array<T>::operator==(const Array<T> &right)
+bool Array<T>::operator==(const Array<T> &right) const
 {
 	if(vsize != right.vsize)
 	{
@@ -82,12 +82,13 @@ bool Array<T>::operator==(const Array<T> &right)
 	}
 	else
 	{
-		for(int i = 0; i<right.vsize; i++)
+		for(size_t i = 0; i<right.vsize; i++)
 		{
-			if(ptr[i] != right.ptr[i])
-			{
+			if(ptr[i] == right.ptr[i])
+				continue;
+			else
 				return false;
-			}	
+			
 		}
 		return true;
 	}

@@ -96,6 +96,17 @@ void inpt::show(ostream& oss)
 	}
 	oss << outpoint.tx_id << " " << outpoint.idx << " " << addr;
 }
+
+bool inpt::operator==(const inpt & right) const
+{
+	if(outpoint.idx == right.outpoint.idx && outpoint.tx_id == right.outpoint.tx_id && addr == right.addr)
+		return true;
+	else
+		return false;
+}
+
+bool inpt::operator!=(const inpt & right){return !(*this == right);}
+
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 
 outpt::outpt() //Creador base
@@ -184,6 +195,15 @@ void outpt::show(ostream& oss)
 		return ;
 	}
 	oss << str_exact_precision << " " << addr;
+}
+
+
+bool outpt::operator==(const outpt & right) const
+{
+	if(value == right.value && addr == right.addr)
+		return true;
+	else
+		return false;
 }
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
@@ -376,7 +396,7 @@ string txn::getTxnAsString()
 {
 	
 	string result, aux;
-	aux = <to_string>(n_tx_in);
+	// aux = <to_string>(n_tx_in); //QUE GARCHA QUISISTE HACER
 	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
 		return result.append("0");
 	result.append(aux);
@@ -412,6 +432,20 @@ void txn::show(ostream& oss)
 	{
 		oss << tx_out[i] << endl;
 	}
+}
+
+bool txn::operator==(const txn & right) const
+{
+	if(n_tx_in == right.n_tx_in && tx_in == right.tx_in && n_tx_out == right.n_tx_out && tx_out == right.tx_out )
+		return true;
+	else
+		return false;
+}
+string txn::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
 }
 //--------------------------CLASE BODY----------------------------------------------------------------------------------------
 

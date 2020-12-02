@@ -36,6 +36,8 @@ class user
 	Array<inpt> trackMoney(const double);
 	void addTxn(const txn);
 	void loadTxn(txn tran);
+
+	bool operator==( const user & ) const;
 };
 
 user::user()
@@ -208,5 +210,14 @@ void user::loadTxn(txn tran)
 		}
 	}
 	transactions.append(tran);
+}
+
+
+bool user::operator==( const user & right) const
+{
+	if(name == right.name && balance == right.balance) //FALTA EL == DE LISTA
+		return true;
+	else
+		return false;
 }
 #endif //_USER_H_

@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string.h>
-#include <arrayPrototype.h>
+#include "Array.h"
 
 using namespace std;
 
@@ -34,6 +34,8 @@ class inpt
 		in.show(oss);
 		return oss;
 	}
+	bool operator==( const inpt &) const;
+	bool operator!=(const inpt &);
 };
 
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
@@ -58,6 +60,7 @@ class outpt
 		out.show(oss);
 		return oss;
 	}
+	bool operator==( const outpt &) const;
 };
 
 
@@ -103,6 +106,8 @@ class txn
 		tx.show(oss);
 		return oss;
 	}
+	string toString();
+	bool operator==( const txn &) const;
 };
 
 //--------------------------CLASE BODY----------------------------------------------------------------------------------------

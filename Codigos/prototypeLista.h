@@ -41,7 +41,7 @@ class list
 													//Ejemplo: ref=value d=Carla. Devuelve una string con el el ultimo output de Carla
 												   // Ejemplo: ref= id   d=<valor del hash>. Devuelve el bloque como string.
 												  // Si  no lo encuentra, devuelve una cadena vacia.                          
-	bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
+	void removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
 	size_t size(); //Obtiene el tamaño de la list
 	// list const &operator=(const list& other_list);
 	void show(ostream&);
