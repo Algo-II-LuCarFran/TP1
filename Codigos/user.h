@@ -9,6 +9,7 @@ class user
 	string name;
 	double balance;
 	list<txn> transactions;
+	
 public:
 	user();
 	user(string);
