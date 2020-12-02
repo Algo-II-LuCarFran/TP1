@@ -260,7 +260,6 @@ string list<T>::find(const string& ref,const string& d )
 
 	if(this->empty())
 	{
-		cout << "lista empty" << endl;
 		return "Findnt";
 	}
 	else

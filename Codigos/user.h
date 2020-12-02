@@ -163,9 +163,6 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-	cout << "nombre del usuario " << name << endl;
-	cout << "transaccion que se mete \n" << tran << endl;
-	cout << "hash de la transaccion que se mete \n" << sha256(tran.toString()) << endl;
 
 	if(name == inputs[0].getAddr())
 	{
@@ -173,7 +170,6 @@ void user::loadTxn(txn tran)
 		{
 			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
-				cout << aux_str_txn << endl;
 				cerr << "Error en la carga 1" << endl;
 				exit(1);
 			}

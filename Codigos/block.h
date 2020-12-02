@@ -474,11 +474,13 @@ void bdy::setTxnCount(const size_t n)
 
 string bdy::setTxns(istream *iss)
 {
-	string str,error_string;
+	cout << "el txnin" << str << endl;
+	string str, error_string;
 	size_t aux, i = 0;
 	bool err=false;
 	while(getline(*iss, str, '\n'))
 	{
+		
 		if(isHash(str)==true || str == "")
 		{
 			txn_count = i;

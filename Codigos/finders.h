@@ -100,8 +100,6 @@ string findUser(string d, string str)
 string findTxnByHash(string d, string str)
 {
 	txn tran(str);
-	cout << "el hash que quiero encontrar " << d << endl;
-	cout << "el que esta en este nodo " << tran.toString() << endl;
 	if(d == sha256(tran.toString()))
 		return tran.toString();
 	else

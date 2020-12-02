@@ -137,7 +137,8 @@ bool setAlgochainFromFile( istream *iss)
 	hdr header_aux;
 	size_t diff, nonce;
 	bdy body_aux;
-	getline(*iss, str, '\n');	
+	getline(*iss, str, '\n');
+	
 	if(str!=NULL_HASH)
 	{
 		cerr << "ERROR: No comienza con el genesis block 1" << endl;
@@ -147,6 +148,7 @@ bool setAlgochainFromFile( istream *iss)
 	{
 		//seteo el header
 		i++;
+		
 		if(isHash(str)==false)
 		{
 			cerr << "ERROR: no es un hash para prev block 2" << endl;
@@ -180,6 +182,7 @@ bool setAlgochainFromFile( istream *iss)
 		block_aux.setHeader(header_aux); //guarda el header
 		//seteo el body
 		str_aux=block_aux.setBody(iss);
+		cout << block_aux;
 		// chequeo que sea genesis
 		if(i==0)
 		{
