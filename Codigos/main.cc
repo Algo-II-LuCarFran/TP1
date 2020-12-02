@@ -37,7 +37,6 @@ int main(int argc, char * const argv[])
 	while(aux1 != "exit")
 	{
 		getline(*iss, aux1, ' ');
-		cout << aux1 <<endl;
 		if(aux1=="Exit" || aux1=="exit") break;
 		cmd = dictCmds(aux1, num_param);
 		getline(*iss, aux2, '\n');
