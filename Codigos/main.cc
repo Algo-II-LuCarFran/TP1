@@ -33,7 +33,7 @@ int main()
 
 	args[0]="algochainout.txt";
 	cout<< cmdSave(args)<<endl;
-	// int a =9;
+	int a =9;
 
 	// string aux_str;
 	// aux_str.append("Carla");
