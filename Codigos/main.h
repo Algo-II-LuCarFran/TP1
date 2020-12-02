@@ -133,29 +133,30 @@ bool setAlgochainFromFile( istream *iss)
 {
 	block block_aux, block_empty;
 	string str,str_aux;
-	getline(*iss, str, '\n');	
-	if(str!=NULL_HASH)
-	{
-		cerr << "ERROR: No comienza con el genesis block" << endl;
-		exit (1); 
-	}
-	size_t i = 0, aux = 0;
+	size_t i = -1, aux = 0;
 	hdr header_aux;
 	size_t diff, nonce;
 	bdy body_aux;
+	getline(*iss, str, '\n');	
+	if(str!=NULL_HASH)
+	{
+		cerr << "ERROR: No comienza con el genesis block 1" << endl;
+		exit (1); 
+	}
 	while (str!="")
 	{
 		//seteo el header
+		i++;
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para prev block" << endl;
+			cerr << "ERROR: no es un hash para prev block 2" << endl;
 			exit(1);
 		}
 		header_aux.setPrevBlock(str);
 		getline(*iss, str, '\n');
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para prev block" << endl;
+			cerr << "ERROR: no es un hash para prev block 3" << endl;
 			return false;
 		}
 		header_aux.setTxnsHash(str);
@@ -185,24 +186,22 @@ bool setAlgochainFromFile( istream *iss)
 			body_aux = block_aux.getBody();
 			if (body_aux.getTxnCount()!=1)
 			{
-				cerr << "ERROR: No comienza con el genesis block" << endl;
+				cerr << "ERROR: No comienza con el genesis block 4" << endl;
 				exit (1); 
 			}
 			Array <txn> txns_aux = body_aux.getTxns();
 			if(txns_aux[0].getNTxIn()!=1  || txns_aux[0].getNTxOut()!=1 )
 			{
-				cerr << "ERROR: No comienza con el genesis block" << endl;
+				cerr << "ERROR: No comienza con el genesis block 5" << endl;
 				exit (1); 
 			}
 			Array <inpt> tx_in_aux = txns_aux[0].getInputs();
 			outpnt outpoint = tx_in_aux[0].getOutPoint();
 			if(outpoint.tx_id!=NULL_HASH && outpoint.idx!=0)
 			{
-				cerr << "ERROR: No comienza con el genesis block" << endl;
+				cerr << "ERROR: No comienza con el genesis block 6" << endl;
 				exit (1); 
-			}
-
-			
+			}	
 		}
 		
 
@@ -245,11 +244,13 @@ bool refreshUsersFromBlock(block blck)
 	Array <inpt> inpts;
 	Array <outpt> outpts;
 	string addr;
-	list <string> address;
+	list <string> address, empty_list;
 	for(size_t i =0 ; i < txn_count ; i++)
-	{
+	{ cout << i << endl;
 		n_tx_in = txns[i].getNTxIn();
 		inpts = txns[i].getInputs();
+		
+		cout << "for de los in" << endl;
 		for (size_t j = 0; j < n_tx_in; j++)
 		{
 			if(j==0)
@@ -266,8 +267,11 @@ bool refreshUsersFromBlock(block blck)
 				}
 			}
 		}
-		if(users.find("checkUser",addr)=="TRUE")
-		{
+		cout << "antes de chechuser" << endl;
+		cout << users.find("checkUser",addr) << endl;
+		cout << "no era aca ja" << endl;
+		if(users.find("checkUser",addr)!=FINDNT)
+		{ cout << "if de lois in "<< endl;
 			string str_user=users.find("user",addr);
 			user aux_user(str_user);
 			users.removeElement(aux_user);
@@ -275,38 +279,48 @@ bool refreshUsersFromBlock(block blck)
 			users.append(aux_user);
 		}
 		else
-		{
-			user aux_user;
-			aux_user.loadTxn(txns[i]);
-			users.append(aux_user);
+		{ cout << "else de los in" << endl;
+			if (addr != NULL_HASH )
+			{
+				user aux_user;
+				aux_user.setName(addr);
+				aux_user.loadTxn(txns[i]);
+				users.append(aux_user);
+			}
 		}
 		//con los outputs
 		n_tx_out = txns[i].getNTxOut();
 		outpts = txns[i].getOutputs();
+		cout << "for de los out" << endl;
 		for (size_t j = 0; j < n_tx_out; j++)
 		{
 			addr = outpts[j].getAddr();
-			if(address.find(addr)!="")
+			if(address.contains(addr)==true)
 			{
+				cout << "if" <<  endl;
 				cerr << "ERROR: Addr en outputs repetidas" << endl;
 				return false;
 			}
-			else if (address.find(addr)=="" || users.find(addr, "checkUser")=="FALSE")
+			else if (address.contains(addr)!=true || users.find("checkUser",addr)==FINDNT)
 			{
-				addr = inpts[j].getAddr();
+				cout << "else " << endl;
+				addr = outpts[j].getAddr();
 				address.append(addr);
 				user aux_user;
+				aux_user.setName(addr);
 				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}
 			else
 			{
+				cout << "else del segundo for" << endl;
 				string str_user=users.find("user",addr);
 				user aux_user(str_user);
 				users.removeElement(aux_user);
 				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}	
+			address = empty_list;
 		}
 	}
 	return true;

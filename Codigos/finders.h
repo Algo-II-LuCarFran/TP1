@@ -1,6 +1,7 @@
 #ifndef _FINDERS_H_
 #define _FINDERS_H_
 
+
 #define FINDNT "Findnt" 
 //Para definir las referencias de busqueda
 #define STR_BALANCE "balance" 
@@ -18,16 +19,11 @@ using namespace std;
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para contar la cantidad de finders que se tiene. Se utiliza para encontrar el que se necesita en 
 //cada situacion
-#define MAXFINDER 4
+#define MAXFINDER 6
 
 
 
-#define FINDNT "Findnt" 
-//Para definir las referencias de busqueda
-#define STR_BALANCE "balance" 
-#define STR_TRANSACTIONS "transactions"
 
-using namespace std;
 //-----------------------------------------------------FINDERS---------------------------------------------
 //Los finders buscan la informacion especifica pedida (como un id o un value de cierto
 // user) y la devuelven en una string
@@ -54,7 +50,7 @@ string findTransactions(string d, string str)
 		return aux_user.getTransactions().toString();
 		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
 	else
-		return FINDNT;
+		return "Findnt";
 }
 string findBalance(string d, string str)
 {
@@ -70,7 +66,7 @@ string findBalance(string d, string str)
 	if(d == aux)
 		return to_string(aux_user.getBalance());
 	else
-		return FINDNT;
+		return "Findnt";
 }
 
 string findBlock(string d, string str)
@@ -80,7 +76,7 @@ string findBlock(string d, string str)
 	if(aux==d)
 		return str;
 	else
-		return FINDNT;
+		return "Findnt";
 }
 
 string checkUser(string d, string str)
@@ -89,7 +85,7 @@ string checkUser(string d, string str)
 	if(d == aux_user.getName())
 		return "TRUE";
 	else
-		return "FALSE";
+		return "Findnt";
 }
 
 string findUser(string d, string str)
@@ -98,7 +94,7 @@ string findUser(string d, string str)
 	if(d == aux_user.getName())
 		return aux_user.toString();
 	else
-		return FINDNT;
+		return "Findnt";
 }
 
 string findTxnByHash(string d, string str)
@@ -107,7 +103,7 @@ string findTxnByHash(string d, string str)
 	if(d == sha256(tran.getTxnAsString()))
 		return tran.getTxnAsString();
 	else
-		return FINDNT;
+		return "Findnt";
 }
 // string findTransaction(string d, string str) 
 // {
@@ -119,7 +115,7 @@ string findTxnByHash(string d, string str)
 // 		return aux_user.getTransactions().toString();
 // 		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
 // 	else
-// 		return FINDNT;
+// 		return "Findnt";
 // }
 
 //---------------------------------------------DICCIONARIOS-----------------------------------------------
@@ -139,6 +135,7 @@ static finder_option_t dictionary_finder[] = {
     {STR_TRANSACTIONS, findTransactions},
 	{STR_BLOCK, findBlock},
 	{STR_CHECK_USER, checkUser},
+	{STR_USER, findUser},
 	{STR_TXN_BY_HASH, findTxnByHash}
 };
 
