@@ -26,7 +26,6 @@ class inpt
 	//Si hay getters deberian haber setters. Si no se usan, eliminarlos.
 	string getAddr();
 	outpnt getOutPoint();
-	string getInputAsString();
 	void setInput(string aux_tx_id, size_t aux_idx, string aux_addr);
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, inpt& in) 
@@ -54,7 +53,6 @@ class outpt
 	outpt & operator=(const outpt &);
 	string getValue();
 	string getAddr();
-	string getOutputAsString();
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, outpt& out) 
 	{
@@ -100,7 +98,6 @@ class txn
 	Array<inpt>& getInputs();
 	Array<outpt>& getOutputs();
 
-	string getTxnAsString();
 	string validateTxn();
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, txn& tx) 
@@ -124,10 +121,8 @@ class bdy
 	~bdy();
 	bdy & operator=(const bdy &);
 	bdy getBody();
-	string getBodyAsString();
 	size_t getTxnCount();
 	Array<txn> getTxns();
-	string getTxnsAsString();
 	// void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
@@ -166,7 +161,6 @@ class hdr
 	string getTxnHash();
 	size_t getBits();
 	size_t getNonce();
-	string getHeaderAsString();
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, hdr& header) 
 	{
@@ -199,7 +193,6 @@ class block{
 	void setBlockFromFile(istream *iss);
 	hdr getHeader();
 	bdy getBody();
-	string getBlockAsString();
 	void addTxn(txn aux_txn);
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, block& block) 

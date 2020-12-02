@@ -63,24 +63,6 @@ outpnt inpt::getOutPoint(){return outpoint;}
 
 string inpt::getAddr(){return addr;}
 
-string inpt::getInputAsString()
-{
-	stringstream ss; 
-	string aux;
-
-	ss<<(this->getOutPoint().idx);	 //Pasaje de size_t   
-	ss>>aux; 						// a string
-	
-	string result;
-	result.append((this->getOutPoint()).tx_id);
-	result.append(" ");
-	result.append(aux);
-	result.append(" ");
-	result.append((this->getAddr()));
-
-	return result;
-}
-
 void inpt::setInput(string aux_tx_id, size_t aux_idx, string aux_addr)
 {
 	outpoint.tx_id=aux_tx_id;
@@ -169,14 +151,6 @@ string outpt::getAddr(){return addr;}
 
 string outpt::getValue(){return value;}
 
-string outpt::getOutputAsString()
-{
-	string result;
-	result.append(value);
-	result.append(" ");
-	result.append(addr);
-	return result;
-}
 
 void outpt::show(ostream& oss)
 {
@@ -397,31 +371,6 @@ Array<inpt>& txn::getInputs(){return tx_in;}
 Array<outpt>& txn::getOutputs(){return tx_out;}
 
 
-string txn::getTxnAsString()
-{
-	
-	string result, aux;
-	// aux = <to_string>(n_tx_in); //QUE GARCHA QUISISTE HACER
-	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
-		return result.append("0");
-	result.append(aux);
-	result.append("\n");
-	for(size_t i = 0; i < n_tx_in; i++)
-	{
-		result.append(tx_in[i].toString());
-		result.append("\n");
-	}
-	aux = to_string(n_tx_out);
-	result.append(aux);
-	result.append("\n");
-	for(size_t i = 0; i < n_tx_out; i++)
-	{
-		result.append(tx_out[i].toString());
-		result.append("\n"); //Es necesario para separar las transacciones al enviarlas al flujo de salida
-	}
-	return result;
-}
-
 void txn::show(ostream& oss)
 {
 	size_t i;
@@ -576,28 +525,6 @@ string bdy::setTxns(istream *iss)
 	return "OK";
 }
 
-string bdy::getTxnsAsString()
-{
-	string result;
-	if((txn_count==1) && (!txns[0].toString().compare("0")))
-		return "0\n";
-	for (size_t i = 0; i < txn_count; i++)
-	{
-		result.append(txns[i].toString());
-	}
-	return result;
-}
-
-string bdy::getBodyAsString()
-{
-	string result, str,aux;
-	str = to_string(txn_count);
-	result.append(str);
-	result.append("\n");
-	result.append(this->toString());
-	return result;
-}
-
 size_t bdy::getTxnCount(){return txn_count;}
 Array<txn> bdy::getTxns(){return txns;}
 
@@ -687,23 +614,6 @@ size_t hdr::getBits(){return bits;}
 
 size_t hdr::getNonce(){return nonce;}
 
-
-string hdr::getHeaderAsString()
-{
-	string str;
-	string bit_string = to_string(bits); //convierto el bits a string y lo agrego a la string
-	string nonce_string; //para guardar cuando transforme en string del nonce
-
-	str.append(prev_block);//pongo primero en la string el prev block
-	str.append("\n");//PREGUNTAR si no viene con el barra n, creo que no pero si no ya esta
-	str.append(txns_hash);//agrego el txns, ver comentario de la linea 25
-	str.append("\n");
-	str.append(bit_string);
-	str.append("\n");
-	nonce_string = to_string(nonce); //convierto el nonce a string
-	str.append(nonce_string); 
-	return str;
-}
 
 void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bits) // Setea el header con el nonce que verifica que el hash del header cumpla con los primeros d bits en cero
 {
@@ -883,14 +793,7 @@ block::~block()
 {
 }
 
-string block::getBlockAsString()
-{
-	string result, str;
-	result.append(header.toString());
-	result.append("\n");
-	result.append(body.toString());
-	return result;
-}
+
 void block::addTxn(txn aux_txn)
 {
 	bdy aux_bdy;
