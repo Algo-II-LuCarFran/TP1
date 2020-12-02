@@ -182,7 +182,6 @@ bool setAlgochainFromFile( istream *iss)
 		block_aux.setHeader(header_aux); //guarda el header
 		//seteo el body
 		str_aux=block_aux.setBody(iss);
-		cout << block_aux;
 		// chequeo que sea genesis
 		if(i==0)
 		{
