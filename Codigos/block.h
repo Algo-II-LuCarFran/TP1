@@ -408,7 +408,7 @@ string txn::getTxnAsString()
 	result.append("\n");
 	for(size_t i = 0; i < n_tx_in; i++)
 	{
-		result.append(tx_in[i].getInputAsString());
+		result.append(tx_in[i].toString());
 		result.append("\n");
 	}
 	aux = to_string(n_tx_out);
@@ -416,7 +416,7 @@ string txn::getTxnAsString()
 	result.append("\n");
 	for(size_t i = 0; i < n_tx_out; i++)
 	{
-		result.append(tx_out[i].getOutputAsString());
+		result.append(tx_out[i].toString());
 		result.append("\n"); //Es necesario para separar las transacciones al enviarlas al flujo de salida
 	}
 	return result;
@@ -424,19 +424,21 @@ string txn::getTxnAsString()
 
 void txn::show(ostream& oss)
 {
+	size_t i;
 	if(n_tx_in == 0)
 		return ;
 	oss << n_tx_in << endl;
-	for (size_t i = 0; i < tx_in.getSize(); i++)
+	for (i = 0; i < tx_in.getSize(); i++)
 	{
 		oss << tx_in[i] << endl;
 	}
 	
 	oss << n_tx_out << endl;
-	for (size_t i = 0; i < tx_out.getSize(); i++)
+	for (i = 0; i < tx_out.getSize()-1; i++)
 	{
 		oss << tx_out[i] << endl;
 	}
+	oss << tx_out[i];
 }
 
 bool txn::operator==(const txn & right) const
@@ -577,11 +579,11 @@ string bdy::setTxns(istream *iss)
 string bdy::getTxnsAsString()
 {
 	string result;
-	if((txn_count==1) && (!txns[0].getTxnAsString().compare("0")))
+	if((txn_count==1) && (!txns[0].toString().compare("0")))
 		return "0\n";
 	for (size_t i = 0; i < txn_count; i++)
 	{
-		result.append(txns[i].getTxnAsString());
+		result.append(txns[i].toString());
 	}
 	return result;
 }
@@ -592,7 +594,7 @@ string bdy::getBodyAsString()
 	str = to_string(txn_count);
 	result.append(str);
 	result.append("\n");
-	result.append(this->getTxnsAsString());
+	result.append(this->toString());
 	return result;
 }
 
@@ -613,7 +615,7 @@ void bdy::show(ostream& oss)
 	}
 }
 
-string hdr::toString()
+string bdy::toString()
 {
     ostringstream ss;
     ss << *this;
@@ -721,7 +723,7 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 	{
 		header_str.clear();
 		nonce = nonce_aux;
-		header_str = getHeaderAsString();
+		header_str = toString();
 		header_str.append("\n");
 		hash_header = sha256(sha256(header_str)); //calculo el hash del header_aux
 		i=0;
@@ -797,7 +799,7 @@ void block::setHeader(const string& prev_block_str,const size_t diffic)
 {
 	string aux;
 	header.setPrevBlock(prev_block_str);
-	aux = body.getBodyAsString();
+	aux = body.toString();
 	header.setTxnsHash(aux);
 	header.setBits(diffic);
 	header.setNonce(header.getPrevBlock(),header.getTxnHash(),header.getBits());
@@ -884,9 +886,9 @@ block::~block()
 string block::getBlockAsString()
 {
 	string result, str;
-	result.append(header.getHeaderAsString());
+	result.append(header.toString());
 	result.append("\n");
-	result.append(body.getBodyAsString());
+	result.append(body.toString());
 	return result;
 }
 void block::addTxn(txn aux_txn)

@@ -127,7 +127,6 @@ class bdy
 	string getBodyAsString();
 	size_t getTxnCount();
 	Array<txn> getTxns();
-	string getTxnAsString();
 	string getTxnsAsString();
 	// void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
