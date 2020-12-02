@@ -1,16 +1,18 @@
 #ifndef _USER_H_
 #define _USER_H_
 
+#include "finders.h"
 #include "block.h"
 #include "Lista.h"
+#include "Array.h"
+
 
 class user
 {
 	string name;
 	double balance;
-	list<txn> transactions;
-	
-public:
+	list <txn> transactions; //Solo se guardan las transacciones donde user aparece como output.
+	public:
 	user();
 	user(string);
 	~user();
@@ -29,6 +31,13 @@ public:
 		usr.show(oss);
 		return oss;
 	}
+
+	user const &operator=(user const &);
+	Array<inpt> trackMoney(const double);
+	void addTxn(const txn);
+	void loadTxn(txn tran);
+
+	bool operator==( const user & ) const;
 };
 
 user::user()
@@ -43,7 +52,6 @@ user::~user()
 
 user::user(string str_user)
 {
-	//HAY QUE RECIBIR LA CANTIDAD DE TRANSACCIONES.ES UNA VERGA. SE PUEDE CAMBIAR??????
 	//Para crear el usuario a partir de una string, se considera que dicha string contiene todos los campos de user separados 
 	//por fines de linea (\n): name,balance y transactions.
 	istringstream ss(str_user);
@@ -54,18 +62,13 @@ user::user(string str_user)
 	getline(ss, this->name, '\n');
 	getline(ss, aux_str, '\n');
 	balance = stod(aux_str);
-
-	// getline(ss, aux_str, '\n'); //Error de compatibilidad finders vs cosas Carla.
-	// aux_body.setTxnCount(stoi(aux_str));
-	aux_body.setTxnCount(1); // AGREGADO PARA QUE FUNCIONE LO DE CARLA.
-	aux_body.setTxns(&ss);	// PORQUE ACA NO SE SETEA TXNCOUNT. 
+	aux_body.setTxns(&ss); 
 
 	Array <txn> array_aux_txns=aux_body.getTxns();
 	for(size_t i=0; i<aux_body.getTxnCount(); i++)
 	{
 		this->transactions.append(array_aux_txns[i]);
 	}
-	// }
 }
 
 string user::getName()
@@ -95,5 +98,126 @@ string user::toString()
     ostringstream ss;
     ss << *this;
     return ss.str();
+}
+
+user const &user::operator=(user const &right)
+{
+	if(&right != this)
+	{
+		name = right.name;
+		balance = right.balance;
+		transactions = right.transactions;
+		return *this;
+	}
+	return *this;
+}
+
+Array<inpt> user::trackMoney(const double money)
+{
+	txn aux_txn;
+	size_t inpt_iter;
+	size_t i;
+	Array<outpt> aux_outputs;
+	Array<inpt> inputs;
+	double utxo = 0;
+	while(utxo < money)
+	{
+		aux_txn = transactions.getLastNode();
+		aux_outputs = aux_txn.getOutputs();
+		for (i = 0; i < aux_txn.getNTxOut(); i++)
+		{
+			if(aux_outputs[i].getAddr() == name)
+			{
+				utxo += aux_outputs[i].getValue();
+				break;
+			}
+		}
+		inputs[inpt_iter].setInput(sha256(aux_txn.getTxnAsString()), i, name);
+		transactions.removeElement(aux_txn);
+	}
+	balance -= utxo;
+
+	return inputs;
+}
+
+void user::addTxn(txn tran)
+{
+	Array<inpt> aux_inpt;
+	transactions.append(tran);
+	if(name != tran.getInputs()[0].getAddr())
+	{
+		for (size_t i = 0; i < tran.getNTxOut(); i++)
+		{
+			if(name == tran.getOutputs()[i].getAddr())
+			{
+				balance += tran.getOutputs()[i].getValue();
+				break;
+			}
+		}
+	}
+}
+
+void user::loadTxn(txn tran)
+{
+	string aux_str_txn;
+	double source_value = 0, spent_value = 0, change;
+	Array<inpt> inputs = tran.getInputs();
+	Array<outpt> outputs = tran.getOutputs();
+	
+	if(name == inputs[0].getAddr())
+	{
+		for (size_t i = 0; i < tran.getNTxIn(); i++)
+		{
+			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == FINDNT)
+			{
+				cerr << "Error en la carga " << endl;
+				exit(1);
+			}
+			txn aux_txn(aux_str_txn);
+			transactions.removeElement(aux_txn);
+
+			if(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getAddr() != name)
+			{
+				cerr << "Error en la carga " << endl;
+				exit(1);
+			}
+			source_value += aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue();
+		}
+		for (size_t i = 0; i < tran.getNTxOut(); i++)
+		{
+			spent_value += outputs[i].getValue();
+			if(outputs[i].getAddr() == name)
+				change = outputs[i].getValue();
+		}
+
+		if(spent_value != source_value)
+		{
+			cerr << "Error en la carga" << endl;
+			exit(1);
+		}
+
+		balance = balance - spent_value + change;
+	}
+	else
+	{
+		for (size_t i = 0; i < tran.getNTxOut(); i++)
+		{
+			if(outputs[i].getAddr() == name)
+			{
+				balance += outputs[i].getValue();
+				break;
+			}
+		}
+	}
+	transactions.append(tran);
+}
+
+
+bool user::operator==( const user & right) const
+{
+	if(name == right.name && balance == right.balance) //FALTA EL == DE LISTA
+		return true;
+	else
+		return false;
 }
 #endif //_USER_H_

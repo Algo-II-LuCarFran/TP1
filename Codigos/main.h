@@ -133,18 +133,19 @@ bool setAlgochainFromFile( istream *iss)
 {
 	block block_aux, block_empty;
 	string str,str_aux;
-	getline(*iss, str, '\n');	
+	size_t i = -1, aux = 0;
+	hdr header_aux;
+	size_t diff, nonce;
+	bdy body_aux;
+	getline(*iss, str, '\n');
 	if(str!=NULL_HASH)
 	{
 		cerr << "ERROR: No comienza con el genesis block" << endl;
 		exit (1); 
 	}
-	size_t i = 0, aux = 0;
-	hdr header_aux;
-	size_t diff, nonce;
-	bdy body_aux;
 	while (str!="")
 	{
+		i++;
 		//seteo el header
 		if(isHash(str)==false)
 		{
@@ -155,7 +156,7 @@ bool setAlgochainFromFile( istream *iss)
 		getline(*iss, str, '\n');
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para prev block" << endl;
+			cerr << "ERROR: no es un hash para txns hash" << endl;
 			return false;
 		}
 		header_aux.setTxnsHash(str);
@@ -196,12 +197,13 @@ bool setAlgochainFromFile( istream *iss)
 			}
 			Array <inpt> tx_in_aux = txns_aux[0].getInputs();
 			outpnt outpoint = tx_in_aux[0].getOutPoint();
+			cout << outpoint.tx_id << endl;
+			cout << outpoint.idx << endl;
 			if(outpoint.tx_id!=NULL_HASH && outpoint.idx!=0)
 			{
 				cerr << "ERROR: No comienza con el genesis block" << endl;
 				exit (1); 
 			}
-
 			
 		}
 		
@@ -234,6 +236,7 @@ bool setAlgochainFromFile( istream *iss)
 			return false;
 		}
 	}
+	
 	return true;
 }
 
@@ -246,6 +249,7 @@ bool refreshUsersFromBlock(block blck)
 	Array <outpt> outpts;
 	string addr;
 	list <string> address;
+	string str_aux;
 	for(size_t i =0 ; i < txn_count ; i++)
 	{
 		n_tx_in = txns[i].getNTxIn();
@@ -255,7 +259,8 @@ bool refreshUsersFromBlock(block blck)
 			if(j==0)
 			{
 				addr = inpts[j].getAddr();
-				continue;
+				cout << addr << endl;
+				//continue;
 			}
 			else
 			{
@@ -265,8 +270,12 @@ bool refreshUsersFromBlock(block blck)
 					return false;
 				}
 			}
-		}
-		if(users.find("checkUser",addr)=="TRUE")
+			
+		// cout << "la addres guardada es "<< endl; 
+		// cout << addr << endl;
+		// str_aux = users.find("checkUser",addr);
+		// cout << str_aux << endl;
+		if( users.find("checkUser",addr)=="TRUE")
 		{
 			string str_user=users.find("user",addr);
 			user aux_user(str_user);
@@ -276,8 +285,12 @@ bool refreshUsersFromBlock(block blck)
 		}
 		else
 		{
-			user aux_user.loadTxn( txns[i]);
+			user aux_user;
+			cout << aux_user << endl;
+			aux_user.loadTxn(txns[i]);
+			cout << aux_user << endl;
 			users.append(aux_user);
+			cout << users << endl;
 		}
 		//con los outputs
 		n_tx_out = txns[i].getNTxOut();
@@ -285,6 +298,15 @@ bool refreshUsersFromBlock(block blck)
 		for (size_t j = 0; j < n_tx_out; j++)
 		{
 			addr = outpts[j].getAddr();
+			if (j==0)
+			{
+				address.append(addr);
+				user aux_user;
+				aux_user.loadTxn(txns[i]);
+				users.append(aux_user);
+				continue;
+			}
+			
 			if(address.find(addr)!="")
 			{
 				cerr << "ERROR: Addr en outputs repetidas" << endl;
@@ -292,9 +314,9 @@ bool refreshUsersFromBlock(block blck)
 			}
 			else if (address.find(addr)=="" || users.find(addr, "checkUser")=="FALSE")
 			{
-				addr = inpts[j].getAddr();
 				address.append(addr);
-				user aux_user.loadTxn( txns[i]);
+				user aux_user;
+				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}
 			else
@@ -305,6 +327,7 @@ bool refreshUsersFromBlock(block blck)
 				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}	
+		}
 		}
 	}
 	return true;

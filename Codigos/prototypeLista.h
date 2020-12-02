@@ -28,7 +28,7 @@ class list
 					// Si la lista esta vacia max_size=0
 	public:
 	list(); //Constructor basico
-	list(list<T> &L); //Constructor en base a otra list.
+	list(const list &); //Constructor en base a otra list.
 	~list(); //Destructor
 	void append(const T& t); //Agregar nodo al final de la list.
 	void insert(const T& t); //Agregar nodo al principio de la list.
@@ -41,7 +41,7 @@ class list
 													//Ejemplo: ref=value d=Carla. Devuelve una string con el el ultimo output de Carla
 												   // Ejemplo: ref= id   d=<valor del hash>. Devuelve el bloque como string.
 												  // Si  no lo encuentra, devuelve una cadena vacia.                          
-	bool removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
+	void removeElement(const T& t); //Elimina el primer nodo que contiene al dato t. Devuelve false si no pudo eliminarlo.
 	size_t size(); //Obtiene el tamaño de la list
 	// list const &operator=(const list& other_list);
 	void show(ostream&);
@@ -50,10 +50,13 @@ class list
 		l.show(oss);
 		return oss;
 	}
+
+	list const &operator=(list const &);
 	string toString();
 	T getFirstNode();
 	T getLastNode();
-	list<T> const & operator=(list const &orig);
+	bool deleteFirstNode();
+	bool deleteLastNode();
 };
 
 #endif //_PROTOTYPELISTA_H_

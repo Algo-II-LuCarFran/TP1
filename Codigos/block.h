@@ -10,6 +10,8 @@
 #include <ctype.h>
 #include <iomanip>
 
+#include "blockPrototype.h"
+
 #include "math.h"
 #include "tools.h"
 #include "Array.h"
@@ -20,33 +22,7 @@
 //
 // o Jerarquía de clases: Bloque > Header/Body>Txn > Input/Output > Outpoint (estructura que pertenece a Input).
 
-//--------------------------ESTRUCTURA OUTPOINT----------------------------------------------------------------------------------------
-struct outpnt
-{
-	string tx_id; //Es un hash de la transaccion de donde este input toma fondos
-	size_t idx; //Valor entero no negativo que representa un indice sobre la secuencia de outputs de la transaccion con hash tx id
-};
-//--------------------------CLASE INPUT----------------------------------------------------------------------------------------
-class inpt
-{   
-	outpnt outpoint;
-	string addr; //La direccion de origen de los fondos (que debe coincidir con la direccion del output referenciado)
-	public:
-	inpt(); //Creador base
-	inpt(string&); //Creador mediante una string
-	~inpt( ); //Destructor
-	inpt & operator=(const inpt &);
-	//Si hay getters deberian haber setters. Si no se usan, eliminarlos.
-	string getAddr();
-	outpnt getOutPoint();
-	string getInputAsString();
-	void show(ostream&);
-	friend ostream& operator<<(ostream& oss, inpt& in) 
-	{
-		in.show(oss);
-		return oss;
-	}
-};
+
 inpt::inpt(){}//Creador base
 
 inpt::~inpt(){} //Destructor base
@@ -105,6 +81,13 @@ string inpt::getInputAsString()
 	return result;
 }
 
+void inpt::setInput(string aux_tx_id, size_t aux_idx, string aux_addr)
+{
+	outpoint.tx_id=aux_tx_id;
+	outpoint.idx=aux_idx;
+	addr=aux_addr;
+}
+
 void inpt::show(ostream& oss)
 {
 	if(outpoint.tx_id == "" || addr == "")
@@ -113,28 +96,18 @@ void inpt::show(ostream& oss)
 	}
 	oss << outpoint.tx_id << " " << outpoint.idx << " " << addr;
 }
-//--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
-class outpt
+
+bool inpt::operator==(const inpt & right) const
 {
-	double value; //La  cantidad de Algocoins a transferir en este output
-	string addr; //La direccion de origen de los fondos (que debe coincidir con la direccion del output referenciado)
+	if(outpoint.idx == right.outpoint.idx && outpoint.tx_id == right.outpoint.tx_id && addr == right.addr)
+		return true;
+	else
+		return false;
+}
 
-	public:
+bool inpt::operator!=(const inpt & right){return !(*this == right);}
 
-	outpt(); //Creador base
-	outpt(string&); //Creador mediante una string
-	~outpt( ); //Destructor
-	outpt & operator=(const outpt &);
-	double getValue();
-	string getAddr();
-	string getOutputAsString();
-	void show(ostream&);
-	friend ostream& operator<<(ostream& oss, outpt& out) 
-	{
-		out.show(oss);
-		return oss;
-	}
-};
+//--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 
 outpt::outpt() //Creador base
 {    
@@ -163,6 +136,18 @@ outpt::outpt(string & str) //Creador mediante una string
 	getline(ss, str_value, ' '); // Se recorren los campos. Si el formato es erroneo, se detecta como una cadena vacia.
 	getline(ss, str_addr, '\n');
 
+	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
+	{
+		this->value=stod(str_value);
+		this->addr=str_addr;
+	}
+	else
+	{
+		this->addr=ERROR;
+	}
+}
+outpt::outpt(string& str_addr, string & str_value)
+{
 	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
 	{
 		this->value=stod(str_value);
@@ -211,47 +196,16 @@ void outpt::show(ostream& oss)
 	}
 	oss << str_exact_precision << " " << addr;
 }
+
+
+bool outpt::operator==(const outpt & right) const
+{
+	if(value == right.value && addr == right.addr)
+		return true;
+	else
+		return false;
+}
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
-
-
-class txn
-{   
-	private:
-	size_t n_tx_in; //Indica la cantidad total de inputs en la transaccion
-	size_t n_tx_out; //Indica la cantidad total de outputs en la transaccion
-	Array <inpt> tx_in; //Datos de entrada para las transacciones
-	Array <outpt> tx_out; //Datos de salida para las transacciones
-
-	public:
-	txn(); //Creador base
-	txn(Array<string>&); //Creador en base a un array de cadenas. El array debe contener todos los campos necesarios
-						// para crear la transaccion.
-	txn(string txn_str); //Creador en base a una cadenas que contiene toda la informacion para crear la transaccion.
-	~txn( ); //Destructor
-	txn &operator=( const txn & );
-
-	void setNTxIn(const size_t) ;
-	void setNTxOut(const size_t);
-	string setTxIn(const size_t n, istream *iss); // Seteador que valida los datos y devuelve un booleano para el error
-	bool setTxIn(const size_t, Array<string>&);
-	string setTxOut(const size_t n, istream *iss);
-	bool setTxOut(const size_t, Array<string>&);
-	string setTxOutFile(const size_t n, istream *iss);
-
-	size_t getNTxIn();
-	size_t getNTxOut();
-	Array<inpt>& getInputs();
-	Array<outpt>& getOutputs();
-
-	string getTxnAsString();
-	string validateTxn();
-	void show(ostream&);
-	friend ostream& operator<<(ostream& oss, txn& tx) 
-	{
-		tx.show(oss);
-		return oss;
-	}
-};
 
 
 txn::txn()
@@ -371,21 +325,18 @@ bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 	return true;
 }
 
+bool txn::setTxIn(Array<inpt>& arr)
+{
+	size_t n = arr.getSize();
+	for (size_t i = 0; i < n; i++)
+	{
+		if(isError(arr[i].getAddr())==false) //QUE QUISISTE PONER ACA
+			return false;
+		tx_in[i]=arr[i];
+	}
+	return true;
+}
 
-// bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
-// 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
-// {
-// 	string aux_s;
-// 	for (size_t i = 0; i < n; i++)
-// 	{
-// 		getline(*iss, aux_s, '\n');
-// 		outpt out(aux_s);
-// 		if(isError(out.getAddr())==false)
-// 			return false;
-// 		tx_out[i] = out;
-// 	}
-// 	return true;
-// }
 
 string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
@@ -406,32 +357,19 @@ string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del 
 	return "OK";
 }
 
-// string txn::setTxOutFile(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
-// 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
-// {
-// 	string aux_s;
-// 	for (size_t i = 0; i < n; i++)
-// 	{
-// 		if(iss.eof()!=1)
-// 		{
-// 			return "\n";
-// 		}
-// 		getline(*iss, aux_s, '\n');
-// 		if (isHash(aux_s)==true)
-// 		{
-// 			return aux_s;
-// 		}
-		
-// 		outpt out(aux_s);
-// 		if(isError(out.getAddr())==false)
-// 		{
-// 			cerr << "ERROR: Carga invalida"<< endl;
-// 			exit(1);
-// 		}
-// 		tx_out[i] = out;
-// 	}
-// 	return "\0";
-// }
+string txn::setTxOut(Array<string> dst,Array<string> dst_value)
+{
+	size_t n=dst.getSize();
+	for(size_t i=0; i< n;i ++)
+	{
+		outpt aux_output(dst[i],dst_value[i]);
+		if(isError(aux_output.getAddr())==false)
+			return "ERROR: addres invalida";
+		tx_out[i]=aux_output;
+	}
+	return "OK";
+	
+} 
 
 bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
@@ -458,7 +396,7 @@ string txn::getTxnAsString()
 {
 	
 	string result, aux;
-	aux = to_string(n_tx_in);
+	// aux = <to_string>(n_tx_in); //QUE GARCHA QUISISTE HACER
 	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
 		return result.append("0");
 	result.append(aux);
@@ -495,34 +433,22 @@ void txn::show(ostream& oss)
 		oss << tx_out[i] << endl;
 	}
 }
+
+bool txn::operator==(const txn & right) const
+{
+	if(n_tx_in == right.n_tx_in && tx_in == right.tx_in && n_tx_out == right.n_tx_out && tx_out == right.tx_out )
+		return true;
+	else
+		return false;
+}
+string txn::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 //--------------------------CLASE BODY----------------------------------------------------------------------------------------
 
-class bdy
-{
-	friend class block;
-	size_t txn_count;
-	Array <txn> txns;
-	public:
-	bdy();
-	~bdy();
-	bdy & operator=(const bdy &);
-	bdy getBody();
-	string getBodyAsString();
-	size_t getTxnCount();
-	Array<txn> getTxns();
-	string getTxnAsString();
-	string getTxnsAsString();
-	// void setTxns(Array <txn> txns);
-	string setTxns(istream *iss);
-	void setTxnCount(const size_t n);
-	void txnsArrRedim(const size_t );
-	void show(ostream&);
-	friend ostream& operator<<(ostream& oss, bdy& body) 
-	{
-		body.show(oss);
-		return oss;
-	}
-};	
 bdy::bdy()
 {
 }
@@ -683,36 +609,6 @@ void bdy::show(ostream& oss)
 }
 //--------------------------CLASE HEADER----------------------------------------------------------------------------------------
 
-class hdr
-{
-	friend class block;
-	string prev_block;//El hash del bloque completo que antecede al bloque actual en la Algochain.
-	string txns_hash;//El hash de todas las transacciones incluidas en el bloque.
-	size_t bits;    // Valor entero positivo que indica la dificultad con la que fue minada este bloque.
-	size_t nonce;  // Un valor entero no negativo que puede contener valores arbitrarios. El objetivo de este 
-				  // campo es tener un espacio de prueba modificable para poder generar hashes sucesivos hasta 
-				 // satisfacer la dificultad del minado.
-	public:
-	hdr();
-	~hdr();
-	hdr & operator=(const hdr &);
-	bool setPrevBlock(const string&);
-	void setTxnsHash(const string&);
-	void setBits(const size_t n);
-	void setNonce(const string prev_block,const  string txns ,const  size_t bits);
-	void setNonce(const  size_t nonce);
-	string getPrevBlock();
-	string getTxnHash();
-	size_t getBits();
-	size_t getNonce();
-	string getHeaderAsString();
-	void show(ostream&);
-	friend ostream& operator<<(ostream& oss, hdr& header) 
-	{
-		header.show(oss);
-		return oss;
-	}
-};
 
 hdr::hdr()
 {
@@ -865,34 +761,6 @@ void hdr::show(ostream& oss)
 	oss << nonce << endl;
 }
 //--------------------------CLASE BLOCK----------------------------------------------------------------------------------------
-class block
-{   
-	private:
-	hdr header;
-	bdy body;
-
-	public:
-	block(); //Creador base
-	block(const string,const  size_t, istream*); //Creador en base al hash del bloque previo, al nivel de  
-												//dificultad y un flujo de entrada por el que se reciben las 
-											   // transacciones.
-	~block( ); //Destructor
-	block & operator=(const block &);
-	void setHeader(const string&,const size_t);
-	string setBody(istream *iss);
-	void setHeader(hdr header);
-	void setBody(bdy body);
-	void setBlockFromFile(istream *iss);
-	hdr getHeader();
-	bdy getBody();
-	string getBlockAsString();
-	void show(ostream&);
-	friend ostream& operator<<(ostream& oss, block& block) 
-	{
-		block.show(oss);
-		return oss;
-	}
-};
 
 hdr block::getHeader()
 {
@@ -956,12 +824,12 @@ string block::setBody(istream *iss)
 
 block::block()
 {
-	header.prev_block=NULL_HASH;
-	header.txns_hash=NULL_HASH;
-	header.bits=0;
-	header.nonce=0;
+	header.setPrevBlock(NULL_HASH);
+	header.setTxnsHash(NULL_HASH);
+	header.setBits(0);
+	header.setNonce(0);
 
-	body.txn_count=0;
+	body.setTxnCount(0);
 	//El campo txn tiene su propio inicializador base. No hace falta ponerlo
 }
 
@@ -969,6 +837,24 @@ block::block(const string str,const  size_t diffic, istream *iss)
 {
 	setBody(iss);
 	setHeader(str, diffic);
+}
+
+block::block(const string block_str)
+{
+	istringstream ss(block_str);
+	string aux;
+	int aux_int;
+	getline(ss, aux, '\n');
+	this->header.setPrevBlock(aux);
+	getline(ss, aux, '\n');
+	this->header.setTxnsHash(aux);
+	getline(ss, aux, '\n');
+	aux_int=stoi(aux);
+	this->header.setBits(aux_int);
+	getline(ss, aux, '\n');
+	aux_int=stoi(aux);
+	this->header.setNonce(aux_int);
+	body.setTxns(&ss);
 }
 
 block::~block()
@@ -982,6 +868,13 @@ string block::getBlockAsString()
 	result.append("\n");
 	result.append(body.getBodyAsString());
 	return result;
+}
+void block::addTxn(txn aux_txn)
+{
+	bdy aux_bdy;
+	aux_bdy=this->getBody();
+	aux_bdy.txnsArrRedim((this->getBody().getTxnCount())+1);
+	aux_bdy.getTxns()[(this->getBody().getTxnCount())]=aux_txn; //LO VA A METER EN AUX_BDY Y DESPUES SE ELIMINA
 }
 
 void block::show(ostream& oss)
