@@ -57,6 +57,7 @@ class list
 	T getLastNode();
 	bool deleteFirstNode();
 	bool deleteLastNode();
+	bool contains(const T &elem) const;
 };
 
 #endif //_PROTOTYPELISTA_H_
