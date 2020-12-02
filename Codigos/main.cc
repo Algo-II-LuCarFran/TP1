@@ -18,22 +18,32 @@ using namespace std;
 
 int main()
 {
-	Array <string> args(1);
-	args[0]="algochain.txt";
-	cout <<  cmdLoad(args) << endl;
-	args[0]="prueba.txt";
-	ifs.open(args[0].c_str(), ios::in);
-	iss = &ifs;
-	block mempoolcarla(NULL_HASH, 1,iss );
-	ifs.close();
-	mempool = mempoolcarla;
-	args[0] = "3";
-	cout << cmdMine(args)<< endl;
+	// Array <string> args(1);
+	// args[0]="algochain.txt";
+	// cout <<  cmdLoad(args) << endl;
+	// args[0]="prueba.txt";
+	// ifs.open(args[0].c_str(), ios::in);
+	// iss = &ifs;
+	// block mempoolcarla(NULL_HASH, 1,iss );
+	// ifs.close();
+	// mempool = mempoolcarla;
+	// args[0] = "3";
+	// cout << cmdMine(args)<< endl;
 
-	args[0]="algochainout.txt";
-	cout<< cmdSave(args)<<endl;
-	int a =9;
+	// args[0]="algochainout.txt";
+	// cout<< cmdSave(args)<<endl;
+	// int a =9;
 
+	list <double> lista;
+
+	lista.append(203.2);
+	lista.append(203.3);
+	lista.append(203.4);
+	lista.append(203.5);
+
+	cout << lista;
+	lista.removeElement(203.3);
+	cout << lista;
 	// string STR_TXNing;
 	// STR_TXNing.append("Carla");
 	// STR_TXNing.append("\n");

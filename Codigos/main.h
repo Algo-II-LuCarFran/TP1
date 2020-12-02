@@ -276,7 +276,8 @@ bool refreshUsersFromBlock(block blck)
 		}
 		else
 		{
-			user aux_user.loadTxn( txns[i]);
+			user aux_user;
+			aux_user.loadTxn(txns[i]);
 			users.append(aux_user);
 		}
 		//con los outputs
@@ -294,7 +295,8 @@ bool refreshUsersFromBlock(block blck)
 			{
 				addr = inpts[j].getAddr();
 				address.append(addr);
-				user aux_user.loadTxn( txns[i]);
+				user aux_user;
+				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}
 			else
