@@ -169,6 +169,7 @@ void user::loadTxn(txn tran)
 		{
 			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
+				cout << aux_str_txn << endl;
 				cerr << "Error en la carga 1" << endl;
 				exit(1);
 			}
