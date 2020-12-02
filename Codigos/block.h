@@ -479,7 +479,6 @@ string bdy::setTxns(istream *iss)
 	bool err=false;
 	while(getline(*iss, str, '\n'))
 	{
-		
 		if(isHash(str)==true || str == "")
 		{
 			txn_count = i;
@@ -524,7 +523,7 @@ string bdy::setTxns(istream *iss)
 		// Se verifican las salidas
 
 		str=txns[i].setTxOut(aux, iss);
-	
+		
 		i++;
 		if(isHash(str)==true)
 		{
@@ -799,7 +798,7 @@ string block::setBody(istream *iss)
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
 	str=body.setTxns(iss);
-cout << "body set txns " << str << endl;
+
 	if (isHash(str)==true)
 	{
 		return str;
