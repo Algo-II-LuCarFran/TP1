@@ -610,6 +610,7 @@ string bdy::setTxns(istream *iss)
 		// Se verifican las salidas
 
 		str=txns[i].setTxOut(aux, iss);
+		
 		i++;
 		if(isHash(str)==true)
 		{
@@ -639,6 +640,7 @@ string bdy::setTxns(istream *iss)
 		error_string.append("Vuelva a cargar los datos del bloque");
 		return error_string;
 	}
+	
 	if(str == "")
 	{
 		return str;

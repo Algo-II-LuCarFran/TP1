@@ -22,6 +22,10 @@ using namespace std;
 
 
 
+#define FINDNT "Findnt" 
+//Para definir las referencias de busqueda
+#define STR_BALANCE "balance" 
+#define STR_TRANSACTIONS "transactions"
 
 using namespace std;
 //-----------------------------------------------------FINDERS---------------------------------------------

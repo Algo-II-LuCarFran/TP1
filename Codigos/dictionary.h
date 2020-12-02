@@ -14,7 +14,6 @@
 #include "Lista.h"
 #include "main.h"
 #include "user.h"
-
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para definir las referencias de comandos
 #define STR_INIT "init"

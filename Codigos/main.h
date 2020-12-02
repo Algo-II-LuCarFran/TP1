@@ -22,6 +22,8 @@ static void opt_input(string const &);
 static void opt_output(string const &);
 static void opt_help(string const &);
 
+bool setAlgochainFromFile( istream *iss);
+bool refreshUsersFromBlock(block );
 block mempool;
 list <block> algochain;
 list <user> users;
@@ -132,6 +134,11 @@ bool setAlgochainFromFile( istream *iss)
 	block block_aux, block_empty;
 	string str,str_aux;
 	getline(*iss, str, '\n');	
+	if(str!=NULL_HASH)
+	{
+		cerr << "ERROR: No comienza con el genesis block" << endl;
+		exit (1); 
+	}
 	size_t i = 0, aux = 0;
 	hdr header_aux;
 	size_t diff, nonce;
@@ -172,28 +179,132 @@ bool setAlgochainFromFile( istream *iss)
 		block_aux.setHeader(header_aux); //guarda el header
 		//seteo el body
 		str_aux=block_aux.setBody(iss);
+		// chequeo que sea genesis
+		if(i==0)
+		{
+			body_aux = block_aux.getBody();
+			if (body_aux.getTxnCount()!=1)
+			{
+				cerr << "ERROR: No comienza con el genesis block" << endl;
+				exit (1); 
+			}
+			Array <txn> txns_aux = body_aux.getTxns();
+			if(txns_aux[0].getNTxIn()!=1  || txns_aux[0].getNTxOut()!=1 )
+			{
+				cerr << "ERROR: No comienza con el genesis block" << endl;
+				exit (1); 
+			}
+			Array <inpt> tx_in_aux = txns_aux[0].getInputs();
+			outpnt outpoint = tx_in_aux[0].getOutPoint();
+			if(outpoint.tx_id!=NULL_HASH && outpoint.idx!=0)
+			{
+				cerr << "ERROR: No comienza con el genesis block" << endl;
+				exit (1); 
+			}
+
+			
+		}
 		
-		if(isHash(str_aux)==true)
+
+	
+		if(isHash(str_aux)==true || str_aux=="")//volver a los if separadaros y ver si es break o continue se rompio mi crerbo
 		{
 			str=str_aux;
 			algochain.append(block_aux);
-			break;
-		}
-		else if (str_aux=="")
-		{	
-			str=str_aux;
-			algochain.append(block_aux);
+			if(refreshUsersFromBlock(block_aux)==false)
+			{
+				cerr<< "ERROR: no se pueden cargar los users"<< endl;
+				exit(1);
+			}
 			break;
 		}
 		else if (str_aux=="OK")
 		{
 			algochain.append(block_aux);
+			if(refreshUsersFromBlock(block_aux)==false)
+			{
+				cerr<< "ERROR: no se pueden cargar los users"<< endl;
+				exit(1);
+			}
 			getline(*iss, str, '\n');			
 			continue;
 		}
 		else
 		{
 			return false;
+		}
+	}
+	return true;
+}
+
+bool refreshUsersFromBlock(block blck)
+{
+	bdy body = blck.getBody();
+	size_t txn_count = body.getTxnCount(), n_tx_in, n_tx_out;
+	Array <txn> txns = body.getTxns();
+	Array <inpt> inpts;
+	Array <outpt> outpts;
+	string addr;
+	list <string> address;
+	for(size_t i =0 ; i < txn_count ; i++)
+	{
+		n_tx_in = txns[i].getNTxIn();
+		inpts = txns[i].getInputs();
+		for (size_t j = 0; j < n_tx_in; j++)
+		{
+			if(j==0)
+			{
+				addr = inpts[j].getAddr();
+				continue;
+			}
+			else
+			{
+				if(inpts[j].getAddr()!=addr)
+				{
+					cerr << "ERROR: Addr en inputs es distinto" << endl;
+					return false;
+				}
+			}
+		}
+		if(users.find("checkUser",addr)=="TRUE")
+		{
+			string str_user=users.find("user",addr);
+			user aux_user(str_user);
+			users.removeElement(aux_user);
+			aux_user.loadTxn( txns[i]);
+			users.append(aux_user);
+		}
+		else
+		{
+			user aux_user.loadTxn( txns[i]);
+			users.append(aux_user);
+		}
+		//con los outputs
+		n_tx_out = txns[i].getNTxOut();
+		outpts = txns[i].getOutputs();
+		for (size_t j = 0; j < n_tx_out; j++)
+		{
+			addr = outpts[j].getAddr();
+			if(address.find(addr)!="")
+			{
+				cerr << "ERROR: Addr en outputs repetidas" << endl;
+				return false;
+			}
+			else if (address.find(addr)=="" || users.find(addr, "checkUser")=="FALSE")
+			{
+				addr = inpts[j].getAddr();
+				address.append(addr);
+				user aux_user.loadTxn( txns[i]);
+				users.append(aux_user);
+			}
+			else
+			{
+				string str_user=users.find("user",addr);
+				user aux_user(str_user);
+				users.removeElement(aux_user);
+				aux_user.loadTxn(txns[i]);
+				users.append(aux_user);
+			}	
 		}
 	}
 	return true;
