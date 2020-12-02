@@ -286,9 +286,7 @@ bool refreshUsersFromBlock(block blck)
 		else
 		{
 			user aux_user;
-			cout << aux_user << endl;
 			aux_user.loadTxn(txns[i]);
-			cout << aux_user << endl;
 			users.append(aux_user);
 			cout << users << endl;
 		}
