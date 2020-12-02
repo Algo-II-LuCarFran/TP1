@@ -137,7 +137,7 @@ string cmdInit(Array <string> args)
 	
 	istringstream iss(STR_TXNing);
 	block genesis_block(NULL_HASH, bits, &iss);
-	return sha256(genesis_block.getBlockAsString());
+	return sha256(genesis_block.toString());
 }
 
 string cmdTransfer( Array <string> args)
@@ -246,7 +246,7 @@ string cmdTransfer( Array <string> args)
 		aux_user.addTxn(aux_txn);
 		users.append(aux_user);
 	}
-	return sha256(aux_txn.getTxnAsString());
+	return sha256(aux_txn.toString());
 }
 
 string cmdMine(Array <string> args)
@@ -264,7 +264,7 @@ string cmdMine(Array <string> args)
 		exit(1);
 	}
 	block aux = algochain.getLastNode();
-	string prev_block = sha256(sha256(aux.getBlockAsString()));
+	string prev_block = sha256(sha256(aux.toString()));
 	if(isHash(prev_block)==false)
 	{
 		cerr << "ERROR: al convertir prev block"<< endl; // que otra falla?
@@ -277,7 +277,7 @@ string cmdMine(Array <string> args)
 	//limpiar mempool
 	block empty_block;
 	mempool = empty_block;
-	return sha256(sha256(aux_save.getBlockAsString()));
+	return sha256(sha256(aux_save.toString()));
 	//return "hola";
 }
 
@@ -329,7 +329,7 @@ string cmdLoad(Array <string> args)
 	ifs.close();
 	block aux ;
 	aux = algochain.getLastNode();
-	return sha256(sha256(aux.getBlockAsString()));
+	return sha256(sha256(aux.toString()));
 }
 
 string cmdSave(Array <string> args)

@@ -63,24 +63,6 @@ outpnt inpt::getOutPoint(){return outpoint;}
 
 string inpt::getAddr(){return addr;}
 
-string inpt::getInputAsString()
-{
-	stringstream ss; 
-	string aux;
-
-	ss<<(this->getOutPoint().idx);	 //Pasaje de size_t   
-	ss>>aux; 						// a string
-	
-	string result;
-	result.append((this->getOutPoint()).tx_id);
-	result.append(" ");
-	result.append(aux);
-	result.append(" ");
-	result.append((this->getAddr()));
-
-	return result;
-}
-
 void inpt::setInput(string aux_tx_id, size_t aux_idx, string aux_addr)
 {
 	outpoint.tx_id=aux_tx_id;
@@ -107,6 +89,12 @@ bool inpt::operator==(const inpt & right) const
 
 bool inpt::operator!=(const inpt & right){return !(*this == right);}
 
+string inpt::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 
 outpt::outpt() //Creador base
@@ -163,14 +151,6 @@ string outpt::getAddr(){return addr;}
 
 string outpt::getValue(){return value;}
 
-string outpt::getOutputAsString()
-{
-	string result;
-	result.append(value);
-	result.append(" ");
-	result.append(addr);
-	return result;
-}
 
 void outpt::show(ostream& oss)
 {
@@ -188,6 +168,13 @@ bool outpt::operator==(const outpt & right) const
 		return true;
 	else
 		return false;
+}
+
+string outpt::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
 }
 //--------------------------CLASE TXN----------------------------------------------------------------------------------------
 
@@ -384,46 +371,23 @@ Array<inpt>& txn::getInputs(){return tx_in;}
 Array<outpt>& txn::getOutputs(){return tx_out;}
 
 
-string txn::getTxnAsString()
-{
-	
-	string result, aux;
-	// aux = <to_string>(n_tx_in); //QUE GARCHA QUISISTE HACER
-	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
-		return result.append("0");
-	result.append(aux);
-	result.append("\n");
-	for(size_t i = 0; i < n_tx_in; i++)
-	{
-		result.append(tx_in[i].getInputAsString());
-		result.append("\n");
-	}
-	aux = to_string(n_tx_out);
-	result.append(aux);
-	result.append("\n");
-	for(size_t i = 0; i < n_tx_out; i++)
-	{
-		result.append(tx_out[i].getOutputAsString());
-		result.append("\n"); //Es necesario para separar las transacciones al enviarlas al flujo de salida
-	}
-	return result;
-}
-
 void txn::show(ostream& oss)
 {
+	size_t i;
 	if(n_tx_in == 0)
 		return ;
 	oss << n_tx_in << endl;
-	for (size_t i = 0; i < tx_in.getSize(); i++)
+	for (i = 0; i < tx_in.getSize(); i++)
 	{
 		oss << tx_in[i] << endl;
 	}
 	
 	oss << n_tx_out << endl;
-	for (size_t i = 0; i < tx_out.getSize(); i++)
+	for (i = 0; i < tx_out.getSize()-1; i++)
 	{
 		oss << tx_out[i] << endl;
 	}
+	oss << tx_out[i];
 }
 
 bool txn::operator==(const txn & right) const
@@ -561,28 +525,6 @@ string bdy::setTxns(istream *iss)
 	return "OK";
 }
 
-string bdy::getTxnsAsString()
-{
-	string result;
-	if((txn_count==1) && (!txns[0].getTxnAsString().compare("0")))
-		return "0\n";
-	for (size_t i = 0; i < txn_count; i++)
-	{
-		result.append(txns[i].getTxnAsString());
-	}
-	return result;
-}
-
-string bdy::getBodyAsString()
-{
-	string result, str,aux;
-	str = to_string(txn_count);
-	result.append(str);
-	result.append("\n");
-	result.append(this->getTxnsAsString());
-	return result;
-}
-
 size_t bdy::getTxnCount(){return txn_count;}
 Array<txn> bdy::getTxns(){return txns;}
 
@@ -598,6 +540,13 @@ void bdy::show(ostream& oss)
 	{
 		oss << txns[i];
 	}
+}
+
+string bdy::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
 }
 //--------------------------CLASE HEADER----------------------------------------------------------------------------------------
 
@@ -666,23 +615,6 @@ size_t hdr::getBits(){return bits;}
 size_t hdr::getNonce(){return nonce;}
 
 
-string hdr::getHeaderAsString()
-{
-	string str;
-	string bit_string = to_string(bits); //convierto el bits a string y lo agrego a la string
-	string nonce_string; //para guardar cuando transforme en string del nonce
-
-	str.append(prev_block);//pongo primero en la string el prev block
-	str.append("\n");//PREGUNTAR si no viene con el barra n, creo que no pero si no ya esta
-	str.append(txns_hash);//agrego el txns, ver comentario de la linea 25
-	str.append("\n");
-	str.append(bit_string);
-	str.append("\n");
-	nonce_string = to_string(nonce); //convierto el nonce a string
-	str.append(nonce_string); 
-	return str;
-}
-
 void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bits) // Setea el header con el nonce que verifica que el hash del header cumpla con los primeros d bits en cero
 {
 	size_t out = 0; //inicializo d_auz que contara el nivel de difucultar y out que es un flag para el for
@@ -701,7 +633,7 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 	{
 		header_str.clear();
 		nonce = nonce_aux;
-		header_str = getHeaderAsString();
+		header_str = toString();
 		header_str.append("\n");
 		hash_header = sha256(sha256(header_str)); //calculo el hash del header_aux
 		i=0;
@@ -752,6 +684,13 @@ void hdr::show(ostream& oss)
 	oss << bits << endl;
 	oss << nonce << endl;
 }
+
+string hdr::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 //--------------------------CLASE BLOCK----------------------------------------------------------------------------------------
 
 hdr block::getHeader()
@@ -770,7 +709,7 @@ void block::setHeader(const string& prev_block_str,const size_t diffic)
 {
 	string aux;
 	header.setPrevBlock(prev_block_str);
-	aux = body.getBodyAsString();
+	aux = body.toString();
 	header.setTxnsHash(aux);
 	header.setBits(diffic);
 	header.setNonce(header.getPrevBlock(),header.getTxnHash(),header.getBits());
@@ -854,14 +793,7 @@ block::~block()
 {
 }
 
-string block::getBlockAsString()
-{
-	string result, str;
-	result.append(header.getHeaderAsString());
-	result.append("\n");
-	result.append(body.getBodyAsString());
-	return result;
-}
+
 void block::addTxn(txn aux_txn)
 {
 	bdy aux_bdy;
@@ -876,5 +808,10 @@ void block::show(ostream& oss)
 	oss << body;
 }
 
-
+string block::toString()
+{
+    ostringstream ss;
+    ss << *this;
+    return ss.str();
+}
 #endif //_BLOCK_H_

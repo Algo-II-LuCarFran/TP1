@@ -132,7 +132,7 @@ Array<inpt> user::trackMoney(const double money)
 				break;
 			}
 		}
-		inputs[inpt_iter].setInput(sha256(aux_txn.getTxnAsString()), i, name);
+		inputs[inpt_iter].setInput(sha256(aux_txn.toString()), i, name);
 		transactions.removeElement(aux_txn);
 	}
 	balance -= utxo;
@@ -163,7 +163,6 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-
 	if(name == inputs[0].getAddr())
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)
