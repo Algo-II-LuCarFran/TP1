@@ -128,7 +128,7 @@ Array<inpt> user::trackMoney(const double money)
 		{
 			if(aux_outputs[i].getAddr() == name)
 			{
-				utxo += aux_outputs[i].getValue();
+				utxo += stod(aux_outputs[i].getValue());
 				break;
 			}
 		}
@@ -150,7 +150,7 @@ void user::addTxn(txn tran)
 		{
 			if(name == tran.getOutputs()[i].getAddr())
 			{
-				balance += tran.getOutputs()[i].getValue();
+				balance += stod(tran.getOutputs()[i].getValue());
 				break;
 			}
 		}
@@ -163,13 +163,16 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-	cout << "el usuario son: \n" << *this << endl;
+	// cout << "transaccion que se mete \n" << tran << endl;
+	// cout << "hash de la transaccion que se mete \n" << sha256(tran.toString()) << endl;
+
 	if(name == inputs[0].getAddr())
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)
 		{
 			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
+				cout << aux_str_txn << endl;
 				cerr << "Error en la carga 1" << endl;
 				exit(1);
 			}
@@ -181,13 +184,13 @@ void user::loadTxn(txn tran)
 				cerr << "Error en la carga 2" << endl;
 				exit(1);
 			}
-			source_value += aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue();
+			source_value += stod(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue());
 		}
 		for (size_t i = 0; i < tran.getNTxOut(); i++)
 		{
-			spent_value += outputs[i].getValue();
+			spent_value += stod(outputs[i].getValue());
 			if(outputs[i].getAddr() == name)
-				change = outputs[i].getValue();
+				change = stod(outputs[i].getValue());
 		}
 
 		if(spent_value != source_value)
@@ -204,7 +207,7 @@ void user::loadTxn(txn tran)
 		{
 			if(outputs[i].getAddr() == name)
 			{
-				balance += outputs[i].getValue();
+				balance += stod(outputs[i].getValue());
 				break;
 			}
 		}
