@@ -250,6 +250,7 @@ bool refreshUsersFromBlock(block blck)
 	string addr;
 	list <string> address;
 	string str_aux;
+	cout << blck << endl;
 	for(size_t i =0 ; i < txn_count ; i++)
 	{
 		n_tx_in = txns[i].getNTxIn();
