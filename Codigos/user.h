@@ -163,8 +163,6 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-	// cout << "transaccion que se mete \n" << tran << endl;
-	// cout << "hash de la transaccion que se mete \n" << sha256(tran.toString()) << endl;
 
 	if(name == inputs[0].getAddr())
 	{

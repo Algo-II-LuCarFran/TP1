@@ -222,16 +222,18 @@ txn::txn(string txn_str)
 	string aux;
 	getline(ss, aux, '\n');
 	size_t i;
-	this->setNTxIn(stoi(aux));
-	for(i=0;i<(this->getNTxIn());i++)
+	n_tx_in = stoi(aux);
+	tx_in.ArrayRedim(n_tx_in);
+	for(i=0;i<n_tx_in;i++)
 	{
 		getline(ss, aux, '\n');
 		inpt in(aux);
 		tx_in[i] = in;
 	}
 	getline(ss, aux, '\n');
-	this->setNTxOut(stoi(aux));
-	for(i=0 ;i<(this->getNTxOut());i++)
+	n_tx_out = stoi(aux);
+	tx_out.ArrayRedim(n_tx_out);
+	for(i=0 ;i<n_tx_out;i++)
 	{
 		getline(ss, aux, '\n');
 		outpt out(aux);
@@ -472,11 +474,12 @@ void bdy::setTxnCount(const size_t n)
 
 string bdy::setTxns(istream *iss)
 {
-	string str,error_string;
+	string str, error_string;
 	size_t aux, i = 0;
 	bool err=false;
 	while(getline(*iss, str, '\n'))
 	{
+		
 		if(isHash(str)==true || str == "")
 		{
 			txn_count = i;
@@ -796,7 +799,7 @@ string block::setBody(istream *iss)
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
 	str=body.setTxns(iss);
-
+cout << "body set txns " << str << endl;
 	if (isHash(str)==true)
 	{
 		return str;
