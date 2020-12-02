@@ -323,8 +323,7 @@ string cmdLoad(Array <string> args)
 	}
 	if(setAlgochainFromFile(iss)==false)
 	{
-		cerr << "ERROR: no se pudo cargar el archivo "
-		<< endl;
+		cerr << "ERROR: no se pudo cargar el archivo " << endl;
 		exit(1);
 	}
 	ifs.close();

@@ -295,6 +295,7 @@ void txn::setNTxOut(const size_t n)
 string txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del setter por defecto (void) por
 {												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 	string aux_s;
+	tx_in.ArrayRedim(n);
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
@@ -315,6 +316,7 @@ bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 	//Se modifica el retorno del setter por defecto (void) por
 	// necesidad. Verifica si el setteo pudo realizarse correctamente. 
 	string aux_s;
+	tx_in.ArrayRedim(n);
 	for (size_t i = 0; i < n; i++)
 	{
 		inpt in(tx_in_str_arr[i]);
@@ -328,6 +330,7 @@ bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 bool txn::setTxIn(Array<inpt>& arr)
 {
 	size_t n = arr.getSize();
+	tx_in.ArrayRedim(n);
 	for (size_t i = 0; i < n; i++)
 	{
 		if(isError(arr[i].getAddr())==false) //QUE QUISISTE PONER ACA
@@ -342,6 +345,7 @@ string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del 
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 {
 	string aux_s;
+	tx_out.ArrayRedim(n);
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
@@ -360,6 +364,7 @@ string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del 
 string txn::setTxOut(Array<string> dst,Array<string> dst_value)
 {
 	size_t n=dst.getSize();
+	tx_out.ArrayRedim(n);
 	for(size_t i=0; i< n;i ++)
 	{
 		outpt aux_output(dst[i],dst_value[i]);
@@ -374,6 +379,7 @@ string txn::setTxOut(Array<string> dst,Array<string> dst_value)
 bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
 {
+	tx_out.ArrayRedim(n);
 	for (size_t i = 0; i < n; i++)
 	{
 		outpt out(tx_in_str_arr[i]);
@@ -503,7 +509,7 @@ string bdy::setTxns(istream *iss)
 			err=true;
 			break;
 		}
-	
+
 		aux = stoi(str);
 		txns[i].setNTxIn(aux);
 
@@ -531,7 +537,7 @@ string bdy::setTxns(istream *iss)
 		// Se verifican las salidas
 
 		str=txns[i].setTxOut(aux, iss);
-		
+	
 		i++;
 		if(isHash(str)==true)
 		{
@@ -799,13 +805,14 @@ string block::setBody(istream *iss)
 {
 	string str;
 	getline(*iss, str, '\n');
+	
 	size_t txn_count = stoi(str);
 	//validar que sea numero
 	body.setTxnCount(txn_count);
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
 	str=body.setTxns(iss);
-
+	
 	if (isHash(str)==true)
 	{
 		return str;

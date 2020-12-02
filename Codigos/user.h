@@ -163,7 +163,7 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-	
+	cout << "el usuario son: \n" << *this << endl;
 	if(name == inputs[0].getAddr())
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)

@@ -176,7 +176,7 @@ bool setAlgochainFromFile( istream *iss)
 		}
 		nonce = stoi(str);
 		header_aux.setNonce(nonce);
-
+		
 		block_aux.setHeader(header_aux); //guarda el header
 		//seteo el body
 		str_aux=block_aux.setBody(iss);
@@ -205,7 +205,6 @@ bool setAlgochainFromFile( istream *iss)
 		}
 		
 
-	
 		if(isHash(str_aux)==true || str_aux=="")//volver a los if separadaros y ver si es break o continue se rompio mi crerbo
 		{
 			str=str_aux;
@@ -246,11 +245,10 @@ bool refreshUsersFromBlock(block blck)
 	string addr;
 	list <string> address, empty_list;
 	for(size_t i =0 ; i < txn_count ; i++)
-	{ cout << i << endl;
+	{
 		n_tx_in = txns[i].getNTxIn();
 		inpts = txns[i].getInputs();
 		
-		cout << "for de los in" << endl;
 		for (size_t j = 0; j < n_tx_in; j++)
 		{
 			if(j==0)
@@ -267,11 +265,9 @@ bool refreshUsersFromBlock(block blck)
 				}
 			}
 		}
-		cout << "antes de chechuser" << endl;
-		cout << users.find("checkUser",addr) << endl;
-		cout << "no era aca ja" << endl;
+
 		if(users.find("checkUser",addr)!=FINDNT)
-		{ cout << "if de lois in "<< endl;
+		{
 			string str_user=users.find("user",addr);
 			user aux_user(str_user);
 			users.removeElement(aux_user);
@@ -279,7 +275,7 @@ bool refreshUsersFromBlock(block blck)
 			users.append(aux_user);
 		}
 		else
-		{ cout << "else de los in" << endl;
+		{
 			if (addr != NULL_HASH )
 			{
 				user aux_user;
@@ -291,19 +287,17 @@ bool refreshUsersFromBlock(block blck)
 		//con los outputs
 		n_tx_out = txns[i].getNTxOut();
 		outpts = txns[i].getOutputs();
-		cout << "for de los out" << endl;
+
 		for (size_t j = 0; j < n_tx_out; j++)
 		{
 			addr = outpts[j].getAddr();
 			if(address.contains(addr)==true)
 			{
-				cout << "if" <<  endl;
 				cerr << "ERROR: Addr en outputs repetidas" << endl;
 				return false;
 			}
 			else if (address.contains(addr)!=true || users.find("checkUser",addr)==FINDNT)
 			{
-				cout << "else " << endl;
 				addr = outpts[j].getAddr();
 				address.append(addr);
 				user aux_user;
@@ -313,7 +307,6 @@ bool refreshUsersFromBlock(block blck)
 			}
 			else
 			{
-				cout << "else del segundo for" << endl;
 				string str_user=users.find("user",addr);
 				user aux_user(str_user);
 				users.removeElement(aux_user);

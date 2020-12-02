@@ -251,7 +251,6 @@ string list<T>::toString()
 template<typename T>
 string list<T>::find(const string& ref,const string& d )
 {
-	cout << "find de dos argumentos inicia " << endl;
 	finder aux_finder;
 	aux_finder = finderParse(ref);
 	string result;
@@ -260,7 +259,7 @@ string list<T>::find(const string& ref,const string& d )
 	node* aux;
 
 	if(this->empty())
-	{    	cout << "find de dos argumentos finaliza  1" << endl;
+	{
 		return "Findnt";
 	}
 	else
@@ -270,7 +269,6 @@ string list<T>::find(const string& ref,const string& d )
 		aux->prev=this->last->prev;
 		if((result = aux_finder(d,(aux->data).toString())) != "Findnt") //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
 		{   
-	    	cout << "find de dos argumentos finaliza  2" << endl;
 			return result;
 		}
 
@@ -279,7 +277,6 @@ string list<T>::find(const string& ref,const string& d )
 			prev_=aux->prev;
 			if(!prev_)
 			{  
-    	cout << "find de dos argumentos finaliza  3" << endl;
 				return "Findnt";//antes decia null
 			}
 
@@ -287,7 +284,6 @@ string list<T>::find(const string& ref,const string& d )
 			prev_->prev=aux->prev->prev; 
 			if((result = aux_finder(d,(prev_->data).toString())) != "Findnt")
 			{
-	    	cout << "find de dos argumentos finaliza  4" << endl;
 				return result;
 			}
 			aux=prev_;
@@ -295,7 +291,6 @@ string list<T>::find(const string& ref,const string& d )
 			aux->prev=prev_->prev;
 		} 
 	}
-	   	cout << "find de dos argumentos finaliza  5" << endl;
 	return "Findnt";
 }
 
