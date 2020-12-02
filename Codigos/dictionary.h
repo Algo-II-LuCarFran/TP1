@@ -13,6 +13,7 @@
 #include "sha256.h"
 #include "Lista.h"
 #include "main.h"
+#include "user.h"
 
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para definir las referencias de comandos
@@ -153,7 +154,7 @@ string cmdTransfer( Array <string> args)
 	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
 												//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 	aux=src_balance;
-	size_t dim_array_aux=(args.getSize()-1)/2;
+	size_t dim_array_aux=(args.getSize()-1)/2+1;
 	Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
 
 	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
@@ -179,41 +180,70 @@ string cmdTransfer( Array <string> args)
 
 		if(dst_value[i]<0) //No se puede transferir una cantidad negativa
 			return MSG_FAIL;
-		src_balance -=dst_value[j];
+		src_balance-=dst_value[j];
 		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
 			return MSG_FAIL;
 	}
 	//Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferirles
 	//por lo que se crea un arreglo con la informacion de la transaccion.
+	txn aux_txn;
 
+	//Construccion del arreglo de inputs
 	// Se debe buscar en la lista de transacciones del user src todos los outputs necesarios hasta completar la 
 	//cantidad que se desea transferir: buscar en los outputs hasta conseguir aux-src_balance.
+	
+	string str_user=users.find("user",src);
+	user aux_user(str_user);
 
+	Array<inpt> aux_arr_inputs(aux_user.trackMoney(src,aux-src_balance)); //Implementar este constructor en block.h
+	aux_txn.setTxIn(aux_arr_inputs);
+	
+	//Construccion del arreglo de outputs
+	aux_txn.setNTxOut(dim_array_aux);
+	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
+	dst[dst.getSize()-1]=src;
 	
 
-
-
-
-
-	//Queda generar un arreglo de 3 cosas para el input
-	//Array <string> input_array(3); //Siempre se tendra un arreglo de 3 elementos, pues hay un solo input 
-									// y cada input requiere 3 campos a especificar: tx_id, idx, addr.
-	//1)Cargar el tx_id. //tx_id, el hash de la transaccion de donde este input toma fondos,
-	//2)Cargar el idx.  //idx, un valor entero no negativo que sirve de indice sobre la secuencia de outputs
-					   //de la transaccion con hash tx_id
-	//3)Cargar el addr. //addr, la direccion de origen de los fondos (que debe coincidir con la direcci ´ on del ´
-					   //output referenciado
-	//4)Implementar el operador + para el array, asi se pueden concatenar dos arrays.
-	//  Concatenar input_array con args.getSubArray(2,final). Debe quedar guardado en input_array.
-	//5)Se crea la transaccion:
-	//  txn txn_aux(input_array); 
-	//6)En algun lado se deben actualizar los users de la lista global con los valores de las 
-	//  transferencias realizadas
-	//7)Añadir a la mempool(variable global) la transaccion actual txn_aux:
-	//	mempool.addTxn(txn_aux);
-
-	//return sha256(txn_aux.getTxnAsString());
-	 return "hola";
+	string aux_str=to_string(src_balance);	
+	size_t i;
+	for(i=aux_str.length()-1; aux_str[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
+	dst_value_str[dst_value_str.getSize()-1]=aux_str.substr(0,i+1) ;
+	
+	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
+	
+	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
+	
+	//Se carga la transaccion a la lista de usuarios.
+	for(size_t i=0; i< dst.getSize();i++)
+	{
+		str_user=users.find("user",dst[i]);
+		if(str_user==FINDNT)
+		{
+			user new_user.addTxn(aux_txn);
+			users.append(new_user);
+		}
+		else
+		{	
+			user aux_user(str_user);
+			users.removeElement(aux_user);
+			aux_user.addTxn(aux_txn);
+			users.append(aux_user);
+		}
+	}
+	str_user=users.find("user",src);
+	if(str_user==FINDNT)
+	{
+		user new_user.addTxn(aux_txn);
+		users.append(new_user);
+	}
+	else
+	{	
+		user aux_user(str_user);
+		users.removeElement(aux_user);
+		aux_user.addTxn(aux_txn);
+		users.append(aux_user);
+	}
+	return sha256(aux_txn.getTxnAsString());
 }
 
 string cmdMine(Array <string> args)

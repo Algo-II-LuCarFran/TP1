@@ -40,6 +40,7 @@ class inpt
 	string getAddr();
 	outpnt getOutPoint();
 	string getInputAsString();
+	void setInput(string aux_tx_id, size_t aux_idx, string aux_addr);
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, inpt& in) 
 	{
@@ -105,6 +106,13 @@ string inpt::getInputAsString()
 	return result;
 }
 
+void inpt::setInput(string aux_tx_id, size_t aux_idx, string aux_addr)
+{
+	outpoint.tx_id=aux_tx_id;
+	outpoint.idx=aux_idx;
+	addr=aux_addr;
+}
+
 void inpt::show(ostream& oss)
 {
 	if(outpoint.tx_id == "" || addr == "")
@@ -123,6 +131,7 @@ class outpt
 
 	outpt(); //Creador base
 	outpt(string&); //Creador mediante una string
+	outpt(string&, string &);
 	~outpt( ); //Destructor
 	outpt & operator=(const outpt &);
 	double getValue();
@@ -163,6 +172,18 @@ outpt::outpt(string & str) //Creador mediante una string
 	getline(ss, str_value, ' '); // Se recorren los campos. Si el formato es erroneo, se detecta como una cadena vacia.
 	getline(ss, str_addr, '\n');
 
+	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
+	{
+		this->value=stod(str_value);
+		this->addr=str_addr;
+	}
+	else
+	{
+		this->addr=ERROR;
+	}
+}
+outpt::outpt(string& str_addr, string & str_value)
+{
 	if((isNumber<double>(str_value)==1) && (isHash(str_addr)==true))
 	{
 		this->value=stod(str_value);
@@ -233,8 +254,8 @@ class txn
 	void setNTxIn(const size_t) ;
 	void setNTxOut(const size_t);
 	string setTxIn(const size_t n, istream *iss); // Seteador que valida los datos y devuelve un booleano para el error
-	bool setTxIn(const size_t, Array<string>&);
-	string setTxOut(const size_t n, istream *iss);
+	bool setTxIn(Array<inpt>&);
+	string setTxOut(Array <string>, Array<string>);
 	bool setTxOut(const size_t, Array<string>&);
 	string setTxOutFile(const size_t n, istream *iss);
 
@@ -371,21 +392,18 @@ bool txn::setTxIn(const size_t n, Array<string>& tx_in_str_arr)
 	return true;
 }
 
+bool txn::setTxIn(Array<inpt>& arr)
+{
+	size_t n= arr.getSize();
+	for (size_t i = 0; i < n; i++)
+	{
+		if(isError(arr[i].getOutPoint().getAddr())==false)
+			return false;
+		tx_in[i]=arr[i];
+	}
+	return true;
+}
 
-// bool txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
-// 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
-// {
-// 	string aux_s;
-// 	for (size_t i = 0; i < n; i++)
-// 	{
-// 		getline(*iss, aux_s, '\n');
-// 		outpt out(aux_s);
-// 		if(isError(out.getAddr())==false)
-// 			return false;
-// 		tx_out[i] = out;
-// 	}
-// 	return true;
-// }
 
 string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
@@ -406,32 +424,19 @@ string txn::setTxOut(const size_t n, istream *iss) //Se modifica el retorno del 
 	return "OK";
 }
 
-// string txn::setTxOutFile(const size_t n, istream *iss) //Se modifica el retorno del setter por defecto (void) por
-// 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
-// {
-// 	string aux_s;
-// 	for (size_t i = 0; i < n; i++)
-// 	{
-// 		if(iss.eof()!=1)
-// 		{
-// 			return "\n";
-// 		}
-// 		getline(*iss, aux_s, '\n');
-// 		if (isHash(aux_s)==true)
-// 		{
-// 			return aux_s;
-// 		}
-		
-// 		outpt out(aux_s);
-// 		if(isError(out.getAddr())==false)
-// 		{
-// 			cerr << "ERROR: Carga invalida"<< endl;
-// 			exit(1);
-// 		}
-// 		tx_out[i] = out;
-// 	}
-// 	return "\0";
-// }
+string txn::setTxOut(Array<string> dst,Array<string> dst_value)
+{
+	size_t n=dst.getSize();
+	for(size_t i=0; i< n;i ++)
+	{
+		outpt aux_output(dst[i],dst_value[i]);
+		if(isError(aux_output.getAddr())==false)
+			return "ERROR: addres invalida";
+		tx_out[i]=aux_output;
+	}
+	return "OK";
+	
+} 
 
 bool txn::setTxOut(const size_t n, Array<string>& tx_in_str_arr) //Se modifica el retorno del setter por defecto (void) por
 												// necesidad. Verifica si el setteo pudo realizarse correctamente.
@@ -458,7 +463,7 @@ string txn::getTxnAsString()
 {
 	
 	string result, aux;
-	aux = to_string(n_tx_in);
+	aux = <to_string>(n_tx_in);
 	if(((this->getNTxIn()==0)) && ((this->getNTxOut())==0))
 		return result.append("0");
 	result.append(aux);
@@ -885,6 +890,7 @@ class block
 	hdr getHeader();
 	bdy getBody();
 	string getBlockAsString();
+	void addTxn(txn aux_txn);
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, block& block) 
 	{
@@ -999,6 +1005,13 @@ string block::getBlockAsString()
 	result.append("\n");
 	result.append(body.getBodyAsString());
 	return result;
+}
+void block::addTxn(txn aux_txn)
+{
+	bdy aux_bdy;
+	aux_bdy=this->getBody();
+	aux_bdy.txnsArrRedim((this->getBody().getTxnCount())+1);
+	aux_bdy.txns[(this->getBody().getTxnCount())]=aux_txn;
 }
 
 void block::show(ostream& oss)
