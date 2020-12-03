@@ -207,7 +207,7 @@ string cmdTransfer( Array <string> args)
 	aux_txn.setTxIn(aux_arr_inputs);
 	string aux_str=to_string(src_balance);	
 	//Construccion del arreglo de outputs
-	if(aux-src_balance == 0)
+	if(src_balance == 0)
 	{
 		aux_txn.setNTxOut(dim_array_aux);
 	}
