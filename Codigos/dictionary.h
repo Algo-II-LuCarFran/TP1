@@ -203,7 +203,7 @@ string cmdTransfer( Array <string> args)
 
 	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.
 	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
-	cout << "aux arr inputs " << aux_arr_inputs << endl;
+	cout << "aux arr inputs < " << aux_arr_inputs << ">" << endl;
 	aux_txn.setNTxIn(dim_array_aux);
 	aux_txn.setTxIn(aux_arr_inputs);
 
