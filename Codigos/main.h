@@ -133,6 +133,7 @@ opt_help(string const &arg)
 		 << "txn <id> \n"
 		 << "load <filename> \n"
 		 << "save <filename> \n"
+		 << "exit program \n"
 	     << endl;
 	exit(0);
 }
