@@ -147,7 +147,6 @@ bool setAlgochainFromFile( istream *iss_load)
 	size_t diff, nonce;
 	bdy body_aux;
 	getline(*iss_load, str, '\n');
-	
 	if(str!=NULL_HASH)
 	{
 		cerr << "ERROR: No comienza con el genesis block" << endl;
