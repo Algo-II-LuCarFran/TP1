@@ -548,7 +548,7 @@ void bdy::show(ostream& oss)
 	if(txn_count == 1)
 		oss << txn_count << endl;
 	else
-		oss << txn_count;
+		oss << txn_count << endl;
 			
 	for (i = 0; i < txn_count - 1; i++)
 	{
