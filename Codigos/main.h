@@ -141,7 +141,7 @@ bool setAlgochainFromFile( istream *iss_load)
 {
 	block block_aux, block_empty;
 	string str,str_aux;
-	size_t i = -1, aux = 0;
+	size_t i = -1;//, aux = 0;
 	hdr header_aux;
 	size_t diff, nonce;
 	bdy body_aux;

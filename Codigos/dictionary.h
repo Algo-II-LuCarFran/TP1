@@ -97,11 +97,20 @@ p_func dictCmds( string cmd, int &num_param)
 string cmdInit(Array <string> args)
 {
  
-	string user;
+	string user_;
 	string STR_TXNing;
 	size_t bits;
-
-	user = sha256(args[0]);
+	if(algochain.empty()==false)
+	{
+		list <block> list_empty;
+		algochain = list_empty;
+	}
+	if(users.empty()==false)
+	{
+		list <user> list_empty;
+		users = list_empty;
+	}
+	user_ = sha256(args[0]);
 
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
@@ -131,7 +140,7 @@ string cmdInit(Array <string> args)
 	STR_TXNing.append("\n");
 	STR_TXNing.append(args[1]);
 	STR_TXNing.append(" ");
-	STR_TXNing.append(user);
+	STR_TXNing.append(user_);
 	
 	istringstream iss(STR_TXNing);
 	block genesis_block(NULL_HASH, bits, &iss);
@@ -207,7 +216,7 @@ string cmdTransfer( Array <string> args)
 	aux_txn.setTxIn(aux_arr_inputs);
 	string aux_str=to_string(src_balance);	
 	//Construccion del arreglo de outputs
-	if(aux-src_balance == 0)
+	if(src_balance == 0)
 	{
 		aux_txn.setNTxOut(dim_array_aux);
 	}
