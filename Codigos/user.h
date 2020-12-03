@@ -155,6 +155,20 @@ void user::addTxn(txn tran)
 			}
 		}
 	}
+	else 
+	{
+		double spent_value = 0;
+		for (size_t i = 0; i < tran.getNTxOut(); i++)
+		{
+			if(tran.getOutputs()[i].getAddr() == name) 
+				continue;
+			else 
+			{
+ 				spent_value += stod(tran.getOutputs()[i].getValue());
+			}
+		}
+		balance -= spent_value;
+	}
 }
 
 void user::loadTxn(txn tran)
