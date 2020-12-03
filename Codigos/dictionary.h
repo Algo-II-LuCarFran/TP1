@@ -269,11 +269,7 @@ string cmdTransfer( Array <string> args)
 		aux_user.addTxn(aux_txn);
 		users.append(aux_user);
 	}
-	Array<txn> txns_;
-	bdy body_;
-	body_ = mempool.getBody();
-	txns_ = body_.getTxns();
-	return  sha256(sha256(txns_[0].toString()));
+	return  sha256(sha256(aux_txn.toString()));
 }
 
 string cmdMine(Array <string> args)
@@ -303,6 +299,7 @@ string cmdMine(Array <string> args)
 	algochain.append(mempool);
 	//limpiar mempool
 	block empty_block;
+	
 	mempool = empty_block;
 	return sha256(sha256(aux_save.toString()));
 	//return "hola";

@@ -302,7 +302,10 @@ bool refreshUsersFromBlock(block blck)
 		for (size_t j = 0; j < n_tx_out; j++)
 		{
 			addr = outpts[j].getAddr();
-			if(address.contains(addr)==true)
+			if (addr ==inpts[0].getAddr() )
+			{
+			}
+			else if(address.contains(addr)==true)
 			{
 				cerr << "ERROR: Addr en outputs repetidas" << endl;
 				return false;
@@ -324,8 +327,8 @@ bool refreshUsersFromBlock(block blck)
 				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}	
-			address = empty_list;
 		}
+		address = empty_list;
 	}
 	return true;
 }

@@ -116,7 +116,7 @@ Array<inpt> user::trackMoney(const double money)
 {
 	txn aux_txn;
 	size_t inpt_iter = 0;
-	size_t i;
+	size_t i, j = 0;
 	Array<outpt> aux_outputs;
 	Array<inpt> inputs;
 	double utxo = 0;
@@ -132,16 +132,21 @@ Array<inpt> user::trackMoney(const double money)
 				break;
 			}
 		}
-		inputs[inpt_iter].setInput(sha256(aux_txn.toString()), i, name);
+		inputs[inpt_iter].setInput(sha256(sha256(aux_txn.toString())), i, name);
 		transactions.removeElement(aux_txn);
+		j++;
 	}
 	balance -= utxo;
-	inputs.ArrayRedim(i+1);
+	inputs.ArrayRedim(j);
 	return inputs;
 }
 
 void user::addTxn(txn tran)
 {
+	// cout << "NOMBRE DEL USUARIO QUE SE LE AGREGA UNA TRANSACCION " << name << endl;
+	// cout << "TRANSACCION QUE SE QUIERE AGREGAR " << tran << endl;
+	// cout << "HASH DE LA TRANSACCION " << sha256(sha256(tran.toString())) << endl;
+	
 	Array<inpt> aux_inpt;
 	transactions.append(tran);
 	if(name != tran.getInputs()[0].getAddr())
@@ -173,17 +178,15 @@ void user::addTxn(txn tran)
 
 void user::loadTxn(txn tran)
 {
-//cout << "loadTXN COMIENZA" << endl;
 	string aux_str_txn;
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
+	
 	if(name == inputs[0].getAddr())
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)
 		{
-//cout << "transacttions << \n" << transactions.toString() << endl;
-//cout << "name :\n" << name << endl;
 			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
 				cerr << "Error en la carga del user: < " << name << ">" << endl;
