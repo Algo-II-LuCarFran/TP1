@@ -124,7 +124,15 @@ opt_output(string const &arg)
 static void
 opt_help(string const &arg)
 {
-	cout << "cmdline -f factor [-i file] [-o file]"
+	cout << "Comands: \n"
+		 << "init <user> <value> <bits> \n"
+		 << "transfer <src> <dst1> <value1> ... <dstN> <valueN> \n"
+		 << "mine <bits> \n"
+		 << "balance <user> \n"
+		 << "block <id> \n"
+		 << "txn <id> \n"
+		 << "load <filename> \n"
+		 << "save <filename> \n"
 	     << endl;
 	exit(0);
 }

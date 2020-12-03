@@ -183,8 +183,7 @@ void user::loadTxn(txn tran)
 		{
 			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
-				cout << aux_str_txn << endl;
-				cerr << "Error en la carga 1" << endl;
+				cerr << "Error en la carga" << endl;
 				exit(1);
 			}
 			txn aux_txn(aux_str_txn);
@@ -192,7 +191,7 @@ void user::loadTxn(txn tran)
 
 			if(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getAddr() != name)
 			{
-				cerr << "Error en la carga 2" << endl;
+				cerr << "Error en la carga" << endl;
 				exit(1);
 			}
 			source_value += stod(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue());
@@ -206,7 +205,7 @@ void user::loadTxn(txn tran)
 
 		if(spent_value != source_value)
 		{
-			cerr << "Error en la carga 3" << endl;
+			cerr << "Error en la carga" << endl;
 			exit(1);
 		}
 
