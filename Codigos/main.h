@@ -124,43 +124,53 @@ opt_output(string const &arg)
 static void
 opt_help(string const &arg)
 {
-	cout << "cmdline -f factor [-i file] [-o file]"
+	cout << "Comands: \n"
+		 << "init <user> <value> <bits> \n"
+		 << "transfer <src> <dst1> <value1> ... <dstN> <valueN> \n"
+		 << "mine <bits> \n"
+		 << "balance <user> \n"
+		 << "block <id> \n"
+		 << "txn <id> \n"
+		 << "load <filename> \n"
+		 << "save <filename> \n"
 	     << endl;
 	exit(0);
 }
 
-bool setAlgochainFromFile( istream *iss)
+bool setAlgochainFromFile( istream *iss_load)
 {
 	block block_aux, block_empty;
 	string str,str_aux;
-	size_t i = -1, aux = 0;
+	size_t i = -1;//, aux = 0;
 	hdr header_aux;
 	size_t diff, nonce;
 	bdy body_aux;
-	getline(*iss, str, '\n');
+	getline(*iss_load, str, '\n');
+	
 	if(str!=NULL_HASH)
 	{
-		cerr << "ERROR: No comienza con el genesis block" << endl;
+		cerr << "ERROR: No comienza con el genesis block 1" << endl;
 		exit (1); 
 	}
 	while (str!="")
 	{
-		i++;
 		//seteo el header
+		i++;
+		
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para prev block" << endl;
+			cerr << "ERROR: no es un hash para prev block 2" << endl;
 			exit(1);
 		}
 		header_aux.setPrevBlock(str);
-		getline(*iss, str, '\n');
+		getline(*iss_load, str, '\n');
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para txns hash" << endl;
+			cerr << "ERROR: no es un hash para prev block 3" << endl;
 			return false;
 		}
 		header_aux.setTxnsHash(str);
-		getline(*iss, str, '\n');
+		getline(*iss_load, str, '\n');
 		if(isNumber<size_t>(str)==0)
 		{
 			cerr<<"ERROR: no es un numero"<< endl;
@@ -168,7 +178,7 @@ bool setAlgochainFromFile( istream *iss)
 		}
 		diff = stoi(str);
 		header_aux.setBits(diff);
-		getline(*iss, str, '\n');
+		getline(*iss_load, str, '\n');
 		if(isNumber<size_t>(str)==0)
 		{
 			cerr<<"ERROR: no es un numero"<< endl;
@@ -176,39 +186,35 @@ bool setAlgochainFromFile( istream *iss)
 		}
 		nonce = stoi(str);
 		header_aux.setNonce(nonce);
-
+		
 		block_aux.setHeader(header_aux); //guarda el header
 		//seteo el body
-		str_aux=block_aux.setBody(iss);
+		str_aux=block_aux.setBody(iss_load);
 		// chequeo que sea genesis
 		if(i==0)
 		{
 			body_aux = block_aux.getBody();
 			if (body_aux.getTxnCount()!=1)
 			{
-				cerr << "ERROR: No comienza con el genesis block" << endl;
+				cerr << "ERROR: No comienza con el genesis block 4" << endl;
 				exit (1); 
 			}
 			Array <txn> txns_aux = body_aux.getTxns();
 			if(txns_aux[0].getNTxIn()!=1  || txns_aux[0].getNTxOut()!=1 )
 			{
-				cerr << "ERROR: No comienza con el genesis block" << endl;
+				cerr << "ERROR: No comienza con el genesis block 5" << endl;
 				exit (1); 
 			}
 			Array <inpt> tx_in_aux = txns_aux[0].getInputs();
 			outpnt outpoint = tx_in_aux[0].getOutPoint();
-			cout << outpoint.tx_id << endl;
-			cout << outpoint.idx << endl;
 			if(outpoint.tx_id!=NULL_HASH && outpoint.idx!=0)
 			{
-				cerr << "ERROR: No comienza con el genesis block" << endl;
+				cerr << "ERROR: No comienza con el genesis block 6" << endl;
 				exit (1); 
-			}
-			
+			}	
 		}
 		
 
-	
 		if(isHash(str_aux)==true || str_aux=="")//volver a los if separadaros y ver si es break o continue se rompio mi crerbo
 		{
 			str=str_aux;
@@ -228,7 +234,7 @@ bool setAlgochainFromFile( istream *iss)
 				cerr<< "ERROR: no se pueden cargar los users"<< endl;
 				exit(1);
 			}
-			getline(*iss, str, '\n');			
+			getline(*iss_load, str, '\n');			
 			continue;
 		}
 		else
@@ -236,7 +242,6 @@ bool setAlgochainFromFile( istream *iss)
 			return false;
 		}
 	}
-	
 	return true;
 }
 
@@ -248,19 +253,18 @@ bool refreshUsersFromBlock(block blck)
 	Array <inpt> inpts;
 	Array <outpt> outpts;
 	string addr;
-	list <string> address;
-	string str_aux;
+	list <string> address, empty_list;
 	for(size_t i =0 ; i < txn_count ; i++)
 	{
 		n_tx_in = txns[i].getNTxIn();
 		inpts = txns[i].getInputs();
+		
 		for (size_t j = 0; j < n_tx_in; j++)
 		{
 			if(j==0)
 			{
 				addr = inpts[j].getAddr();
-				cout << addr << endl;
-				//continue;
+				continue;
 			}
 			else
 			{
@@ -270,12 +274,9 @@ bool refreshUsersFromBlock(block blck)
 					return false;
 				}
 			}
-			
-		// cout << "la addres guardada es "<< endl; 
-		// cout << addr << endl;
-		// str_aux = users.find("checkUser",addr);
-		// cout << str_aux << endl;
-		if( users.find("checkUser",addr)=="TRUE")
+		}
+
+		if(users.find("checkUser",addr)!=FINDNT)
 		{
 			string str_user=users.find("user",addr);
 			user aux_user(str_user);
@@ -285,37 +286,32 @@ bool refreshUsersFromBlock(block blck)
 		}
 		else
 		{
-			user aux_user;
-			cout << aux_user << endl;
-			aux_user.loadTxn(txns[i]);
-			cout << aux_user << endl;
-			users.append(aux_user);
-			cout << users << endl;
+			if (addr != NULL_HASH )
+			{
+				user aux_user;
+				aux_user.setName(addr);
+				aux_user.loadTxn(txns[i]);
+				users.append(aux_user);
+			}
 		}
 		//con los outputs
 		n_tx_out = txns[i].getNTxOut();
 		outpts = txns[i].getOutputs();
+
 		for (size_t j = 0; j < n_tx_out; j++)
 		{
 			addr = outpts[j].getAddr();
-			if (j==0)
-			{
-				address.append(addr);
-				user aux_user;
-				aux_user.loadTxn(txns[i]);
-				users.append(aux_user);
-				continue;
-			}
-			
-			if(address.find(addr)!="")
+			if(address.contains(addr)==true)
 			{
 				cerr << "ERROR: Addr en outputs repetidas" << endl;
 				return false;
 			}
-			else if (address.find(addr)=="" || users.find(addr, "checkUser")=="FALSE")
+			else if (address.contains(addr)!=true || users.find("checkUser",addr)==FINDNT)
 			{
+				addr = outpts[j].getAddr();
 				address.append(addr);
 				user aux_user;
+				aux_user.setName(addr);
 				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}
@@ -327,7 +323,7 @@ bool refreshUsersFromBlock(block blck)
 				aux_user.loadTxn(txns[i]);
 				users.append(aux_user);
 			}	
-		}
+			address = empty_list;
 		}
 	}
 	return true;

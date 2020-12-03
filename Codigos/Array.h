@@ -105,13 +105,13 @@ T &Array<T>::operator[](size_t subscript)
 template <class T>
 std::ostream &operator <<(std::ostream &os, Array<T> &arr)
 {
-		int i, size;
-		size = arr.getSize();
-		for(i=0; i<size; i++)
-		{
-				os << arr[i] << endl; //asumo que T tiene sobrecargado el <<
-		}
-		return os;
+	int i, size;
+	size = arr.getSize();
+	for(i=0; i<size; i++)
+	{
+		os << arr[i] << endl; //asumo que T tiene sobrecargado el <<
+	}
+	return os;
 }
 
 

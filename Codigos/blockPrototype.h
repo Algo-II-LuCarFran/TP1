@@ -26,7 +26,6 @@ class inpt
 	//Si hay getters deberian haber setters. Si no se usan, eliminarlos.
 	string getAddr();
 	outpnt getOutPoint();
-	string getInputAsString();
 	void setInput(string aux_tx_id, size_t aux_idx, string aux_addr);
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, inpt& in) 
@@ -36,12 +35,13 @@ class inpt
 	}
 	bool operator==( const inpt &) const;
 	bool operator!=(const inpt &);
+	string toString();
 };
 
 //--------------------------CLASE OUTPUT----------------------------------------------------------------------------------------
 class outpt
 {
-	double value; //La  cantidad de Algocoins a transferir en este output
+	string value; //La  cantidad de Algocoins a transferir en este output
 	string addr; //La direccion de origen de los fondos (que debe coincidir con la direccion del output referenciado)
 
 	public:
@@ -51,9 +51,8 @@ class outpt
 	outpt(string&, string &);
 	~outpt( ); //Destructor
 	outpt & operator=(const outpt &);
-	double getValue();
+	string getValue();
 	string getAddr();
-	string getOutputAsString();
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, outpt& out) 
 	{
@@ -61,6 +60,7 @@ class outpt
 		return oss;
 	}
 	bool operator==( const outpt &) const;
+	string toString();
 };
 
 
@@ -98,7 +98,6 @@ class txn
 	Array<inpt>& getInputs();
 	Array<outpt>& getOutputs();
 
-	string getTxnAsString();
 	string validateTxn();
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, txn& tx) 
@@ -122,11 +121,8 @@ class bdy
 	~bdy();
 	bdy & operator=(const bdy &);
 	bdy getBody();
-	string getBodyAsString();
 	size_t getTxnCount();
-	Array<txn> getTxns();
-	string getTxnAsString();
-	string getTxnsAsString();
+	Array<txn> &getTxns();
 	// void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);
@@ -137,6 +133,7 @@ class bdy
 		body.show(oss);
 		return oss;
 	}
+	string toString();
 };	
 
 //--------------------------CLASE HEADER----------------------------------------------------------------------------------------
@@ -164,13 +161,13 @@ class hdr
 	string getTxnHash();
 	size_t getBits();
 	size_t getNonce();
-	string getHeaderAsString();
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, hdr& header) 
 	{
 		header.show(oss);
 		return oss;
 	}
+	string toString();
 };
 
 
@@ -196,7 +193,6 @@ class block{
 	void setBlockFromFile(istream *iss);
 	hdr getHeader();
 	bdy getBody();
-	string getBlockAsString();
 	void addTxn(txn aux_txn);
 	void show(ostream&);
 	friend ostream& operator<<(ostream& oss, block& block) 
@@ -204,6 +200,7 @@ class block{
 		block.show(oss);
 		return oss;
 	}
+	string toString();
 };
 
 #endif// _BLOCKPROTOTYPE_H_

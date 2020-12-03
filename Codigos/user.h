@@ -115,7 +115,7 @@ user const &user::operator=(user const &right)
 Array<inpt> user::trackMoney(const double money)
 {
 	txn aux_txn;
-	size_t inpt_iter;
+	size_t inpt_iter = 0;
 	size_t i;
 	Array<outpt> aux_outputs;
 	Array<inpt> inputs;
@@ -128,15 +128,15 @@ Array<inpt> user::trackMoney(const double money)
 		{
 			if(aux_outputs[i].getAddr() == name)
 			{
-				utxo += aux_outputs[i].getValue();
+				utxo += stod(aux_outputs[i].getValue());
 				break;
 			}
 		}
-		inputs[inpt_iter].setInput(sha256(aux_txn.getTxnAsString()), i, name);
+		inputs[inpt_iter].setInput(sha256(aux_txn.toString()), i, name);
 		transactions.removeElement(aux_txn);
 	}
 	balance -= utxo;
-
+	inputs.ArrayRedim(i+1);
 	return inputs;
 }
 
@@ -150,10 +150,24 @@ void user::addTxn(txn tran)
 		{
 			if(name == tran.getOutputs()[i].getAddr())
 			{
-				balance += tran.getOutputs()[i].getValue();
+				balance += stod(tran.getOutputs()[i].getValue());
 				break;
 			}
 		}
+	}
+	else 
+	{
+		double spent_value = 0;
+		for (size_t i = 0; i < tran.getNTxOut(); i++)
+		{
+			if(tran.getOutputs()[i].getAddr() == name) 
+				continue;
+			else 
+			{
+ 				spent_value += stod(tran.getOutputs()[i].getValue());
+			}
+		}
+		balance -= spent_value;
 	}
 }
 
@@ -163,14 +177,13 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-	
 	if(name == inputs[0].getAddr())
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)
 		{
-			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == FINDNT)
+			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
-				cerr << "Error en la carga " << endl;
+				cerr << "Error en la carga" << endl;
 				exit(1);
 			}
 			txn aux_txn(aux_str_txn);
@@ -178,16 +191,16 @@ void user::loadTxn(txn tran)
 
 			if(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getAddr() != name)
 			{
-				cerr << "Error en la carga " << endl;
+				cerr << "Error en la carga" << endl;
 				exit(1);
 			}
-			source_value += aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue();
+			source_value += stod(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue());
 		}
 		for (size_t i = 0; i < tran.getNTxOut(); i++)
 		{
-			spent_value += outputs[i].getValue();
+			spent_value += stod(outputs[i].getValue());
 			if(outputs[i].getAddr() == name)
-				change = outputs[i].getValue();
+				change = stod(outputs[i].getValue());
 		}
 
 		if(spent_value != source_value)
@@ -204,7 +217,7 @@ void user::loadTxn(txn tran)
 		{
 			if(outputs[i].getAddr() == name)
 			{
-				balance += outputs[i].getValue();
+				balance += stod(outputs[i].getValue());
 				break;
 			}
 		}

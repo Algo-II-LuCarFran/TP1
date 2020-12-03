@@ -97,12 +97,20 @@ p_func dictCmds( string cmd, int &num_param)
 string cmdInit(Array <string> args)
 {
  
-	string user;
+	string user_;
 	string STR_TXNing;
-	double value;
 	size_t bits;
-
-	user = sha256(args[0]);
+	if(algochain.empty()==false)
+	{
+		list <block> list_empty;
+		algochain = list_empty;
+	}
+	if(users.empty()==false)
+	{
+		list <user> list_empty;
+		users = list_empty;
+	}
+	user_ = sha256(args[0]);
 
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
@@ -110,7 +118,6 @@ string cmdInit(Array <string> args)
 		exit(1);
 	}
 
-	value = stod(args[1]);
 	
 	if(isNumber<int>(args[2]) == false || args[2][0] == '-')
 	{
@@ -133,11 +140,17 @@ string cmdInit(Array <string> args)
 	STR_TXNing.append("\n");
 	STR_TXNing.append(args[1]);
 	STR_TXNing.append(" ");
-	STR_TXNing.append(user);
+	STR_TXNing.append(user_);
 	
 	istringstream iss(STR_TXNing);
 	block genesis_block(NULL_HASH, bits, &iss);
-	return sha256(genesis_block.getBlockAsString());
+	if (refreshUsersFromBlock(genesis_block) == false)
+	{
+		cerr << "ERROR: No se puede cargar user" << endl;
+		exit(1);
+	}
+	algochain.append(genesis_block);
+	return sha256(sha256(genesis_block.toString()));
 }
 
 string cmdTransfer( Array <string> args)
@@ -152,9 +165,9 @@ string cmdTransfer( Array <string> args)
 	double src_balance,aux;
 	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
 	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
-												//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
+											//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 	aux=src_balance;
-	size_t dim_array_aux=(args.getSize()-1)/2+1;
+	size_t dim_array_aux=(args.getSize()-1)/2;
 	Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
 
 	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
@@ -164,13 +177,14 @@ string cmdTransfer( Array <string> args)
 	Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
 	Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
 	
-	size_t n=args.getSize();
+	size_t n=dim_array_aux;// args.getSize();
 
-	for(size_t i=2,j=0; i <= n ;i+=2,j++)
+	for(size_t i=2,j=0; j < n ;i+=2,j++)
 	{
+ 
 		//Se consiguen los hash de los usuarios destino y los valores a transferir
 		dst[j]=sha256(args[i-1]); //Puede no ser necesario conseguir los hashes, podria trabajarse directamente con los nombres de los usuarios.
-	 	
+
 		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
 		args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn. 
 		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
@@ -178,12 +192,13 @@ string cmdTransfer( Array <string> args)
 		dst_value_str[j]=args[i]; // Se necesitan como strings? 
 		dst_value[j]=stod(dst_value_str[j]);
 
-		if(dst_value[i]<0) //No se puede transferir una cantidad negativa
+		if(dst_value[j]<0) //No se puede transferir una cantidad negativa
 			return MSG_FAIL;
 		src_balance-=dst_value[j];
 		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
 			return MSG_FAIL;
 	}
+
 	//Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferirles
 	//por lo que se crea un arreglo con la informacion de la transaccion.
 	txn aux_txn;
@@ -195,32 +210,40 @@ string cmdTransfer( Array <string> args)
 	string str_user=users.find("user",src);
 	user aux_user(str_user);
 
-	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.h
+	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.
 	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
+	aux_txn.setNTxIn(aux_arr_inputs.getSize());
 	aux_txn.setTxIn(aux_arr_inputs);
-	
-	//Construccion del arreglo de outputs
-	aux_txn.setNTxOut(dim_array_aux);
-	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
-	dst[dst.getSize()-1]=src;
-	
-
 	string aux_str=to_string(src_balance);	
-	size_t i;
-	for(i=aux_str.length()-1; aux_str[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
-	dst_value_str[dst_value_str.getSize()-1]=aux_str.substr(0,i+1) ;
+	//Construccion del arreglo de outputs
+	if(src_balance == 0)
+	{
+		aux_txn.setNTxOut(dim_array_aux);
+	}
+	else
+	{
+		aux_txn.setNTxOut(dim_array_aux+1);
+		dst.ArrayRedim(dim_array_aux+1);
+		dst[dst.getSize()-1]=src;	
+		dst_value_str.ArrayRedim(dim_array_aux+1);
+		dst_value_str[dst_value_str.getSize()-1]=aux_str;
+	}
+	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
+
 	
 	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
-	
+
 	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
-	
+
 	//Se carga la transaccion a la lista de usuarios.
-	for(size_t i=0; i< dst.getSize();i++)
+	for(size_t i=0; i< dim_array_aux;i++)
 	{
 		str_user=users.find("user",dst[i]);
+
 		if(str_user==FINDNT)
 		{
 			user new_user;
+			new_user.setName(dst[i]);
 			new_user.addTxn(aux_txn);//falta ponerle el nombre
 			users.append(new_user);
 		}
@@ -246,7 +269,7 @@ string cmdTransfer( Array <string> args)
 		aux_user.addTxn(aux_txn);
 		users.append(aux_user);
 	}
-	return sha256(aux_txn.getTxnAsString());
+	return sha256(sha256(aux_txn.toString()));
 }
 
 string cmdMine(Array <string> args)
@@ -264,7 +287,7 @@ string cmdMine(Array <string> args)
 		exit(1);
 	}
 	block aux = algochain.getLastNode();
-	string prev_block = sha256(sha256(aux.getBlockAsString()));
+	string prev_block = sha256(sha256(aux.toString()));
 	if(isHash(prev_block)==false)
 	{
 		cerr << "ERROR: al convertir prev block"<< endl; // que otra falla?
@@ -277,7 +300,7 @@ string cmdMine(Array <string> args)
 	//limpiar mempool
 	block empty_block;
 	mempool = empty_block;
-	return sha256(sha256(aux_save.getBlockAsString()));
+	return sha256(sha256(aux_save.toString()));
 	//return "hola";
 }
 
@@ -285,31 +308,40 @@ string cmdMine(Array <string> args)
 
 string cmdBalance(Array <string> args)
 {
-	// string balance = find(args[0]);//funcion que estaban haciendo, como va a funcionar?
-	// //double aux = id_balance.balance;// paso solo el user a find y no find hasheado
-	// return balance;
-	//verificar el error de finduser
-	return "hola";
+	string name = sha256(args[0]), balance_str;
+	if((balance_str = users.find(STR_BALANCE, name)) == FINDNT)
+		return "0";
+	return balance_str;
 }
 
 string cmdBlock(Array <string> args)
 {
-	//funcion find, le tiro el id y me devuelve blocl
-	// return find(args[0]);
-	return "hola";
+	string id = args[0], block_str;
+	if((block_str = algochain.find(STR_BLOCK, id)) == FINDNT)
+		return "FAIL";
+	return block_str;
 }
 
 string cmdTxn(Array <string> args)
 {
-	
-	return "hola";
+	string id = args[0], txn_str;
+	if((txn_str = algochain.find(STR_TXN_IN_BLOCK_BY_HASH, id)) == FINDNT)
+	{
+		if((txn_str = findTxnInBlockByHash(id, mempool.toString())) == FINDNT)
+			return "FAIL";
+		else
+			return txn_str;
+	}
+	return txn_str;
 }
 
 string cmdLoad(Array <string> args)
 {
-	ifs.open(args[0].c_str(), ios::in);
-	iss = &ifs;
-	if (!iss->good()) {
+	fstream ifs_load;
+	istream *iss_load = 0;
+	ifs_load.open(args[0].c_str(), ios::in);
+	iss_load = &ifs_load;
+	if (!iss_load->good()) {
 	cerr << "cannot open "
 			<< args[0]
 			<< "."
@@ -321,23 +353,24 @@ string cmdLoad(Array <string> args)
 		list <block> empty_list;
 		algochain = empty_list;//
 	}
-	if(setAlgochainFromFile(iss)==false)
+	if(setAlgochainFromFile(iss_load)==false)
 	{
-		cerr << "ERROR: no se pudo cargar el archivo "
-		<< endl;
+		cerr << "ERROR: no se pudo cargar el archivo " << endl;
 		exit(1);
 	}
 	ifs.close();
 	block aux ;
 	aux = algochain.getLastNode();
-	return sha256(sha256(aux.getBlockAsString()));
+	return sha256(sha256(aux.toString()));
 }
 
 string cmdSave(Array <string> args)
  { 
-	ofs.open(args[0].c_str(), ios::out);
-	oss = &ofs;
-	if (!oss->good()) 
+	fstream ofs_save;
+	ostream *oss_save = 0;
+	ofs_save.open(args[0].c_str(), ios::out);
+	oss_save = &ofs_save;
+	if (!oss_save->good()) 
 	{
 		cerr << "cannot open "
 		     << args[0]
@@ -345,14 +378,14 @@ string cmdSave(Array <string> args)
 		     << endl;
 		exit(1);		// EXIT: Terminación del programa en su totalidad
 	}
-	else if (oss->bad()) 
+	else if (oss_save->bad()) 
 	{
 		cerr << "cannot write to output stream."
 		     << endl;
 		exit(1);
 	}
-	*oss << algochain;//le agrego tostring?
-	ofs.close();
+	*oss_save << algochain;//le agrego tostring?
+	ofs_save.close();
 	return "Carga realizada con exito";
 }
 

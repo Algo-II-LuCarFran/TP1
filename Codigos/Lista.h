@@ -259,16 +259,15 @@ string list<T>::find(const string& ref,const string& d )
 	node* aux;
 
 	if(this->empty())
-	{    
-		return FINDNT;
+	{
+		return "Findnt";
 	}
 	else
 	{
 		aux=this->last;
 		aux->next=this->last->next;
 		aux->prev=this->last->prev;
-
-		if((result = aux_finder(d,(aux->data).toString())) != FINDNT) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
+		if((result = aux_finder(d,(aux->data).toString())) != "Findnt") //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
 		{   
 			return result;
 		}
@@ -277,13 +276,14 @@ string list<T>::find(const string& ref,const string& d )
 		{   	
 			prev_=aux->prev;
 			if(!prev_)
-			{   
-				return NULL;
+			{  
+				return "Findnt";//antes decia null
 			}
 
 			prev_->next=aux;
 			prev_->prev=aux->prev->prev; 
-			if((result = aux_finder(d,(prev_->data).toString())) != FINDNT)
+
+			if((result = aux_finder(d,(prev_->data).toString())) != "Findnt")
 			{
 				return result;
 			}
@@ -292,7 +292,7 @@ string list<T>::find(const string& ref,const string& d )
 			aux->prev=prev_->prev;
 		} 
 	}
-	return FINDNT;
+	return "Findnt";
 }
 
 
@@ -397,4 +397,18 @@ list<T> const &list<T>::operator=(list const &orig)
 
 	return *this;
 }
+
+
+template<typename T>
+bool list<T>::contains(const T &elem) const
+{
+    node *iter;
+        
+	for (iter = first; iter != 0; iter = iter->next)
+		if (elem == iter->data)
+			return true;
+	return false;
+}
+
+
 #endif // _LIST_H_
