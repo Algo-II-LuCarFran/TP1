@@ -158,7 +158,7 @@ string cmdTransfer( Array <string> args)
 	double src_balance,aux;
 	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
 	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
-												//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
+											//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 	aux=src_balance;
 	size_t dim_array_aux=(args.getSize()-1)/2+1;
 	Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
@@ -176,7 +176,7 @@ string cmdTransfer( Array <string> args)
 	{
 		//Se consiguen los hash de los usuarios destino y los valores a transferir
 		dst[j]=sha256(args[i-1]); //Puede no ser necesario conseguir los hashes, podria trabajarse directamente con los nombres de los usuarios.
-	 	
+
 		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
 		args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn. 
 		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
@@ -184,7 +184,7 @@ string cmdTransfer( Array <string> args)
 		dst_value_str[j]=args[i]; // Se necesitan como strings? 
 		dst_value[j]=stod(dst_value_str[j]);
 
-		if(dst_value[i]<0) //No se puede transferir una cantidad negativa
+		if(dst_value[j]<0) //No se puede transferir una cantidad negativa
 			return MSG_FAIL;
 		src_balance-=dst_value[j];
 		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
@@ -219,7 +219,7 @@ string cmdTransfer( Array <string> args)
 	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
 	
 	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
-	
+
 	//Se carga la transaccion a la lista de usuarios.
 	for(size_t i=0; i< dst.getSize();i++)
 	{

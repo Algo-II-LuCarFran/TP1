@@ -115,7 +115,7 @@ user const &user::operator=(user const &right)
 Array<inpt> user::trackMoney(const double money)
 {
 	txn aux_txn;
-	size_t inpt_iter;
+	size_t inpt_iter=0;
 	size_t i;
 	Array<outpt> aux_outputs;
 	Array<inpt> inputs;
