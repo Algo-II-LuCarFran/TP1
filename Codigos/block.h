@@ -502,12 +502,13 @@ string bdy::setTxns(istream *iss)
 		}
 		else if(str=="OK")
 		{
+			if(i < txn_count)
+				continue;
 			txn_count = i;
 			return str;
 		}
 		else 
 		{
-
 	// cout << "error txour " << endl;
 
 			err=true;
