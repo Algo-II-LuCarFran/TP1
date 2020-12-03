@@ -134,10 +134,10 @@ Array<inpt> user::trackMoney(const double money)
 		}
 		inputs[inpt_iter].setInput(sha256(sha256(aux_txn.toString())), i, name);
 		transactions.removeElement(aux_txn);
-		j++;
+		inpt_iter++;
 	}
 	balance -= utxo;
-	inputs.ArrayRedim(j);
+	inputs.ArrayRedim(inpt_iter);
 	return inputs;
 }
 
