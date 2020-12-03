@@ -377,13 +377,13 @@ void txn::show(ostream& oss)
 	if(n_tx_in == 0)
 		return ;
 	oss << n_tx_in << endl;
-	for (i = 0; i < tx_in.getSize(); i++)
+	for (i = 0; i < n_tx_in; i++)
 	{
 		oss << tx_in[i] << endl;
 	}
 	
 	oss << n_tx_out << endl;
-	for (i = 0; i < tx_out.getSize()-1; i++)
+	for (i = 0; i < n_tx_out-1; i++)
 	{
 		oss << tx_out[i] << endl;
 	}
@@ -462,7 +462,6 @@ string bdy::setTxns(istream *iss)
 
 		aux = stoi(str);
 		txns[i].setNTxIn(aux);
-
 		// Se verifican las entradas
 
 		if(txns[i].setTxIn(aux, iss)!="OK")
@@ -470,7 +469,6 @@ string bdy::setTxns(istream *iss)
 			err=true;
 			break;
 		}
-		
 		// Se verifica n_tx_out
 
 		getline(*iss, str, '\n');
@@ -487,8 +485,8 @@ string bdy::setTxns(istream *iss)
 		// Se verifican las salidas
 
 		str=txns[i].setTxOut(aux, iss);
-		
 		i++;
+
 		if(isHash(str)==true)
 		{
 			txn_count = i;
@@ -535,11 +533,18 @@ void bdy::txnsArrRedim(const size_t n ){txns.ArrayRedim(n);}
 
 void bdy::show(ostream& oss)
 {
-	oss << txn_count << endl;
-	for (size_t i = 0; i < txns.getSize(); i++)
+	size_t i;
+	if(txn_count == 1)
+		oss << txn_count << endl;
+	else
+		oss << txn_count;
+			
+	for (i = 0; i < txn_count - 1; i++)
 	{
 		oss << txns[i];
+		oss << endl;
 	}
+	oss << txns[i];	
 }
 
 string bdy::toString()
@@ -737,7 +742,6 @@ string block::setBody(istream *iss)
 	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
 						 // traves de metodos de la clase.
 	str=body.setTxns(iss);
-
 	if (isHash(str)==true)
 	{
 		return str;
