@@ -1,7 +1,3 @@
-init lucas 100 1
-transfer lucas fran 10
-mine 3
-transfer lucas fran 10
-mine 3
+load algochain.txt
 save algochainout.txt
 exit 
