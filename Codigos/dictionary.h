@@ -204,7 +204,6 @@ string cmdTransfer( Array <string> args)
 	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.
 	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
 	aux_txn.setNTxIn(aux_arr_inputs.getSize());
-	cout << "get ntxin " << aux_txn.getNTxIn() << endl;
 	aux_txn.setTxIn(aux_arr_inputs);
 	string aux_str=to_string(src_balance);	
 	//Construccion del arreglo de outputs
@@ -224,9 +223,7 @@ string cmdTransfer( Array <string> args)
 
 	
 	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
-cout << aux_txn << ">" << endl;
-	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
-cout << mempool << ">" << endl;
+
 	//Se carga la transaccion a la lista de usuarios.
 	for(size_t i=0; i< dim_array_aux;i++)
 	{
