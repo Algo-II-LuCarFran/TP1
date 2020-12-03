@@ -12,7 +12,7 @@ using namespace std;
 #include "dictionary.h"
 #include "main.h"
 
-
+// ESTOY GITEANDO ESTO
 // agregar una variable global lista algochain static list<block> algochain;
 // static block mempool();
 

@@ -81,7 +81,6 @@ p_func dictCmds( string cmd, int &num_param)
 {
 	string aux;
 	int i = 0;
-
 	while(cmd != dictionary_cmd[i].name && i < MAXCMD) i++;
 	if(i == MAXCMD)
 	{

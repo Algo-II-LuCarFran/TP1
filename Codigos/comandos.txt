@@ -1,7 +1,17 @@
 init lucas 100 1
-transfer lucas carla 10
-transfer lucas carla 10
-transfer carla fran 15
+transfer lucas carla 10 lisman 20
+balance lucas
+balance lisman
+balance carla
+transfer lucas carla 10 lisman 20
+balance lucas
+balance lisman
+balance carla
+transfer carla fran 20
+balance lucas
+balance lisman
+balance carla
+balance fran
 mine 3
 save algochainout.txt
 exit 
