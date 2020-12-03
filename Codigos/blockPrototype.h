@@ -122,7 +122,7 @@ class bdy
 	bdy & operator=(const bdy &);
 	bdy getBody();
 	size_t getTxnCount();
-	Array<txn> getTxns();
+	Array<txn> &getTxns();
 	// void setTxns(Array <txn> txns);
 	string setTxns(istream *iss);
 	void setTxnCount(const size_t n);

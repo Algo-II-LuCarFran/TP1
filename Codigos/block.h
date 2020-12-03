@@ -526,7 +526,7 @@ string bdy::setTxns(istream *iss)
 }
 
 size_t bdy::getTxnCount(){return txn_count;}
-Array<txn> bdy::getTxns(){return txns;}
+Array<txn> &bdy::getTxns(){return txns;}
 
 bdy bdy::getBody(){return *this;}
 
@@ -796,11 +796,11 @@ block::~block()
 
 void block::addTxn(txn aux_txn)
 {
-	bdy aux_bdy;
-	aux_bdy=this->getBody();
-	aux_bdy.txnsArrRedim((this->getBody().getTxnCount())+1);
-	aux_bdy.getTxns()[(this->getBody().getTxnCount())]=aux_txn; //LO VA A METER EN AUX_BDY Y DESPUES SE ELIMINA
+	body.setTxnCount(body.getTxnCount()+ 1);
+	body.txnsArrRedim(body.getTxnCount()+1);
+	body.getTxns()[body.getTxnCount()]=aux_txn;
 }
+
 
 void block::show(ostream& oss)
 {

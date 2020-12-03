@@ -10,6 +10,7 @@
 #define STR_CHECK_USER "checkUser"
 #define STR_USER "user"
 #define STR_TXN_BY_HASH "txnByHash"
+#define STR_TXN_IN_BLOCK_BY_HASH "findTxnInBlockByHash"
 
 #include <iostream> 
 #include "user.h"	//Necesario para buscar dentro de la lista de usuarios.
@@ -19,7 +20,7 @@ using namespace std;
 //-----------------------------------------------------MACROS----------------------------------------------
 //Para contar la cantidad de finders que se tiene. Se utiliza para encontrar el que se necesita en 
 //cada situacion
-#define MAXFINDER 6
+#define MAXFINDER 7
 
 
 
@@ -105,6 +106,21 @@ string findTxnByHash(string d, string str)
 	else
 		return "Findnt";
 }
+
+string findTxnInBlockByHash(string d, string str)
+{
+	block blck(str);
+	bdy body;
+	Array<txn> txns;
+	body = blck.getBody();
+	txns = body.getTxns();
+	for (size_t i = 0; i < body.getTxnCount(); i++)
+	{
+		if(d == sha256(sha256(txns[i].toString())))
+			return txns[i].toString();
+	}
+	return FINDNT;
+}
 // string findTransaction(string d, string str) 
 // {
 // 	//Esta funcion devuelve la transaccion buscada como una string.
@@ -136,7 +152,8 @@ static finder_option_t dictionary_finder[] = {
 	{STR_BLOCK, findBlock},
 	{STR_CHECK_USER, checkUser},
 	{STR_USER, findUser},
-	{STR_TXN_BY_HASH, findTxnByHash}
+	{STR_TXN_BY_HASH, findTxnByHash},
+	{STR_TXN_IN_BLOCK_BY_HASH,findTxnInBlockByHash}
 };
 
 finder finderParse( string ref)
