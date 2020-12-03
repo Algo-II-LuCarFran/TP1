@@ -160,7 +160,7 @@ string cmdTransfer( Array <string> args)
 	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
 											//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 	aux=src_balance;
-	size_t dim_array_aux=(args.getSize()-1)/2+1;
+	size_t dim_array_aux=(args.getSize()-1)/2;
 	Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
 
 	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
@@ -170,10 +170,11 @@ string cmdTransfer( Array <string> args)
 	Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
 	Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
 	
-	size_t n=args.getSize();
+	size_t n=dim_array_aux;// args.getSize();
 
-	for(size_t i=2,j=0; i <= n ;i+=2,j++)
+	for(size_t i=2,j=0; j < n ;i+=2,j++)
 	{
+ 
 		//Se consiguen los hash de los usuarios destino y los valores a transferir
 		dst[j]=sha256(args[i-1]); //Puede no ser necesario conseguir los hashes, podria trabajarse directamente con los nombres de los usuarios.
 
@@ -190,6 +191,7 @@ string cmdTransfer( Array <string> args)
 		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
 			return MSG_FAIL;
 	}
+
 	//Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferirles
 	//por lo que se crea un arreglo con la informacion de la transaccion.
 	txn aux_txn;
@@ -224,20 +226,24 @@ string cmdTransfer( Array <string> args)
 	for(size_t i=0; i< dst.getSize();i++)
 	{
 		str_user=users.find("user",dst[i]);
+
 		if(str_user==FINDNT)
 		{
+
 			user new_user;
 			new_user.addTxn(aux_txn);//falta ponerle el nombre
 			users.append(new_user);
 		}
 		else
 		{	
+
 			user aux_user(str_user);
 			users.removeElement(aux_user);
 			aux_user.addTxn(aux_txn);
 			users.append(aux_user);
 		}
 	}
+
 	str_user=users.find("user",src);
 	if(str_user==FINDNT)
 	{
