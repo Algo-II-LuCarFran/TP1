@@ -801,6 +801,7 @@ void block::addTxn(txn aux_txn)
 	body.getTxns()[body.getTxnCount()]=aux_txn;
 }
 
+
 void block::show(ostream& oss)
 {
 	oss << header;

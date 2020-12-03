@@ -282,6 +282,7 @@ string list<T>::find(const string& ref,const string& d )
 
 			prev_->next=aux;
 			prev_->prev=aux->prev->prev; 
+
 			if((result = aux_finder(d,(prev_->data).toString())) != "Findnt")
 			{
 				return result;

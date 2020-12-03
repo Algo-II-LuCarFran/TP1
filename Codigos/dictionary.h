@@ -156,9 +156,9 @@ string cmdTransfer( Array <string> args)
 	double src_balance,aux;
 	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
 	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
-												//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
+											//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 	aux=src_balance;
-	size_t dim_array_aux=(args.getSize()-1)/2+1;
+	size_t dim_array_aux=(args.getSize()-1)/2;
 	Array<string> dst(dim_array_aux); //Arreglo de usuarios destino.
 
 	//Al saber la cantidad de argumentos que se reciben se puede calcular el tamaño de los arreglos auxiliares, pues
@@ -168,13 +168,14 @@ string cmdTransfer( Array <string> args)
 	Array<string> dst_value_str(dim_array_aux); //Arreglo de valores(en strings) a transferir a usuarios destino.
 	Array <double> dst_value(dim_array_aux);   //Arreglo de valores(en doubles) a transferir a usuarios destino.
 	
-	size_t n=args.getSize();
+	size_t n=dim_array_aux;// args.getSize();
 
-	for(size_t i=2,j=0; i <= n ;i+=2,j++)
+	for(size_t i=2,j=0; j < n ;i+=2,j++)
 	{
+ 
 		//Se consiguen los hash de los usuarios destino y los valores a transferir
 		dst[j]=sha256(args[i-1]); //Puede no ser necesario conseguir los hashes, podria trabajarse directamente con los nombres de los usuarios.
-	 	
+
 		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
 		args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn. 
 		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
@@ -182,12 +183,13 @@ string cmdTransfer( Array <string> args)
 		dst_value_str[j]=args[i]; // Se necesitan como strings? 
 		dst_value[j]=stod(dst_value_str[j]);
 
-		if(dst_value[i]<0) //No se puede transferir una cantidad negativa
+		if(dst_value[j]<0) //No se puede transferir una cantidad negativa
 			return MSG_FAIL;
 		src_balance-=dst_value[j];
 		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
 			return MSG_FAIL;
 	}
+
 	//Al salir del for ya se tienen cargadas las estructuras con las addresses y los valores a transferirles
 	//por lo que se crea un arreglo con la informacion de la transaccion.
 	txn aux_txn;
@@ -199,10 +201,12 @@ string cmdTransfer( Array <string> args)
 	string str_user=users.find("user",src);
 	user aux_user(str_user);
 
-	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.h
+	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.
 	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
+	cout << "aux arr inputs < " << aux_arr_inputs << ">" << endl;
+	aux_txn.setNTxIn(dim_array_aux);
 	aux_txn.setTxIn(aux_arr_inputs);
-	
+
 	//Construccion del arreglo de outputs
 	aux_txn.setNTxOut(dim_array_aux);
 	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
@@ -215,27 +219,33 @@ string cmdTransfer( Array <string> args)
 	dst_value_str[dst_value_str.getSize()-1]=aux_str.substr(0,i+1) ;
 	
 	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
-	
+cout << "<" << aux_txn.getInputs() << ">" << endl;
 	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
-	
+cout << "mempool <" << endl;
+cout << mempool ;
+cout << "mempool >" << endl;
 	//Se carga la transaccion a la lista de usuarios.
 	for(size_t i=0; i< dst.getSize();i++)
 	{
 		str_user=users.find("user",dst[i]);
+
 		if(str_user==FINDNT)
 		{
+
 			user new_user;
 			new_user.addTxn(aux_txn);//falta ponerle el nombre
 			users.append(new_user);
 		}
 		else
 		{	
+
 			user aux_user(str_user);
 			users.removeElement(aux_user);
 			aux_user.addTxn(aux_txn);
 			users.append(aux_user);
 		}
 	}
+
 	str_user=users.find("user",src);
 	if(str_user==FINDNT)
 	{
