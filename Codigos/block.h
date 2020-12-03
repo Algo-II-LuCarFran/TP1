@@ -424,6 +424,7 @@ bdy & bdy::operator=(const bdy & right)
 
 void bdy::setTxnCount(const size_t n)
 {
+
 	txn_count = n;
 	if(this->txns.getSize() == 0)
 	{
@@ -544,7 +545,10 @@ void bdy::show(ostream& oss)
 		oss << txns[i];
 		oss << endl;
 	}
-	oss << txns[i];	
+	if(txn_count !=0)
+	{
+		oss << txns[i];	
+	}
 }
 
 string bdy::toString()
@@ -800,9 +804,18 @@ block::~block()
 
 void block::addTxn(txn aux_txn)
 {
+	//cout << "add txn body  < " << body << ">>" << endl;
+	// cout << "add txn  < " << aux_txn << ">>" << body.getTxnCount()<< endl; 
 	body.setTxnCount(body.getTxnCount()+ 1);
-	body.txnsArrRedim(body.getTxnCount()+1);
-	body.getTxns()[body.getTxnCount()]=aux_txn;
+	
+	// cout << "add txn body txn count < " << body << ">>" << body.getTxnCount() << endl; 
+	body.txnsArrRedim(body.getTxnCount());
+	// cout << "add txn body txn arrredim < " << body << ">>" << endl;
+	body.getTxns()[body.getTxnCount()-1]=aux_txn;
+	// cout << "add txn body txns < " << body.getTxns() << ">>" << endl;
+	// cout << "add txn body  < " << body << ">>" << endl;
+	// cout << "add txn body  to string < " << body.toString() << ">>" << endl;
+	//cout << "add txn body  get < " << body.getBody() << ">>" << endl;
 }
 
 

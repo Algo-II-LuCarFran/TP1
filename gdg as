@@ -1,0 +1,857 @@
+[33mcommit 5ec37f990c9808775f22a9a57332c9683b984af7[m[33m ([m[1;36mHEAD -> [m[1;32mCarla[m[33m, [m[1;31morigin/Carla[m[33m)[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 11:50:33 2020 -0300
+
+    pullfromfran
+
+[33mcommit 5484a64f6fd048861c478475c93d74ef7bf059ca[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 11:47:55 2020 -0300
+
+    me enoje
+
+[33mcommit 2471955c12d2e613f5c028ff2521b77d458ddf5b[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 10:03:17 2020 -0300
+
+    main
+
+[33mcommit eac1b4411d8af28ca13796da377fcc64fb6a77f9[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 10:01:50 2020 -0300
+
+    act help
+
+[33mcommit 4330112f3655c40ebc00cb26528812161ba6da44[m
+Merge: 21baf65 95263aa
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 03:01:02 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit 21baf650dcd334bf717837e3b20d3ab647385dbb[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 02:57:45 2020 -0300
+
+    main y dic
+
+[33mcommit 95263aa800ccf7e303953552409d0d70bc606bf7[m[33m ([m[1;31morigin/Fran[m[33m, [m[1;32mFran[m[33m)[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Thu Dec 3 02:56:00 2020 -0300
+
+    .
+
+[33mcommit 363d478593b45659eb9903901d61f39cc2ab44bb[m
+Merge: fdf52e3 a07a506
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Thu Dec 3 01:41:36 2020 -0300
+
+    Merge branch 'Carla' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit a07a5066420b11c07095fdc06a6c202449d0b152[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 01:40:45 2020 -0300
+
+    dicti con mempo
+
+[33mcommit fdf52e30d42bfa80b5d6f54abcd307e316d96688[m
+Merge: 150184d 7a78b52
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Thu Dec 3 01:32:50 2020 -0300
+
+    Merge branch 'Carla' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit 7a78b5264567be69dbed9a642f11af097d35a5e9[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 01:32:25 2020 -0300
+
+    funcilona
+
+[33mcommit 150184d3b21b954bd48f01448b7ba8067c6dfdb6[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Thu Dec 3 01:32:06 2020 -0300
+
+    cambio como imprime el body
+
+[33mcommit 18bd30ca650f79eb05a088424702bdae2e0df863[m
+Merge: 076e764 12d5ea0
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Thu Dec 3 01:17:41 2020 -0300
+
+    Merge branch 'Carla' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit 12d5ea05aa8247ec820da894787af773d879554e[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Thu Dec 3 01:16:24 2020 -0300
+
+    casi transfer
+
+[33mcommit 076e76483ce2b8a68720f8f64896402c5eb3542e[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Thu Dec 3 01:03:08 2020 -0300
+
+    merkel
+
+[33mcommit 6b1b877056f9a71c1f69d11789bc0a1acae7a988[m
+Merge: 2ff3081 4a7a2bd
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 23:51:49 2020 -0300
+
+    Merge branch 'Carla' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit 6fde6d8a92e399c81fc398d888c7198eeb14924a[m
+Merge: 4a7a2bd 2ff3081
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 23:51:43 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit 4a7a2bd90676b28a462f88215f2f543424c6fb80[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 23:51:20 2020 -0300
+
+    ..
+
+[33mcommit 2ff308199f1c7016805b39f77f0c84c90c7d264a[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 23:51:08 2020 -0300
+
+    cambio en user
+
+[33mcommit dbd1100b76d1aa2990d182f0d4f9d00079310069[m
+Merge: 44c9be5 e5d1222
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 23:47:15 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit e5d122277ca79e72976de723cd037033f91f85cc[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 23:46:50 2020 -0300
+
+    redim de inputs
+
+[33mcommit 44c9be549e943cbc9f4ebe501c3459e2addc7b7d[m
+Merge: bd402f4 2fb7e0f
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 23:46:45 2020 -0300
+
+    tracmoni roto
+
+[33mcommit e3ceeb1dd68ffee1fa71dacbcfc4087ea3e257b8[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 23:37:32 2020 -0300
+
+    cambio addTxn
+
+[33mcommit bd402f4f28d067b4784f333dc967111c1569f5b9[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 23:10:41 2020 -0300
+
+    cmdtrasnfer funcona a medias
+
+[33mcommit 2fb7e0fd4b794a5ad2305a2c0af76aeb154e4f02[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 22:39:40 2020 -0300
+
+    maxfinder
+
+[33mcommit bcd83fede7db03387e8ef44ad88d9137f43920f4[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 22:39:11 2020 -0300
+
+    falta solo transfer
+
+[33mcommit b6bdc6c900d0d8c2e6c27773c6c3206e56d778dd[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 21:42:15 2020 -0300
+
+    trackmoni
+
+[33mcommit c612e6bf8a971f81dfc4b13e912b1627d6245fa2[m
+Merge: d4918b2 fdae181
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 21:18:16 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit d4918b2eea454cea7c061fef039774d6f9b89df9[m
+Merge: fa62014 9b423fd
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 21:12:13 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit fdae181993e547650e2a7ae4a9560c64e3da1db5[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 21:09:51 2020 -0300
+
+    anda bien load y save
+
+[33mcommit fa62014a01a0ae55540bce9a956fde661a2b0099[m
+Merge: 7a19d99 9b3ac1b
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 20:50:24 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit 9b423fd169e7f2a115afe34013eafb6794383b17[m
+Merge: 9b3ac1b 7a19d99
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 20:47:51 2020 -0300
+
+    Merge branch 'Carla'
+
+[33mcommit 7a19d99834528ba1cca37e2e5cca4ba45fc9b321[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 20:46:21 2020 -0300
+
+    main
+
+[33mcommit 9b3ac1bb07fbba88380d38dfb1fff111256f96cd[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 20:46:02 2020 -0300
+
+    elimino geasstring
+
+[33mcommit df98fc830e1f743236f6f6d1d046892d4df537f2[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 20:43:20 2020 -0300
+
+    cambie funcionamientos de show
+
+[33mcommit 47f43d21ea8eab171e52fe0784da06edb46c4f7f[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 20:27:21 2020 -0300
+
+    main.cc
+
+[33mcommit aa486bb8b7d0ed0aef1872af9de007deaa33517e[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 19:53:51 2020 -0300
+
+    so string para las clases
+
+[33mcommit 92aabce22b188e37df6fbf067a05e93a466df2f3[m
+Merge: 4213788 b1c0e42
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 19:53:17 2020 -0300
+
+    merge fran
+
+[33mcommit 421378839f3bd3107294ed1afea7c2d32509cbb0[m
+Merge: c3beec8 5c89fd0
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 19:37:03 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit b1c0e426e92104bfbae196e251e0715d69af1311[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 19:36:27 2020 -0300
+
+    .
+
+[33mcommit c3beec83aae9792536379467e504bb7adda27018[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 18:52:06 2020 -0300
+
+    ca
+
+[33mcommit 5c89fd01c704129996c7e291e7cc7dbb8c4445aa[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 18:51:14 2020 -0300
+
+    CARLA
+
+[33mcommit 11789585a7ca191be0fadc4e091498ac383f916e[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 18:22:40 2020 -0300
+
+    arregle lo de txn
+
+[33mcommit 7b0687c74fa8feae0eea30b5581d60d5fe2f7c57[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 18:01:23 2020 -0300
+
+    cambio value de double a strin
+
+[33mcommit 15caf4772d02c754f3d1c691e3e80f1b0ed24047[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 17:27:44 2020 -0300
+
+    Arreglo redimensionar
+
+[33mcommit 178b31b1920c3b42b734dfa392e19e0fae480d1d[m
+Merge: bab8428 f99d41b
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 15:55:16 2020 -0300
+
+    Merge branch 'Carla' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit bab8428bf4b05f71ef25ea87a62c3e88d2db9932[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 15:55:00 2020 -0300
+
+    .
+
+[33mcommit f99d41b7d645be1d1b2ff40e0a38456e17e7ce97[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 15:51:18 2020 -0300
+
+    casi funciona mejorar algochain.txt
+
+[33mcommit d9f7035df3ee0e64c1fc54d692fb44930a53dde8[m
+Merge: b37bbb4 936bc3b
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 14:05:13 2020 -0300
+
+    Merge branch 'Carla'
+
+[33mcommit 936bc3bbbc88b747ec2d753e5a67f6d28cb724b8[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 14:04:21 2020 -0300
+
+    fran
+
+[33mcommit b37bbb4adcdd03c290f031f013e3c41bea552925[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 14:04:03 2020 -0300
+
+    .
+
+[33mcommit bd3a5212b23b66ac11d769b557bf952dd9d0ed5b[m
+Merge: 2940fc8 a989663
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 13:58:11 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Carla
+
+[33mcommit 83c3ef970f5de27383ffaf69e74e05f77af4bea6[m
+Merge: a989663 2940fc8
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 13:48:13 2020 -0300
+
+    Merge branch 'Carla'
+
+[33mcommit a9896630a81f382e682a54e939423c08864bc087[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 13:45:43 2020 -0300
+
+    makefile
+
+[33mcommit 2940fc8e175e454017f96f818bd0cfe8606b0f95[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 13:45:29 2020 -0300
+
+    2121345
+
+[33mcommit 10a3e8302fc81c6bf1abef6d2f81319c0ba80308[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Wed Dec 2 10:32:09 2020 -0300
+
+    algochaintxt
+
+[33mcommit 5a3c00ec946e0a30c2ced5c17c94f159b8aa2f0f[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 02:34:19 2020 -0300
+
+    .
+
+[33mcommit 327187ab5596e666522068eb5aa6ba6f9975415c[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 02:33:17 2020 -0300
+
+    parece andar bien removeelement
+
+[33mcommit 693a0b574b36247173febbfbbe7431e63bbf0bae[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 01:21:36 2020 -0300
+
+    hay un error raro de lucas en block.h
+
+[33mcommit 2207a24add048830635b91bf3370bb96d0dd3d49[m
+Merge: f826320 5f363b3
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 00:40:33 2020 -0300
+
+    Merge branch 'Carla'
+
+[33mcommit f826320a60abfdbe3be0d8e229cc1bc6efa9afe6[m
+Merge: e603ce1 be7f6b1
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 00:30:40 2020 -0300
+
+    Merge branch 'Lucas' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit e603ce167f1800de1c539a77d8d18a8ec134887d[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Wed Dec 2 00:28:38 2020 -0300
+
+    falta una funcion para user
+
+[33mcommit be7f6b10968346a23ad498af524b89b72db48152[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 23:39:28 2020 -0300
+
+    Update Lucas
+
+[33mcommit 43de370ae80b56102cd2666003ffa1a5e36023af[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 22:39:12 2020 -0300
+
+    TODAVIA NO ANDA USER
+
+[33mcommit 5f363b3c2a29441076f1ee810a75eb577dd7c3cb[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Tue Dec 1 21:54:26 2020 -0300
+
+    gene
+
+[33mcommit 61d5d880376f10203ffd08019cb4d5252fb42327[m
+Merge: 66baef3 2d72f08
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 19:31:58 2020 -0300
+
+    Merge branch 'Lucas' of https://github.com/Algo-II-LuCarFran/TP1 into Fran
+
+[33mcommit 66baef302a107e5092937f43f50ad37ec933c1be[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 19:31:31 2020 -0300
+
+    no hago cambios
+
+[33mcommit 2d72f08ae42f268b62721a04a8980e13863ec462[m
+Merge: c441a26 8c12f68
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 19:19:34 2020 -0300
+
+    Merge branch 'Fran' of https://github.com/Algo-II-LuCarFran/TP1 into Lucas
+
+[33mcommit c441a268d210ff2392520cc205ec0a9ff56fa001[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 19:10:37 2020 -0300
+
+    Update
+
+[33mcommit 8c12f6886646da2704aba6e8b6d6222bf8a44e41[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 19:09:55 2020 -0300
+
+    Anda lista
+
+[33mcommit f76eb30fdabe53bdb98b353081b57006fa09de49[m
+Merge: cc6153e ef0de3e
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 17:52:20 2020 -0300
+
+    Merge branch 'Lucas'
+
+[33mcommit cc6153e08587b636d7f1084bba4d1554ca43e878[m
+Merge: b768f63 edec7fc
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 17:50:03 2020 -0300
+
+    Merge branch 'main'
+
+[33mcommit ef0de3ea7c39f36de49a60780fdcb5495982aa22[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 17:42:34 2020 -0300
+
+    Update para Fran
+
+[33mcommit 78f97ddb5cd9a8877d82f0fab123437816fea2e2[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Tue Dec 1 15:46:11 2020 -0300
+
+    11216
+
+[33mcommit 0448b4141d7c2e27b94e03e9a9562f5880115424[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 14:47:31 2020 -0300
+
+    Update en base a la branch de Carla
+
+[33mcommit 49eff9ccd4f0fd5c09339233fc748a8e2097f43d[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 14:20:22 2020 -0300
+
+    Update basado en el main
+
+[33mcommit 56c63afb7f5c80c6cd59c642b749de37266e41d8[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Tue Dec 1 13:44:48 2020 -0300
+
+    funciona cmdload save mine
+
+[33mcommit edec7fc5988a2f8e8469748cf540eec286eb1345[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 12:05:32 2020 -0300
+
+    Para verificar que anda, se agrega una impresion por cout
+
+[33mcommit 0bacc91b25dc1d2dda0f8f0bcd9c4c01782b9ffc[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Tue Dec 1 12:03:57 2020 -0300
+
+    parece funcionar
+
+[33mcommit c3166d339d23ed1b562f064d5a5aad1f989f6207[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 11:16:20 2020 -0300
+
+    Reseteo basado en el main
+
+[33mcommit 92c4e05f38a41f122d5b9633795d22aae758d74e[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 10:57:24 2020 -0300
+
+    Delete Nodo.h
+
+[33mcommit cf82bb70f4f292c99116a6b0ba44aeda7663b292[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 10:55:55 2020 -0300
+
+    Branch actualizada en base al main
+
+[33mcommit 41743fb796439c523933f3b60fc1703cfd651bf0[m
+Merge: d908c46 21ec36e
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Tue Dec 1 02:15:47 2020 -0300
+
+    Merge branch 'Lucas'
+
+[33mcommit 21ec36ee815084b6a17f25c9b910587384a119da[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Tue Dec 1 01:33:57 2020 -0300
+
+    Update finders
+
+[33mcommit 883b2d7efeba3459203a5e95e25af57bbd630d59[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 21:47:01 2020 -0300
+
+    no se que hice
+
+[33mcommit 0586f4066a0b39e712a3d7e358157ba99fe89a55[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Mon Nov 30 21:39:04 2020 -0300
+
+    acomodado
+
+[33mcommit b43c033a6e701ccf6ada45d693febba257277398[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 21:38:57 2020 -0300
+
+    LUCAS ME DICE QUE LO SUBA
+
+[33mcommit da5560a682942cc06a82a7697ba8d922228b2f04[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 21:13:23 2020 -0300
+
+    NO ANDA NADA
+
+[33mcommit c798733ce7087e0c747ed5d985a9e0d0ecbc6f77[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 20:23:51 2020 -0300
+
+    problema con la lista del user
+
+[33mcommit b768f63b3a57f7b2e177d41f1dcfea33a7fd81d3[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 18:18:26 2020 -0300
+
+    .
+
+[33mcommit 06a996b6e4e858d0c42c8ac4c2a601caeab83d8b[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 18:18:21 2020 -0300
+
+    User cambios
+
+[33mcommit b4488556766c23d153a72d751911bac7c0d59f1c[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Mon Nov 30 18:17:28 2020 -0300
+
+    Update para Fran
+
+[33mcommit 044923d52ecdeeeb72994a0b0397b3e54b8b98a8[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Mon Nov 30 18:12:09 2020 -0300
+
+    Update
+
+[33mcommit e11671e9bd73ff455bcf1c3c40c52c8d74e1d715[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Mon Nov 30 17:53:17 2020 -0300
+
+    Clase user
+
+[33mcommit 2164c339c8565b169cd128e3637f2a06712d82bf[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Mon Nov 30 17:08:38 2020 -0300
+
+    Actualizado con lo que hay en el main
+
+[33mcommit bb7c81c4a03849cf84e5f4d70805a2bf5ba3404d[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Mon Nov 30 17:06:40 2020 -0300
+
+    Update
+
+[33mcommit a193c7abd16e77146123b092a9077ae66e838bd2[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Mon Nov 30 16:48:13 2020 -0300
+
+    Finders update
+
+[33mcommit 2b57c10da5000b4dc195a6d35d7d31acc576b623[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Mon Nov 30 16:13:44 2020 -0300
+
+    301116
+
+[33mcommit 584c8f380b642df9c35e1bca4c2eae126a168b8e[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Mon Nov 30 15:46:47 2020 -0300
+
+    funciona cmdload y save desde el main
+
+[33mcommit 9455b5cd91143e9a380c84735ca5ba89d3762987[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 23:27:32 2020 -0300
+
+    argumentos
+
+[33mcommit 1fc6a6748d2eef6514346d6714fc63861a7f9c99[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 23:25:04 2020 -0300
+
+    lista
+
+[33mcommit be06a7ad0274c234a3040980739ebdc13485da4f[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 23:17:57 2020 -0300
+
+    funciona cmdload(si la copio, no la probe con dictionary)
+
+[33mcommit 0d69f4f8c58619912aca14cbaaf7a51442f30e61[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 22:20:17 2020 -0300
+
+    Finders actualizado
+
+[33mcommit 83448456cd0af0791c76584723d2265d5ee26fdc[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 21:32:06 2020 -0300
+
+    Main actualizado
+
+[33mcommit 583acd00304276decfec2eec4d983e99cc080732[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 21:30:30 2020 -0300
+
+    Avance sobre finders
+
+[33mcommit d908c460b4d359fa20d8f91e22f948e451740db6[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 21:14:52 2020 -0300
+
+    cambios en el value, ahora es un string
+
+[33mcommit 708d7aab47fc4eac423103ca8775ded9492b7266[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 20:59:58 2020 -0300
+
+    users struct
+
+[33mcommit 40002681570b5109829f7929ec9ff7fc7c97fb39[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 20:45:22 2020 -0300
+
+    .
+
+[33mcommit 9910e4329b94909084983c15796bb565f567ab84[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 20:44:51 2020 -0300
+
+    .
+
+[33mcommit a0f315c14a4666d3134bac5b654c9069302741aa[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 20:43:26 2020 -0300
+
+    mempool
+
+[33mcommit 468072dd6eba242e39caeabbbcd759176f14115f[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 20:41:26 2020 -0300
+
+    funciona la algochain
+
+[33mcommit 4c34192b86a0c1a1080954c7c48681e315f3f0c5[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 20:13:58 2020 -0300
+
+    no anda last node para
+
+[33mcommit dc0c79da866ac2b86151f4f883deb33b09a83a8d[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 20:04:55 2020 -0300
+
+    Prueba para Carla añadida
+
+[33mcommit 3abcfbebf25b9b7b6476a7ec9b58b71b9253217d[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 16:03:22 2020 -0300
+
+    copiado desde 0 desde main
+
+[33mcommit df3aef3b2f79495a8408f1435da3beed4320c97b[m
+Merge: 0a0f070 ca523a5
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 16:03:08 2020 -0300
+
+    Merge branch 'main'
+
+[33mcommit 458c7f7185217c0a9c99b31c0fe167e24805403c[m
+Merge: e58fc53 ca523a5
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 16:00:11 2020 -0300
+
+    Merge branch 'main' into Carla
+
+[33mcommit e58fc533e8d1e7e9ad733b5436b630ce1447b433[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 15:59:30 2020 -0300
+
+    bororo todo
+
+[33mcommit 36d208c999246f81f90a666c238faa6de132b132[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 15:53:52 2020 -0300
+
+    borro todo
+
+[33mcommit ca523a55797a87795c8115a429b720c9c2375728[m
+Merge: 42d30b9 8543cdf
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 15:53:07 2020 -0300
+
+    Merge branch 'main' of https://github.com/Algo-II-LuCarFran/TP1 into main
+
+[33mcommit 42d30b9a6ce5fe87468164ab3258698789b528f8[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 15:52:43 2020 -0300
+
+    lista getnode
+
+[33mcommit 8543cdfa9b9c930d93d67b87d6c945a4f772ba67[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 15:52:20 2020 -0300
+
+    Cambios en dictionary
+
+[33mcommit 7df68f0903c292d748a82360f2122a275b52afba[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 15:25:18 2020 -0300
+
+    parece andar
+
+[33mcommit 0d828686c37421edab87a535a6dee01cdb8d4a1a[m
+Merge: 41af095 a2951bb
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 15:24:33 2020 -0300
+
+    Merge branch 'main' into Carla
+
+[33mcommit 41af095444e5b4d796fb8bc75cb796265554ebd8[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 15:22:11 2020 -0300
+
+    df
+
+[33mcommit a2951bb246cc9fb236b3a98b7417365ece04bb51[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 15:19:34 2020 -0300
+
+    imprime mucho txns
+
+[33mcommit f2fc135f60996107e0ca822ed54728530fff3c55[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 14:55:59 2020 -0300
+
+    Actualizacion para que finders funcione
+
+[33mcommit f59d344e2584e4680bbd2abb83b92eb7d7d57ce1[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 14:53:50 2020 -0300
+
+    Actualizacion finder para que funcione bien
+
+[33mcommit 64cc0ab4d87592919cc14814e1a59f47cdfed63d[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 14:50:53 2020 -0300
+
+    Funcionamiento finder
+
+[33mcommit 6745d3f11cb6544bd8103816bd6a004f28f69e15[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 14:45:45 2020 -0300
+
+    Namespace std en finders
+
+[33mcommit a3797f527ff7d22c454fb64c8c1ad8f6c9fdaf0b[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 14:40:01 2020 -0300
+
+    tools merge carla
+
+[33mcommit 50c651485e992a3ef0f3a669d623c8c7c449eb88[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 14:28:25 2020 -0300
+
+    Array.h merge
+
+[33mcommit 1f10039c094cdead95792282067eb084e42979d9[m
+Author: Lucas Burna <burna680@users.noreply.github.com>
+Date:   Sun Nov 29 14:26:01 2020 -0300
+
+    Finders subidos
+
+[33mcommit aee01be40bf9080a4615ae66b92764a1702a230d[m
+Merge: 3c31bcf 4fcc040
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 14:23:03 2020 -0300
+
+    Merge branch 'main' of https://github.com/Algo-II-LuCarFran/TP1 into main
+
+[33mcommit 3c31bcf25420ec90e8305bcc84eae1525b0947b6[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 14:22:42 2020 -0300
+
+    dictionary merge
+
+[33mcommit e7a24ea4fdf247813a36710e09d3c9cb3e963d5a[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 14:21:33 2020 -0300
+
+    dictionary merge
+
+[33mcommit 4fcc040893ceb74e4f8ce3d0d1498d2aa724e11d[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 14:18:08 2020 -0300
+
+    subo block.h y lista.h al dia de 29 domingo
+
+[33mcommit d4216290a1e4ea51fd5b33901ef358a0b957fc30[m
+Author: CarlaSobico <csobico@fi.uba.ar>
+Date:   Sun Nov 29 14:14:18 2020 -0300
+
+    291114
+
+[33mcommit 0a0f070c62f6403d32c25e8706530997f5b2ecc4[m
+Author: FranciscoPerczyk <fperczyk@fi.uba.ar>
+Date:   Sun Nov 29 14:13:35 2020 -0300
+
+    Lista con camb
