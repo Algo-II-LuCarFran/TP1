@@ -83,7 +83,6 @@ p_func dictCmds( string cmd, int &num_param)
 	int i = 0;
 
 	while(cmd != dictionary_cmd[i].name && i < MAXCMD) i++;
-	
 	if(i == MAXCMD)
 	{
 		cerr << "El comando no es valido" << endl;
@@ -360,7 +359,7 @@ string cmdLoad(Array <string> args)
 		cerr << "ERROR: no se pudo cargar el archivo " << endl;
 		exit(1);
 	}
-	ifs.close();
+	ifs_load.close();
 	block aux ;
 	aux = algochain.getLastNode();
 	return sha256(sha256(aux.toString()));
