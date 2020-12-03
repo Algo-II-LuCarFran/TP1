@@ -141,7 +141,7 @@ string cmdInit(Array <string> args)
 		exit(1);
 	}
 	algochain.append(genesis_block);
-	return sha256(genesis_block.toString());
+	return sha256(sha256(genesis_block.toString()));
 }
 
 string cmdTransfer( Array <string> args)
@@ -203,49 +203,50 @@ string cmdTransfer( Array <string> args)
 
 	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.
 	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
-	cout << "aux arr inputs < " << aux_arr_inputs << ">" << endl;
-	aux_txn.setNTxIn(dim_array_aux);
+	aux_txn.setNTxIn(aux_arr_inputs.getSize());
+	cout << "get ntxin " << aux_txn.getNTxIn() << endl;
 	aux_txn.setTxIn(aux_arr_inputs);
-
-	//Construccion del arreglo de outputs
-	aux_txn.setNTxOut(dim_array_aux);
-	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
-	dst[dst.getSize()-1]=src;
-	
-
 	string aux_str=to_string(src_balance);	
-	size_t i;
-	for(i=aux_str.length()-1; aux_str[i] -'0'==0 ;i--); //Indica la posicion con decimales exactos (sin ceros de mas)
-	dst_value_str[dst_value_str.getSize()-1]=aux_str.substr(0,i+1) ;
+	//Construccion del arreglo de outputs
+	if(aux-src_balance == 0)
+	{
+		aux_txn.setNTxOut(dim_array_aux);
+	}
+	else
+	{
+		aux_txn.setNTxOut(dim_array_aux+1);
+		dst.ArrayRedim(dim_array_aux+1);
+		dst[dst.getSize()-1]=src;	
+		dst_value_str.ArrayRedim(dim_array_aux+1);
+		dst_value_str[dst_value_str.getSize()-1]=aux_str;
+	}
+	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
+
 	
 	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
-cout << "<" << aux_txn.getInputs() << ">" << endl;
+cout << aux_txn << ">" << endl;
 	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
-cout << "mempool <" << endl;
-cout << mempool ;
-cout << "mempool >" << endl;
+cout << mempool << ">" << endl;
 	//Se carga la transaccion a la lista de usuarios.
-	for(size_t i=0; i< dst.getSize();i++)
+	for(size_t i=0; i< dim_array_aux;i++)
 	{
 		str_user=users.find("user",dst[i]);
 
 		if(str_user==FINDNT)
 		{
-
 			user new_user;
+			new_user.setName(dst[i]);
 			new_user.addTxn(aux_txn);//falta ponerle el nombre
 			users.append(new_user);
 		}
 		else
 		{	
-
 			user aux_user(str_user);
 			users.removeElement(aux_user);
 			aux_user.addTxn(aux_txn);
 			users.append(aux_user);
 		}
 	}
-
 	str_user=users.find("user",src);
 	if(str_user==FINDNT)
 	{
@@ -260,7 +261,7 @@ cout << "mempool >" << endl;
 		aux_user.addTxn(aux_txn);
 		users.append(aux_user);
 	}
-	return sha256(aux_txn.toString());
+	return sha256(sha256(aux_txn.toString()));
 }
 
 string cmdMine(Array <string> args)
