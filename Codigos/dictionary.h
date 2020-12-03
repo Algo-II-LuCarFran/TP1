@@ -99,7 +99,6 @@ string cmdInit(Array <string> args)
  
 	string user;
 	string STR_TXNing;
-	double value;
 	size_t bits;
 
 	user = sha256(args[0]);
@@ -110,7 +109,6 @@ string cmdInit(Array <string> args)
 		exit(1);
 	}
 
-	value = stod(args[1]);
 	
 	if(isNumber<int>(args[2]) == false || args[2][0] == '-')
 	{
@@ -139,7 +137,7 @@ string cmdInit(Array <string> args)
 	block genesis_block(NULL_HASH, bits, &iss);
 	if (refreshUsersFromBlock(genesis_block) == false)
 	{
-		cerr<< "ERROR: No se puede cargar user" << endl;
+		cerr << "ERROR: No se puede cargar user" << endl;
 		exit(1);
 	}
 	algochain.append(genesis_block);
@@ -291,24 +289,31 @@ string cmdMine(Array <string> args)
 
 string cmdBalance(Array <string> args)
 {
-	// string balance = find(args[0]);//funcion que estaban haciendo, como va a funcionar?
-	// //double aux = id_balance.balance;// paso solo el user a find y no find hasheado
-	// return balance;
-	//verificar el error de finduser
-	return "hola";
+	string name = sha256(args[0]), balance_str;
+	if((balance_str = users.find(STR_BALANCE, name)) == FINDNT)
+		return "0";
+	return balance_str;
 }
 
 string cmdBlock(Array <string> args)
 {
-	//funcion find, le tiro el id y me devuelve blocl
-	// return find(args[0]);
-	return "hola";
+	string id = args[0], block_str;
+	if((block_str = algochain.find(STR_BLOCK, id)) == FINDNT)
+		return "FAIL";
+	return block_str;
 }
 
 string cmdTxn(Array <string> args)
 {
-	
-	return "hola";
+	string id = args[0], txn_str;
+	if((txn_str = algochain.find(STR_TXN_IN_BLOCK_BY_HASH, id)) == FINDNT)
+	{
+		if((txn_str = findTxnInBlockByHash(id, mempool.toString())) == FINDNT)
+			return "FAIL";
+		else
+			return txn_str;
+	}
+	return txn_str;
 }
 
 string cmdLoad(Array <string> args)
