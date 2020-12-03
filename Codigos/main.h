@@ -129,7 +129,7 @@ opt_help(string const &arg)
 	exit(0);
 }
 
-bool setAlgochainFromFile( istream *iss)
+bool setAlgochainFromFile( istream *iss_load)
 {
 	block block_aux, block_empty;
 	string str,str_aux;
@@ -137,7 +137,7 @@ bool setAlgochainFromFile( istream *iss)
 	hdr header_aux;
 	size_t diff, nonce;
 	bdy body_aux;
-	getline(*iss, str, '\n');
+	getline(*iss_load, str, '\n');
 	
 	if(str!=NULL_HASH)
 	{
@@ -155,14 +155,14 @@ bool setAlgochainFromFile( istream *iss)
 			exit(1);
 		}
 		header_aux.setPrevBlock(str);
-		getline(*iss, str, '\n');
+		getline(*iss_load, str, '\n');
 		if(isHash(str)==false)
 		{
 			cerr << "ERROR: no es un hash para prev block 3" << endl;
 			return false;
 		}
 		header_aux.setTxnsHash(str);
-		getline(*iss, str, '\n');
+		getline(*iss_load, str, '\n');
 		if(isNumber<size_t>(str)==0)
 		{
 			cerr<<"ERROR: no es un numero"<< endl;
@@ -170,7 +170,7 @@ bool setAlgochainFromFile( istream *iss)
 		}
 		diff = stoi(str);
 		header_aux.setBits(diff);
-		getline(*iss, str, '\n');
+		getline(*iss_load, str, '\n');
 		if(isNumber<size_t>(str)==0)
 		{
 			cerr<<"ERROR: no es un numero"<< endl;
@@ -181,7 +181,7 @@ bool setAlgochainFromFile( istream *iss)
 		
 		block_aux.setHeader(header_aux); //guarda el header
 		//seteo el body
-		str_aux=block_aux.setBody(iss);
+		str_aux=block_aux.setBody(iss_load);
 		// chequeo que sea genesis
 		if(i==0)
 		{
@@ -226,7 +226,7 @@ bool setAlgochainFromFile( istream *iss)
 				cerr<< "ERROR: no se pueden cargar los users"<< endl;
 				exit(1);
 			}
-			getline(*iss, str, '\n');			
+			getline(*iss_load, str, '\n');			
 			continue;
 		}
 		else
