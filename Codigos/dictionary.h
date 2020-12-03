@@ -224,6 +224,8 @@ string cmdTransfer( Array <string> args)
 	
 	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
 
+	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
+
 	//Se carga la transaccion a la lista de usuarios.
 	for(size_t i=0; i< dim_array_aux;i++)
 	{
