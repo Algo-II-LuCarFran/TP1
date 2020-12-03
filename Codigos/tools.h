@@ -9,6 +9,7 @@
 #include <bitset>
 #include "block.h"
 #include "Lista.h"
+#include "sha256.h"
 
 using namespace std;
 

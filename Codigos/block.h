@@ -535,11 +535,13 @@ void bdy::txnsArrRedim(const size_t n ){txns.ArrayRedim(n);}
 
 void bdy::show(ostream& oss)
 {
+	size_t i;
 	oss << txn_count << endl;
-	for (size_t i = 0; i < txns.getSize(); i++)
+	for (i = 0; i < txns.getSize() - 1; i++)
 	{
 		oss << txns[i];
 	}
+	oss << txns[i] << endl;
 }
 
 string bdy::toString()
