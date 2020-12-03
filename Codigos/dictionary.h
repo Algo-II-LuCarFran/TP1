@@ -269,15 +269,11 @@ string cmdTransfer( Array <string> args)
 		aux_user.addTxn(aux_txn);
 		users.append(aux_user);
 	}
-<<<<<<< HEAD
-	return sha256(sha256(aux_txn.toString()));
-=======
 	Array<txn> txns_;
 	bdy body_;
 	body_ = mempool.getBody();
 	txns_ = body_.getTxns();
 	return  sha256(sha256(txns_[0].toString()));
->>>>>>> 3811e6a5571c1e6273dd24d2f7abaaccab0f9e53
 }
 
 string cmdMine(Array <string> args)
@@ -332,10 +328,7 @@ string cmdBlock(Array <string> args)
 
 string cmdTxn(Array <string> args)
 {
-<<<<<<< HEAD
-=======
 
->>>>>>> 3811e6a5571c1e6273dd24d2f7abaaccab0f9e53
 	string id = args[0], txn_str;
 	if((txn_str = algochain.find(STR_TXN_IN_BLOCK_BY_HASH, id)) == FINDNT)
 	{

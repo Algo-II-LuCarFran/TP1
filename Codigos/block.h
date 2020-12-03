@@ -554,25 +554,11 @@ void bdy::show(ostream& oss)
 	{
 		oss << txns[i];
 		oss << endl;
-<<<<<<< HEAD
-	}
-	if(txn_count !=0)
-	{
-		oss << txns[i];	
-=======
->>>>>>> 3811e6a5571c1e6273dd24d2f7abaaccab0f9e53
 	}
 	if(txn_count !=0)
 	{
 		oss << txns[i];	
 	}
-}
-
-string bdy::toString()
-{
-    ostringstream ss;
-    ss << *this;
-    return ss.str();
 }
 
 string bdy::toString()
