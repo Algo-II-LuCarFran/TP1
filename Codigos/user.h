@@ -136,7 +136,7 @@ Array<inpt> user::trackMoney(const double money)
 		transactions.removeElement(aux_txn);
 	}
 	balance -= utxo;
-
+	inputs.ArrayRedim(i);
 	return inputs;
 }
 
