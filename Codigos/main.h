@@ -150,7 +150,7 @@ bool setAlgochainFromFile( istream *iss_load)
 	
 	if(str!=NULL_HASH)
 	{
-		cerr << "ERROR: No comienza con el genesis block 1" << endl;
+		cerr << "ERROR: No comienza con el genesis block" << endl;
 		exit (1); 
 	}
 	while (str!="")
@@ -160,14 +160,14 @@ bool setAlgochainFromFile( istream *iss_load)
 		
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para prev block 2" << endl;
+			cerr << "ERROR: no es un hash para prev block" << endl;
 			exit(1);
 		}
 		header_aux.setPrevBlock(str);
 		getline(*iss_load, str, '\n');
 		if(isHash(str)==false)
 		{
-			cerr << "ERROR: no es un hash para prev block 3" << endl;
+			cerr << "ERROR: no es un hash para txns hash" << endl;
 			return false;
 		}
 		header_aux.setTxnsHash(str);
@@ -197,20 +197,20 @@ bool setAlgochainFromFile( istream *iss_load)
 			body_aux = block_aux.getBody();
 			if (body_aux.getTxnCount()!=1)
 			{
-				cerr << "ERROR: No comienza con el genesis block 4" << endl;
+				cerr << "ERROR: No comienza con el genesis block" << endl;
 				exit (1); 
 			}
 			Array <txn> txns_aux = body_aux.getTxns();
 			if(txns_aux[0].getNTxIn()!=1  || txns_aux[0].getNTxOut()!=1 )
 			{
-				cerr << "ERROR: No comienza con el genesis block 5" << endl;
+				cerr << "ERROR: No comienza con el genesis block" << endl;
 				exit (1); 
 			}
 			Array <inpt> tx_in_aux = txns_aux[0].getInputs();
 			outpnt outpoint = tx_in_aux[0].getOutPoint();
 			if(outpoint.tx_id!=NULL_HASH && outpoint.idx!=0)
 			{
-				cerr << "ERROR: No comienza con el genesis block 6" << endl;
+				cerr << "ERROR: No comienza con el genesis block" << endl;
 				exit (1); 
 			}	
 		}
