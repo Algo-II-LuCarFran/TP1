@@ -212,7 +212,11 @@ bool setAlgochainFromFile( istream *iss_load)
 			{
 				cerr << "ERROR: No comienza con el genesis block" << endl;
 				exit (1); 
+<<<<<<< HEAD
 			}	
+=======
+			}
+>>>>>>> 3811e6a5571c1e6273dd24d2f7abaaccab0f9e53
 		}
 		
 
