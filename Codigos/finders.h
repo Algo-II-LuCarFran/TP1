@@ -109,15 +109,24 @@ string findTxnByHash(string d, string str)
 
 string findTxnInBlockByHash(string d, string str)
 {
+// cout << "find tx in bloc COMIENZA " << str << endl;
+// cout << "find txn in block by hash d:\n" << d << " >>" << endl;
 	block blck(str);
+// cout << " blco " <<  blck << endl;
 	bdy body;
 	Array<txn> txns;
 	body = blck.getBody();
 	txns = body.getTxns();
+// cout << "get txn count " << body.getTxnCount() << endl;
 	for (size_t i = 0; i < body.getTxnCount(); i++)
 	{
+
+// cout << "find txn in block by hash doble hash:\n" <<  sha256(sha256(txns[i].toString())) << " >>" << endl;
 		if(d == sha256(sha256(txns[i].toString())))
+		{
 			return txns[i].toString();
+		}
+			
 	}
 	return FINDNT;
 }

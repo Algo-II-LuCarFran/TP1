@@ -173,6 +173,7 @@ void user::addTxn(txn tran)
 
 void user::loadTxn(txn tran)
 {
+//cout << "loadTXN COMIENZA" << endl;
 	string aux_str_txn;
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
@@ -181,9 +182,11 @@ void user::loadTxn(txn tran)
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)
 		{
+//cout << "transacttions << \n" << transactions.toString() << endl;
+//cout << "name :\n" << name << endl;
 			if((aux_str_txn = transactions.find(STR_TXN_BY_HASH, inputs[i].getOutPoint().tx_id)) == "Findnt")
 			{
-				cerr << "Error en la carga" << endl;
+				cerr << "Error en la carga del user: < " << name << ">" << endl;
 				exit(1);
 			}
 			txn aux_txn(aux_str_txn);
@@ -191,7 +194,7 @@ void user::loadTxn(txn tran)
 
 			if(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getAddr() != name)
 			{
-				cerr << "Error en la carga" << endl;
+				cerr << "Error en la carga del user: << " << name << ">>" << endl;
 				exit(1);
 			}
 			source_value += stod(aux_txn.getOutputs()[inputs[i].getOutPoint().idx].getValue());
@@ -205,7 +208,7 @@ void user::loadTxn(txn tran)
 
 		if(spent_value != source_value)
 		{
-			cerr << "Error en la carga" << endl;
+				cerr << "Error en la carga del user: <<< " << name << ">>>" << endl;
 			exit(1);
 		}
 
