@@ -137,6 +137,11 @@ string cmdInit(Array <string> args)
 	
 	istringstream iss(STR_TXNing);
 	block genesis_block(NULL_HASH, bits, &iss);
+	if (refreshUsersFromBlock(genesis_block) == false)
+	{
+		cerr<< "ERROR: No se puede cargar user" << endl;
+		exit(1);
+	}
 	return sha256(genesis_block.toString());
 }
 

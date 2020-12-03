@@ -36,12 +36,12 @@ int main(int argc, char * const argv[])
 	cout << "Empieza el codigo" << endl;
 	while(aux1 != "exit")
 	{
+		cout << 1<< endl;
 		getline(*iss, aux1, ' ');
 		if(aux1=="Exit" || aux1=="exit") break;
 		cmd = dictCmds(aux1, num_param);
 		getline(*iss, aux2, '\n');
 		arr = parseCmdArgs(aux2, num_param);
-
 		aux = cmd(arr);
 		*oss << aux << endl;
 	}
