@@ -1,0 +1,3 @@
+load test_algochain_in.txt
+save test_algochainout_out.txt
+exit 
