@@ -84,8 +84,8 @@ Array<string> _merkle_hash(Array<string>& hashes, size_t n)
 		n++;
 	}
 	Array<string> result(n/2);
-	size_t j;
-	for (size_t i = 0, j = 0; i < n/2, j < n; i++, j+=2)
+	size_t j = 0;
+	for (size_t i = 0; i < n/2; i++, j+=2)
 	{
 		result[i] = sha256(sha256(hashes[j] + hashes[j+1]));
 	}

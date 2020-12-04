@@ -1,0 +1,14 @@
+init Lucio 1000 1
+transfer Lucio Orne 100
+transfer Lucio Lucas 100
+transfer Lucio Fede 100
+mine 3
+transfer Orne Leandro 100
+mine 5
+balance Orne
+balance Leandro
+balance Lucas
+balance Fede
+balance Lucio
+save algochainout.txt
+exit 

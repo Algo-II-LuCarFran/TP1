@@ -154,6 +154,7 @@ class hdr
 	hdr & operator=(const hdr &);
 	bool setPrevBlock(const string&);
 	void setTxnsHash(const string&);
+	void setTxnsHash(Array<txn> & txns);
 	void setBits(const size_t n);
 	void setNonce(const string prev_block,const  string txns ,const  size_t bits);
 	void setNonce(const  size_t nonce);

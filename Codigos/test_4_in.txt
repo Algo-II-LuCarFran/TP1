@@ -1,0 +1,5 @@
+init Lucio 1000 1
+transfer Lucio Orne 100
+transfer Lucio Fede -100
+save algochainout.txt
+exit 

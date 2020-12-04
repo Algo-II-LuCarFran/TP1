@@ -614,7 +614,17 @@ void hdr::setTxnsHash(const string & str)
 		txns_hash = str;
 	}
 	else
-		txns_hash = sha256(sha256(str));
+	txns_hash = sha256(sha256(str));
+}
+
+void hdr::setTxnsHash(Array<txn> & txns)
+{
+	Array <string> hashes(txns.getSize());
+	for (size_t i = 0; i < txns.getSize(); i++)
+	{
+		hashes[i] = sha256(sha256(txns[i].toString()));
+	}
+	txns_hash = merkle_hash(hashes, hashes.getSize());
 }
 
 
@@ -729,8 +739,7 @@ void block::setHeader(const string& prev_block_str,const size_t diffic)
 {
 	string aux;
 	header.setPrevBlock(prev_block_str);
-	aux = body.toString();
-	header.setTxnsHash(aux);
+	header.setTxnsHash(body.getTxns());
 	header.setBits(diffic);
 	header.setNonce(header.getPrevBlock(),header.getTxnHash(),header.getBits());
 }

@@ -12,7 +12,6 @@ using namespace std;
 #include "dictionary.h"
 #include "main.h"
 
-// ESTOY GITEANDO ESTO
 // agregar una variable global lista algochain static list<block> algochain;
 // static block mempool();
 
@@ -33,7 +32,7 @@ int main(int argc, char * const argv[])
 	p_func cmd;
 	int num_param;
 
-	cout << "Empieza el codigo" << endl;
+	cout << "Empieza el programa" << endl;
 	while(aux1 != "exit")
 	{
 		getline(*iss, aux1, ' ');
@@ -44,7 +43,7 @@ int main(int argc, char * const argv[])
 		aux = cmd(arr);
 		*oss << aux << endl;
 	}
-
+	cout << "Termina el programa" << endl;
 
  	return 0;
 }

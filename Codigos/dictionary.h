@@ -162,6 +162,12 @@ string cmdTransfer( Array <string> args)
 
 	double src_balance,aux;
 	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
+	
+	if(users.find("checkUser",src)=="Findnt")
+	{
+		cerr<< "ERROR usuario: " << args[0] << " inexistente" << endl;
+		exit(1);
+	}
 	src_balance=stod(users.find("balance",src)); //Se busca el dinero disponible de el usuario src,  que aporta el dinero en la transaccion.
 											//Precondicion: la lista global con los balances debe estar actualizada en todo momento.
 	aux=src_balance;

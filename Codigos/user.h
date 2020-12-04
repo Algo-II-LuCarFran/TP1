@@ -116,7 +116,7 @@ Array<inpt> user::trackMoney(const double money)
 {
 	txn aux_txn;
 	size_t inpt_iter = 0;
-	size_t i, j = 0;
+	size_t i;
 	Array<outpt> aux_outputs;
 	Array<inpt> inputs;
 	double utxo = 0;
@@ -143,10 +143,6 @@ Array<inpt> user::trackMoney(const double money)
 
 void user::addTxn(txn tran)
 {
-	// cout << "NOMBRE DEL USUARIO QUE SE LE AGREGA UNA TRANSACCION " << name << endl;
-	// cout << "TRANSACCION QUE SE QUIERE AGREGAR " << tran << endl;
-	// cout << "HASH DE LA TRANSACCION " << sha256(sha256(tran.toString())) << endl;
-	
 	Array<inpt> aux_inpt;
 	transactions.append(tran);
 	if(name != tran.getInputs()[0].getAddr())
