@@ -1,16 +1,3 @@
-transfer lucas carla 10 lisman 20
-balance lucas
-balance lisman
-balance carla
-transfer lucas carla 10 lisman 20
-balance lucas
-balance lisman
-balance carla
-transfer carla fran 20
-balance lucas
-balance lisman
-balance carla
-balance fran
-mine 3
-save algochainout.txt
-exit 
+load algochain.txt
+save test_algochainout_out.txt
+exit

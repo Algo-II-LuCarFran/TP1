@@ -181,7 +181,6 @@ T list<T>::find(const T& t)
 
 	if(this->empty())
 	{    
-		// cout<<"La lista esta vacia"<<endl;
 		return NULL;
 	}
 	else
@@ -192,41 +191,23 @@ T list<T>::find(const T& t)
 
 		if(aux->data==t) //Si se encuentra en el ultimo, se devuelve el dato contenido en el ultimo.
 		{   
-			// cout<<"Encontre el dato, es "<<aux->data<<endl;
-			// *data_pointer=aux->data; 
-			// cout<<"El valor del contenido del puntero que se devuelve es: "<<*data_pointer<<endl;
-			// cout<<"El valor del puntero es "<< data_pointer<<endl;
 			return aux->data;
 		}
 
 		for(size_t i=this->max_size; i>=1;i--)
 		{   
-			// cout<<"Llego a la "<<this->max_size-i+1<<"esima iteracion del for"<<endl;
-			//Se fija el nodo anterior correctamente
 			prev_=aux->prev;
-			//Se comprueba que no se haya llegado al ppio de la lista
 			if(!prev_)
 			{   
-				// cout<<"Llegue al principio de la lista. No encontre el dato. Devuelvo NULL"<<endl; 
 				return NULL;
 			}
 
 			prev_->next=aux;
 			prev_->prev=aux->prev->prev; 
 
-			// cout<<"El valor del dato actual es "<<aux->data<<endl;
-			// cout<<"El valor del dato actual de prev_ es "<<prev_->data<<endl;
-
-			// cout<<"El valor del dato previo es "<<aux->prev->data<<endl;
-			// cout<<"El valor del dato previo de prev_ es "<<prev_->prev->data<<endl;
 			//Se comprueba si el dato buscado está en nodo anterior
 			if(prev_->data==t)
 			{
-				// cout<<"Encontre el dato, es "<<prev_->data<<endl;
-				// cout<<"Data_pointer tiene cargado: "<<data_pointer<<endl;
-				// cout<<"Data_pointer tiene adentro: "<<*data_pointer<<endl;
-				// (*data_pointer)=prev_->data; 
-				// cout<<"Pude asignarle algo a data_pointer: "<< *data_pointer <<endl;
 				return prev_->data;
 			}
 			//Se retrocede en la lista
@@ -235,7 +216,6 @@ T list<T>::find(const T& t)
 			aux->prev=prev_->prev;
 		} 
 	}
-	// cout<<"No lo encontre, devuelvo NULL"<<endl;
 	return NULL; //Si se hubo algun error se devuelve NULL.
 }
 
@@ -277,7 +257,7 @@ string list<T>::find(const string& ref,const string& d )
 			prev_=aux->prev;
 			if(!prev_)
 			{  
-				return "Findnt";//antes decia null
+				return "Findnt";
 			}
 
 			prev_->next=aux;
@@ -353,13 +333,6 @@ T list<T>::getLastNode()
 {
     return this->last->data;
 }
-
-// string user::toString()
-// {
-//     ostringstream ss;
-//     ss << *this;
-//     return ss.str();
-// }
 
 template<typename T>
 list<T> const &list<T>::operator=(list const &orig)

@@ -12,9 +12,6 @@ using namespace std;
 #include "dictionary.h"
 #include "main.h"
 
-// agregar una variable global lista algochain static list<block> algochain;
-// static block mempool();
-
 
 int main(int argc, char * const argv[])
 {

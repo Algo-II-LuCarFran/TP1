@@ -272,7 +272,6 @@ string txn::setTxIn(const size_t n, istream *iss)  //Se modifica el retorno del 
 	for (size_t i = 0; i < n; i++)
 	{
 		getline(*iss, aux_s, '\n');
-// cout << "settxin 1 \n" << aux_s << ">>" << endl;
 		if(isHash(aux_s)==true)
 		{
 			return aux_s;
@@ -307,7 +306,7 @@ bool txn::setTxIn(Array<inpt>& arr)
 	tx_in.ArrayRedim(n);
 	for (size_t i = 0; i < n; i++)
 	{
-		if(isError(arr[i].getAddr())==false) //QUE QUISISTE PONER ACA
+		if(isError(arr[i].getAddr())==false)
 			return false;
 		tx_in[i]=arr[i];
 	}
@@ -433,11 +432,6 @@ void bdy::setTxnCount(const size_t n)
 	}
 }
 
-// void bdy::setTxns(Array <txn> n)
-// {
-// 	txns = n;
-// }
-
 string bdy::setTxns(istream *iss)
 {
 	string str, error_string;
@@ -445,7 +439,6 @@ string bdy::setTxns(istream *iss)
 	bool err=false;
 	while(getline(*iss, str, '\n'))
 	{
-// cout << "settxns 1 \n" << str << ">>" << endl;
 		if(isHash(str)==true || str == "")
 		{
 			txn_count = i;
@@ -459,7 +452,6 @@ string bdy::setTxns(istream *iss)
 		// Se verifica n_tx_in
 		if(isNumber<size_t>(str)==0 || (str[0]) == '\0')
 		{
-	// cout << "error ntxin no es un numero " << " << " << str << " >> " << endl;
 			err=true; 
 			break;
 		}
@@ -469,9 +461,7 @@ string bdy::setTxns(istream *iss)
 		// Se verifican las entradas
 
 		if(txns[i].setTxIn(aux, iss)!="OK")
-		{
-// cout << "error txin no ok " << endl;	
-			
+		{		
 			err=true;
 			break;
 		}
@@ -481,8 +471,6 @@ string bdy::setTxns(istream *iss)
 
 		if(isNumber<size_t>(str)==0 || (str[0]) == '\0')
 		{
-	// cout << "error ntxout no es un numero " << endl;
-
 			err=true;
 			break;
 		}
@@ -509,8 +497,6 @@ string bdy::setTxns(istream *iss)
 		}
 		else 
 		{
-	// cout << "error txour " << endl;
-
 			err=true;
 			break;
 		}
@@ -761,10 +747,7 @@ string block::setBody(istream *iss)
 	getline(*iss, str, '\n');
 	
 	size_t txn_count = stoi(str);
-	//validar que sea numero
 	body.setTxnCount(txn_count);
-	//body.txnsArrRedim(1); //Se inicializa en uno. Tiene redimensionamiento automatico a
-						 // traves de metodos de la clase.
 	str=body.setTxns(iss);
 	if (isHash(str)==true)
 	{
@@ -788,9 +771,7 @@ block::block()
 	header.setTxnsHash(NULL_HASH);
 	header.setBits(0);
 	header.setNonce(0);
-
 	body.setTxnCount(0);
-	//El campo txn tiene su propio inicializador base. No hace falta ponerlo
 }
 
 block::block(const string str,const  size_t diffic, istream *iss)
@@ -801,7 +782,6 @@ block::block(const string str,const  size_t diffic, istream *iss)
 
 block::block(const string block_str)
 {
-//  cout <<  "entre a block () argumento :\n" << block_str << ">>" << endl;
 	istringstream ss(block_str);
 	string aux;
 	int aux_int;
@@ -813,16 +793,11 @@ block::block(const string block_str)
 	aux_int=stoi(aux);
 	this->header.setBits(aux_int);
 	getline(ss, aux, '\n');
-// cout << "nonce " << aux << endl;
 	aux_int=stoi(aux);
 	this->header.setNonce(aux_int);
 	getline(ss, aux, '\n');
 	aux_int=stoi(aux);
 	body.setTxnCount(aux_int);
-// cout << "txn count " << aux << endl;
-	//string prueba;
-	//ss >> prueba;
-//cout << "prueba  loq ue queda de ss \n" << prueba << ">>" << endl;
 	body.setTxns(&ss);
 
 }
@@ -834,18 +809,9 @@ block::~block()
 
 void block::addTxn(txn aux_txn)
 {
-	//cout << "add txn body  < " << body << ">>" << endl;
-	// cout << "add txn  < " << aux_txn << ">>" << body.getTxnCount()<< endl; 
 	body.setTxnCount(body.getTxnCount()+ 1);
-	
-	// cout << "add txn body txn count < " << body << ">>" << body.getTxnCount() << endl; 
 	body.txnsArrRedim(body.getTxnCount());
-	// cout << "add txn body txn arrredim < " << body << ">>" << endl;
 	body.getTxns()[body.getTxnCount()-1]=aux_txn;
-	// cout << "add txn body txns < " << body.getTxns() << ">>" << endl;
-	// cout << "add txn body  < " << body << ">>" << endl;
-	// cout << "add txn body  to string < " << body.toString() << ">>" << endl;
-	//cout << "add txn body  get < " << body.getBody() << ">>" << endl;
 }
 
 

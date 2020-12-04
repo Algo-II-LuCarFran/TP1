@@ -187,16 +187,14 @@ string cmdTransfer( Array <string> args)
 	{
  
 		//Se consiguen los hash de los usuarios destino y los valores a transferir
-		dst[j]=sha256(args[i-1]); //Puede no ser necesario conseguir los hashes, podria trabajarse directamente con los nombres de los usuarios.
+		dst[j]=sha256(args[i-1]);
 
-		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
-		args[i-1]=dst[j]; //Necesario para evitar complicaciones a la hora de generar el arreglo de txn. 
-		//¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿??????????????????????????????????????????
+		args[i-1]=dst[j];
 
-		dst_value_str[j]=args[i]; // Se necesitan como strings? 
+		dst_value_str[j]=args[i]; 
 		dst_value[j]=stod(dst_value_str[j]);
 
-		if(dst_value[j]<0) //No se puede transferir una cantidad negativa
+		if(dst_value[j]<0) 
 			return MSG_FAIL;
 		src_balance-=dst_value[j];
 		if(src_balance<0) //Si en algun momento los fondos del usuario fuente se terminan, se devuelve error.
@@ -214,7 +212,7 @@ string cmdTransfer( Array <string> args)
 	string str_user=users.find("user",src);
 	user aux_user(str_user);
 
-	Array<inpt> aux_arr_inputs; //Implementar este constructor en block.
+	Array<inpt> aux_arr_inputs; 
 	aux_arr_inputs = aux_user.trackMoney(aux-src_balance);
 	aux_txn.setNTxIn(aux_arr_inputs.getSize());
 	aux_txn.setTxIn(aux_arr_inputs);
@@ -235,9 +233,9 @@ string cmdTransfer( Array <string> args)
 	//Se agrega a los arreglos auxiliares el output necesario para el UTXO de src.
 
 	
-	aux_txn.setTxOut(dst,dst_value_str); //Implementar esta funcion en block.h
+	aux_txn.setTxOut(dst,dst_value_str);
 
-	mempool.addTxn(aux_txn); //Implementar esta funcion en block.h
+	mempool.addTxn(aux_txn); 
 
 	//Se carga la transaccion a la lista de usuarios.
 	for(size_t i=0; i< dim_array_aux;i++)
@@ -248,7 +246,7 @@ string cmdTransfer( Array <string> args)
 		{
 			user new_user;
 			new_user.setName(dst[i]);
-			new_user.addTxn(aux_txn);//falta ponerle el nombre
+			new_user.addTxn(aux_txn);
 			users.append(new_user);
 		}
 		else
@@ -287,26 +285,23 @@ string cmdMine(Array <string> args)
 	block aux_save;
 	if(bits<0)
 	{
-		cerr << "ERROR: dificultad invalida"<< endl; // que otra falla?
+		cerr << "ERROR: dificultad invalida"<< endl;
 		exit(1);
 	}
 	block aux = algochain.getLastNode();
 	string prev_block = sha256(sha256(aux.toString()));
 	if(isHash(prev_block)==false)
 	{
-		cerr << "ERROR: al convertir prev block"<< endl; // que otra falla?
+		cerr << "ERROR: al convertir prev block"<< endl;
 		exit(1);
 	}
 	mempool.setHeader(prev_block,bits);
 	aux_save = mempool; //lo guargo para despues imprimirlo
-	//guardar la mempool en la parte de la lista correspondientes
 	algochain.append(mempool);
-	//limpiar mempool
 	block empty_block;
 	
 	mempool = empty_block;
 	return sha256(sha256(aux_save.toString()));
-	//return "hola";
 }
 
 

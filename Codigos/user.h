@@ -178,7 +178,6 @@ void user::loadTxn(txn tran)
 	double source_value = 0, spent_value = 0, change;
 	Array<inpt> inputs = tran.getInputs();
 	Array<outpt> outputs = tran.getOutputs();
-	
 	if(name == inputs[0].getAddr())
 	{
 		for (size_t i = 0; i < tran.getNTxIn(); i++)
@@ -230,7 +229,7 @@ void user::loadTxn(txn tran)
 
 bool user::operator==( const user & right) const
 {
-	if(name == right.name && balance == right.balance) //FALTA EL == DE LISTA
+	if(name == right.name && balance == right.balance)
 		return true;
 	else
 		return false;

@@ -109,19 +109,13 @@ string findTxnByHash(string d, string str)
 
 string findTxnInBlockByHash(string d, string str)
 {
-// cout << "find tx in bloc COMIENZA " << str << endl;
-// cout << "find txn in block by hash d:\n" << d << " >>" << endl;
 	block blck(str);
-// cout << " blco " <<  blck << endl;
 	bdy body;
 	Array<txn> txns;
 	body = blck.getBody();
 	txns = body.getTxns();
-// cout << "get txn count " << body.getTxnCount() << endl;
 	for (size_t i = 0; i < body.getTxnCount(); i++)
 	{
-
-// cout << "find txn in block by hash doble hash:\n" <<  sha256(sha256(txns[i].toString())) << " >>" << endl;
 		if(d == sha256(sha256(txns[i].toString())))
 		{
 			return txns[i].toString();
@@ -130,28 +124,11 @@ string findTxnInBlockByHash(string d, string str)
 	}
 	return FINDNT;
 }
-// string findTransaction(string d, string str) 
-// {
-// 	//Esta funcion devuelve la transaccion buscada como una string.
-//     user aux_user(str);
-// 	string result, aux;
-// 	aux = aux_user.getName();
-// 	if(d == aux)
-// 		return aux_user.getTransactions().toString();
-// 		// return (aux_user.getTransactions()).toString();     //AGREGAR ESTA LINEA CUANDO SE HAYA TERMINADO LA FUNCION
-// 	else
-// 		return "Findnt";
-// }
-
-//---------------------------------------------DICCIONARIOS-----------------------------------------------
-//Definicion de las estructuras que relacionan las referencias (el tipo de dato que se
-// quiere buscar) con los finders.
-
 
 //Completar con las definiciones de todos los finders necesarios
 struct finder_option_t
 {
-	string reference; //Identifica el tipo de dato que debe ser buscado (como value o tx_id)
+	string reference; 
 	finder fndr;
 };
 
@@ -180,18 +157,3 @@ finder finderParse( string ref)
 	return dictionary_finder[i].fndr;
 }
 #endif //_FINDERS_H_
-
-
-
-		
-	// string d_hash=sha256(d);
-	// outpt aux;
-	// for(size_t i=this->getBody().getTxnCount()-1;i>=0;;i--)
-	// {
-	//     for(size_t j=this->getBody().getTxns()[i].getNTxOut();j>=0;j--)
-	//     {
-	//         aux=this->getBody().getTxns()[i].getTxOut()[j];
-	//         if(aux.addr==d_hash)
-	//             return aux.getValueAsString();
-	//     }
-	// }
