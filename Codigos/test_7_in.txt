@@ -1,0 +1,7 @@
+init Lucio 12589.67875126 1
+transfer Lucio Orne 542.6987
+transfer Lucio Lucas 100
+transfer Lucas Fede 100
+mine 3
+save algochainout_test_7.txt
+exit 
