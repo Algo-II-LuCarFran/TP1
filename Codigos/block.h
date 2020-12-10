@@ -608,8 +608,7 @@ void hdr::setTxnsHash(Array<txn> & txns)
 	Array <string> hashes(txns.getSize());
 	for (size_t i = 0; i < txns.getSize(); i++)
 	{
-		hashes[i] = sha256(sha256(txns[i].toString()));
-		cout << "imprimo los hashes: " << hashes[i] << endl;
+		hashes[i] = sha256(sha256(txns[i].toString() + "\n"));
 	}
 	txns_hash = merkle_hash(hashes, hashes.getSize());
 }
