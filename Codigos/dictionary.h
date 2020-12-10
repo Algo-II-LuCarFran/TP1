@@ -108,8 +108,7 @@ string cmdInit(Array <string> args)
 		list <user> list_empty;
 		users = list_empty;
 	}
-	user_ = sha256(args[0]);
-
+	user_ = sha256(sha256(args[0]));
 	if(isNumber<double>(args[1]) == false || args[1][0] == '-')
 	{
 		cerr << "El user no es valido" << endl;
@@ -161,7 +160,7 @@ string cmdTransfer( Array <string> args)
 	//las cantidades a transferir.
 
 	double src_balance,aux;
-	string src=sha256(args[0]); //El primer elemento se condice con el usuario de origen.
+	string src=sha256(sha256(args[0])); //El primer elemento se condice con el usuario de origen.
 	
 	if(users.find("checkUser",src)=="Findnt")
 	{
@@ -187,7 +186,7 @@ string cmdTransfer( Array <string> args)
 	{
  
 		//Se consiguen los hash de los usuarios destino y los valores a transferir
-		dst[j]=sha256(args[i-1]);
+		dst[j]=sha256(sha256(args[i-1]));
 
 		args[i-1]=dst[j];
 
@@ -308,7 +307,7 @@ string cmdMine(Array <string> args)
 
 string cmdBalance(Array <string> args)
 {
-	string name = sha256(args[0]), balance_str;
+	string name = sha256(sha256(args[0])), balance_str;
 	if((balance_str = users.find(STR_BALANCE, name)) == FINDNT)
 		return "0";
 	return balance_str;

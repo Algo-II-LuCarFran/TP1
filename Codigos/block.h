@@ -609,6 +609,7 @@ void hdr::setTxnsHash(Array<txn> & txns)
 	for (size_t i = 0; i < txns.getSize(); i++)
 	{
 		hashes[i] = sha256(sha256(txns[i].toString()));
+		cout << "imprimo los hashes: " << hashes[i] << endl;
 	}
 	txns_hash = merkle_hash(hashes, hashes.getSize());
 }
@@ -749,6 +750,7 @@ string block::setBody(istream *iss)
 	size_t txn_count = stoi(str);
 	body.setTxnCount(txn_count);
 	str=body.setTxns(iss);
+	body.getTxns().ArrayRedim(body.getTxnCount());
 	if (isHash(str)==true)
 	{
 		return str;

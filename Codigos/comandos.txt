@@ -1,3 +1,7 @@
-load algochain.txt
-save test_algochainout_out.txt
+init lucas 100 1
+transfer lucas fran 10
+transfer lucas fran 10
+transfer lucas fran 10
+mine 3
+save algochainout.txt
 exit
