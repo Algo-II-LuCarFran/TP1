@@ -1,3 +1,5 @@
-init lucas 1000 1
+init satoshi 100 10
+transfer satoshi lucas 1
+mine 10
 save algochainout.txt
 exit

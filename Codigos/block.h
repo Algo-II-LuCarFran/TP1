@@ -641,7 +641,7 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 	
 	int j, i, aux;
 
-	int cant_char = bits/4;// me da la cantidad de char en 0 que necesito
+	int cant_char = bits/4;// me da la cantidad de char en 0 que necesito 
 	int cant_bit = bits%4; //me da la cantidad de bits del ultimo char en 0
 
 
@@ -653,6 +653,8 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 		hash_header = sha256(sha256(header_str)); //calculo el hash del header_aux
 		i=0;
 		aux=0;
+		if(nonce_aux == 1825 && prev_block == "24ecdc5bc977f9a646b349405d9e3b66382701788da74dd5dcc01c52be99dd66")
+			cout << hash_header << endl;
 		while (i<cant_char)
 		{
 			if(hash_header[i] != '0')
@@ -668,8 +670,7 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 		}
 		else
 		{
-			hash_header = Hex2Bin(hash_header.substr(i,i+1));
-			
+			hash_header = Hex2Bin(hash_header.substr(i,1));
 			j=0;
 			aux=0;
 			while (j<cant_bit)
