@@ -650,7 +650,6 @@ void hdr::setNonce(const string prev_block,const  string txns ,const  size_t bit
 		header_str.clear();
 		nonce = nonce_aux;
 		header_str = toString();
-		header_str.append("\n");
 		hash_header = sha256(sha256(header_str)); //calculo el hash del header_aux
 		i=0;
 		aux=0;
