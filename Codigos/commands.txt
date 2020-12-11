@@ -1,0 +1,101 @@
+init zuitfi 786180 12
+mine 10
+txn 3067bbbe1089ad3428eade53dacf215a21ad39472af8b397eec29596d269c866
+balance zuitfi
+mine 4
+balance hiamu
+balance xuxcet
+block 95737a5651bb99d9d05d13009d6a54845014995eebae6f17e1ed97c616fabefb
+balance kiewha
+mine 4
+txn 34376f4a3847d0dbf3176eb3974c2f32764acb3b7ebe625d7b49e0b8579decc2
+mine 8
+txn 87447b5cd9572a08ff15167b534e255fc52f3a513fb24b90140c2a9a1b2b8bf0
+balance zuitfi
+txn 431653d08e1926fd9561f90cd34b5d2e8dafbb4dc855a61e1fa82100bf730f36
+txn 173487e390c9d351ca24dc7b5f8803ba82f27fe595fafa29c5b8bcc51971735f
+mine 3
+transfer zuitfi zuitfi 83371 vindubw 283512 hau 147186 mukz 2857 cews 12494 durk 16644 suixci 151 loosso 1052 doemvu 91 xaudxu 24 xuuhcu 4
+txn b4fa03aa7c5e4569795bb39d58f344994877a229768a6cb8528c113607716b3c
+mine 5
+balance xuuhcu
+block cf226ef66122b64cea8542a682ebfb7226fe431db1670bab42d5df3e9e286179
+mine 9
+balance suixci
+mine 8
+block 877512b981fc9c1767f44f5f933a462ef5028091e8787cab3cf109b4feb0f6c1
+transfer loosso vegrev 67 tehve 40 goobu 22 laamli 0 biuzoi 0 luahni 0 ban 1
+block b842a352007e13b7e8d5efccf4a4807d98ce1fc2fb93dc37ea183c885115a49d
+transfer mer mer 0
+balance vindubw
+transfer vegrev hau 12 jool 10 nuetvo 4 ban 0 nurwot 1
+txn 2de9b20099d1d458a37f411baaf27eebd4247acc8db13149cf394169a62156ad
+block d9a0f97b49f146ad7cdc6d5e1629e49fb183696bf63292daefd0702c8b5e4832
+balance xuuhcu
+transfer kuxfort kuxfort 0
+transfer doemvu ban 7 saigoo 3 doemvu 10 vegrev 1
+balance huil
+block 7c4a8b6e58d544997ece2f869dc7e3c5653e3dc5ff3d4c8b0c7279da70db13c0
+balance nurwot
+transfer gawb gawb 0
+balance durk
+txn 224e838c7bcdc7b19e74f52e3a806270482841ec452accc8cf9633a8ed182383
+block 13fd4c6eead2bffe7c352ea6eeebcad7e83aeccdbcdda994b08d747667ac2e30
+balance nuetvo
+balance cuadfu
+txn 192844a34a725e48b261edbb35751f990d4128752dda2ca2684626ad4053aa28
+block e8b5f559d8788080d1181795b7db9f9ebb06a24b305f07b8130f1b74f4124041
+balance xaudxu
+balance xaisais
+txn 224e838c7bcdc7b19e74f52e3a806270482841ec452accc8cf9633a8ed182383
+block c02f9d92d6a69706988caa694ec695a2bd9c4e374a0a4558d3a6ef5db219a907
+balance xiuflu
+transfer saigoo saigoo 0
+block 8250c46464265d7ec2ce7ee4a35ddcf59c9400b666c06ada8101cbf881c558a0
+balance raosoi
+balance saigoo
+balance saigoo
+txn f39213a99f18e43e95876812180ac6d5953117e07c763cf46f7e7a688ce73bc3
+mine 1
+block 11ae454abe30baeba32303b666380e85c66a1680a2eb9667b4c7ff6147173c96
+balance xuuhcu
+block 543392c01ccf916c9e3578dad05e99190f5de117d9a1340040a533f3e5cb2f59
+transfer hau loosso 4518 nurwot 8859 nomd 170 baogwe 477 goobu 31 cews 118 doemvu 48 jool 6 codvuh 2
+transfer tehve nuetvo 17 ban 4 soiniax 1
+block a7cdc0bfcee5a97ede0120503febbeba6727f4e151dd5cbd299f4ab040aa1bcb
+transfer soiniax gaewde 1
+balance giitaez
+balance nomd
+transfer hau jool 40388 xaazwi 27044 meu 31868 vindubw 2674 jian 2639 laamli 1037 budmo 3880 baifri 169 maorba 1558 sup 289 xuuhcu 19 liu 3
+mine 3
+transfer kioko kioko 0
+mine 3
+block 7a8e23f03140b9c1d3709c92e75121f679c353ac0c7532fce1ca4fa134bdfac8
+txn 652a4ec60288ddbc41f21f440b285f83e4df5a00268d69c5a12b1a137d314907
+mine 3
+transfer reamna reamna 0
+block c02f9d92d6a69706988caa694ec695a2bd9c4e374a0a4558d3a6ef5db219a907
+block c02f9d92d6a69706988caa694ec695a2bd9c4e374a0a4558d3a6ef5db219a907
+txn 8714ddc92918672410b3f9745409af857f70605b2c6fdef7df5c7790129714fa
+transfer vegrev maikhu 1 tes 5 lookdu 1
+mine 12
+balance puedaef
+block 7d2df73060c654b9eae15128f6ef59f28df0844a43d72d83e656ebeeb6f27158
+txn 12ef2d32069d78040a95f0306cf9528ed7b9fc776ac9b316958a2853324d7aa2
+block 5f7050c2681b739f6655730a32869ae2f6d9f2c910ccf419580cac71a72ea6cf
+mine 11
+transfer vegrev baogwe 0 goobu 4 maikhu 11 liu 2 meu 8 lookdu 1
+mine 3
+mine 11
+transfer gaewde gaewde 0
+txn 03132ed1f3e44b381ea587360853fdda9d7287d54959a3c2b1f9e7d3a33c5456
+block 82da0cc4bf501aba35b82f124598e5023bdef77352a344641c96044adc96aebb
+txn d2c0856df79c9c67a5124d9cbb67b170786058450ef75427f05ec82eedca7c8a
+txn d86cbca28380726a201933e53f983025ddf826aa133b0c71938aec8f8f051a0f
+block 199f65b075075955c880dc1571e062d2a1e41761f2bb5f765942cd6e24f6b41d
+transfer hau xaudxu 1010 koawro 9300 baifri 3676 juuz 1366 tehve 440 xouwnu 1217 taofti 43 deabxo 8 vox 106 liu 19
+mine 12
+balance gobku
+txn a2a7449df4509047c8d811ade6778fc5996b38279faa376799b9b25f40956aa9
+block 758b293b0f94f72702826e18c319fe96ce371656fc8273819cac76a37622bc8e
+balance zuitfi

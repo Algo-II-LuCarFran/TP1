@@ -280,6 +280,8 @@ string cmdMine(Array <string> args)
 	/*Valor de retorno.
 	 	Hash del bloque en caso de exito;  FAIL en caso de falla por invalidez.
 	*/
+	if(mempool.getBody().getTxnCount() == 0)
+		return "FAIL";
 	size_t bits = stoi(args[0]);
 	block aux_save;
 	if(bits<0)
@@ -327,6 +329,9 @@ string cmdTxn(Array <string> args)
 	string id = args[0], txn_str;
 	if((txn_str = algochain.find(STR_TXN_IN_BLOCK_BY_HASH, id)) == FINDNT)
 	{
+		if(mempool.getBody().getTxnCount() == 0)
+			return "FAIL";
+
 		if((txn_str = findTxnInBlockByHash(id, mempool.toString())) == FINDNT)
 			return "FAIL";
 		else
